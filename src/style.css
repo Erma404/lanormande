@@ -253,18 +253,19 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 .menu-toggle.open span:nth-child(2) { opacity: 0; }
 @media (max-width: 480px) { .reserve-form-row { grid-template-columns: 1fr; } }
 
-/* Nearby: pinned scroll section — stays in view while scroll reveals each activity in turn. */
-.nearby-scroller { position: relative; }
-.nearby-sticky { position: sticky; top: 76px; height: calc(100svh - 76px); display: flex; align-items: center; overflow: hidden; }
+/* Nearby: click a list item to switch the photo (was scroll-pinned; now a plain click,
+   same on desktop and mobile — see the ≤960px note further down for why). */
 .nearby-pin-body { display: grid; grid-template-columns: 1.1fr .9fr; gap: 14px; margin-top: 40px; }
 .nearby-pin-image { position: relative; min-height: 420px; height: 46vh; max-height: 520px; border-radius: 7px; overflow: hidden; }
 .nearby-pin-slide { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity .7s ease; }
 .nearby-pin-slide.active { opacity: 1; }
 .nearby-pin-slide::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(38,24,15,.4), transparent 55%); }
 .nearby-pin-list { display: flex; flex-direction: column; justify-content: center; }
-.nearby-pin-list article { padding: 20px 0; border-bottom: 1px solid color-mix(in oklch, var(--ink) 15%, transparent); display: grid; grid-template-columns: 32px 1fr auto; gap: 10px; align-items: flex-start; opacity: .4; transition: opacity .35s ease; }
+.nearby-pin-list article { cursor: pointer; padding: 20px 0; border-bottom: 1px solid color-mix(in oklch, var(--ink) 15%, transparent); display: grid; grid-template-columns: 32px 1fr auto; gap: 10px; align-items: flex-start; opacity: .4; transition: opacity .35s ease; }
 .nearby-pin-list article:first-child { padding-top: 0; }
 .nearby-pin-list article.active { opacity: 1; }
+.nearby-pin-list article:hover { opacity: .7; }
+.nearby-pin-list article.active:hover { opacity: 1; }
 .nearby-pin-list article:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 .nearby-pin-list .nearby-no { color: var(--clay); font-family: var(--sans); font-size: 12px; font-weight: 700; }
 .nearby-pin-list h3 { font-family: var(--sans); font-weight: 700; letter-spacing: -.06em; font-size: 21px; margin: 0 0 6px; }
@@ -274,10 +275,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 .nearby-pin-progress i { width: 26px; height: 3px; border-radius: 2px; background: color-mix(in oklch, var(--ink) 15%, transparent); transition: background .3s ease; }
 .nearby-pin-progress i.active { background: var(--clay); }
 @media (prefers-reduced-motion: reduce) { .nearby-pin-slide { transition: none; } }
-/* The pinned scroll animation was disabled below 720px ("feels awkward, fall back to a
-   plain list") — but that removed the effect entirely on mobile instead of adapting it.
-   Keep the same sticky, scroll-driven reveal; just shrink the image and list so the
-   stacked layout actually fits within one screen height (100svh - header). */
+/* Smaller image and tighter list on mobile, now that the section is click-driven
+   rather than pinned to a tall scroll area (see the "nearby: click a list item" JS). */
 @media (max-width: 720px) {
   .nearby-pin-body { grid-template-columns: 1fr; margin-top: 20px; gap: 10px; }
   .nearby-pin-image { height: 34vh; min-height: 190px; max-height: 260px; }

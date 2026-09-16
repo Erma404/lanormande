@@ -493,17 +493,13 @@ function mount() {
     </div></section>
 
     <section class="nearby section" id="nearby">
-      <div class="nearby-scroller" id="nearby-scroller" style="height: calc(${t.nearbyItems.length} * 85vh)">
-        <div class="nearby-sticky">
-          <div class="shell">
-            <div class="section-top"><div><p class="eyebrow"><span></span>${t.nearbySection.eyebrow}</p><h2>${t.nearbySection.h2}</h2></div><a class="text-link booking-trigger" href="#booking">${t.nearbySection.cta} ${icon('arrow', 17)}</a></div>
-            <div class="nearby-pin-body">
-              <div class="nearby-pin-image" id="nearby-pin-image">${t.nearbyItems.map(([, , , img], i) => `<div class="nearby-pin-slide ${i === 0 ? 'active' : ''}" data-index="${i}" style="background-image:url('${img}')"></div>`).join('')}</div>
-              <div class="nearby-pin-list" id="nearby-pin-list">${t.nearbyItems.map(([title, time, text], i) => `<article class="${i === 0 ? 'active' : ''}" data-index="${i}"><span class="nearby-no">0${i + 1}</span><div><h3>${title}</h3><p>${text}</p></div><span>${time}</span></article>`).join('')}</div>
-            </div>
-            <div class="nearby-pin-progress" id="nearby-pin-progress">${t.nearbyItems.map((_, i) => `<i class="${i === 0 ? 'active' : ''}"></i>`).join('')}</div>
-          </div>
+      <div class="shell">
+        <div class="section-top"><div><p class="eyebrow"><span></span>${t.nearbySection.eyebrow}</p><h2>${t.nearbySection.h2}</h2></div><a class="text-link booking-trigger" href="#booking">${t.nearbySection.cta} ${icon('arrow', 17)}</a></div>
+        <div class="nearby-pin-body">
+          <div class="nearby-pin-image" id="nearby-pin-image">${t.nearbyItems.map(([, , , img], i) => `<div class="nearby-pin-slide ${i === 0 ? 'active' : ''}" data-index="${i}" style="background-image:url('${img}')"></div>`).join('')}</div>
+          <div class="nearby-pin-list" id="nearby-pin-list">${t.nearbyItems.map(([title, time, text], i) => `<article class="${i === 0 ? 'active' : ''}" data-index="${i}" role="button" tabindex="0" aria-label="${title}"><span class="nearby-no">0${i + 1}</span><div><h3>${title}</h3><p>${text}</p></div><span>${time}</span></article>`).join('')}</div>
         </div>
+        <div class="nearby-pin-progress" id="nearby-pin-progress">${t.nearbyItems.map((_, i) => `<i class="${i === 0 ? 'active' : ''}"></i>`).join('')}</div>
       </div>
     </section>
 
@@ -753,14 +749,13 @@ function mount() {
     updateParallax();
   }
 
-  // ---- nearby: pinned scroll section ----------------------------------------
-  const nearbyScroller = $('#nearby-scroller');
-  if (nearbyScroller) {
+  // ---- nearby: click a list item to switch the photo (previously scroll-driven,
+  // which felt unpredictable — a plain click is more direct and works identically
+  // on desktop and mobile). ----------------------------------------------------
+  const nearbyListItems = $$('#nearby-pin-list > article');
+  if (nearbyListItems.length) {
     const nearbySlides = $$('.nearby-pin-slide');
-    const nearbyListItems = $$('#nearby-pin-list > article');
     const nearbyDots = $$('#nearby-pin-progress > i');
-    const nearbyTotal = t.nearbyItems.length;
-    const nearbyHeaderOffset = 76;
     let nearbyActive = 0;
 
     const setNearbyActive = (index) => {
@@ -771,18 +766,11 @@ function mount() {
       nearbyDots.forEach((el, i) => el.classList.toggle('active', i === index));
     };
 
-    let nearbyTicking = false;
-    const updateNearbyScroll = () => {
-      const rect = nearbyScroller.getBoundingClientRect();
-      const scrollable = Math.max(rect.height - window.innerHeight + nearbyHeaderOffset, 1);
-      const progressed = Math.min(Math.max(-rect.top + nearbyHeaderOffset, 0), scrollable);
-      const ratio = progressed / scrollable;
-      const index = Math.min(nearbyTotal - 1, Math.floor(ratio * nearbyTotal));
-      setNearbyActive(index);
-      nearbyTicking = false;
-    };
-    window.addEventListener('scroll', () => { if (!nearbyTicking) { requestAnimationFrame(updateNearbyScroll); nearbyTicking = true; } }, { passive: true, signal });
-    updateNearbyScroll();
+    nearbyListItems.forEach(el => {
+      const index = Number(el.dataset.index);
+      el.addEventListener('click', () => setNearbyActive(index));
+      el.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setNearbyActive(index); } });
+    });
   }
 
   // ---- scroll reveal ----------------------------------------------------------
