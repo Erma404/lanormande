@@ -337,3 +337,20 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 @media (max-width: 720px) {
   .hero-intro { font-size: 17px; line-height: 1.6; color: oklch(97% .01 86 / .95); }
 }
+
+/* Reservation CTAs (header "Je réserve", booking-widget "Réserver", final-cta button)
+   were rendering white-on-white or near-black — no real color to draw the eye. They
+   now use the site's existing clay/terracotta accent, with a deep forest-green hover. */
+.header-cta { background: var(--clay); color: var(--paper); }
+.header-cta:hover { background: var(--forest); color: var(--paper); }
+
+.reserve-button { background: var(--clay); color: var(--paper); }
+.reserve-button:hover { background: var(--forest); color: var(--paper); }
+
+.final-copy .reserve-button { background: var(--clay); color: var(--paper); }
+.final-copy .reserve-button:hover { background: var(--forest); color: var(--paper); }
+
+/* The reservation form's submit button hands off to WhatsApp — giving it WhatsApp's
+   own green makes that destination obvious at a glance, distinct from the CTAs above. */
+.reserve-form .reserve-button { background: #25d366; color: #fff; }
+.reserve-form .reserve-button:hover { background: #1ebe5a; color: #fff; }
