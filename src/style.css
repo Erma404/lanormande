@@ -309,6 +309,30 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   .booking-card { display: none; }
 }
 
+/* FR/EN language switcher, sitting in the header between the booking CTA and the burger.
+   Stays visible at every breakpoint since foreign visitors need it as much on mobile. */
+.lang-toggle {
+  margin-left: 10px;
+  border: 1px solid color-mix(in oklch, var(--paper) 35%, transparent);
+  background: transparent;
+  color: var(--paper);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .03em;
+  padding: 8px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background .2s, border-color .2s;
+  white-space: nowrap;
+}
+.lang-toggle:hover { background: color-mix(in oklch, var(--paper) 14%, transparent); border-color: color-mix(in oklch, var(--paper) 55%, transparent); }
+@media (max-width: 960px) and (min-width: 721px) {
+  .lang-toggle { margin-left: auto; }
+}
+@media (max-width: 720px) {
+  .lang-toggle { margin-left: auto; padding: 7px 10px; font-size: 10px; }
+}
+
 /* Hero intro paragraph read as too small next to the eyebrow label on mobile. */
 @media (max-width: 720px) {
   .hero-intro { font-size: 17px; line-height: 1.6; color: oklch(97% .01 86 / .95); }
