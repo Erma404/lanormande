@@ -53,6 +53,8 @@ body { font-size: 16px; letter-spacing: -.01em; }
 .booking-status { font-size: 11px; }
 .calendar-header { font-size: 12px; }
 .calendar-header button { min-width: 36px; min-height: 36px; }
+.calendar-header button:disabled { opacity: .3; cursor: default; }
+.calendar-day.past { opacity: .28; cursor: default; }
 .weekdays { font-size: 11px; color: #a7a9a9; }
 .calendar-day { font-size: 12px; min-height: 38px; height: 38px; }
 .calendar-day.unavailable { color: #8d8f8f; }
@@ -223,3 +225,91 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 .reveal-group .reveal:nth-child(1) { transition-delay: .03s; } .reveal-group .reveal:nth-child(2) { transition-delay: .09s; } .reveal-group .reveal:nth-child(3) { transition-delay: .15s; } .reveal-group .reveal:nth-child(4) { transition-delay: .21s; } .reveal-group .reveal:nth-child(5) { transition-delay: .27s; } .reveal-group .reveal:nth-child(6) { transition-delay: .33s; } .reveal-group .reveal:nth-child(7) { transition-delay: .39s; } .reveal-group .reveal:nth-child(8) { transition-delay: .45s; } .reveal-group .reveal:nth-child(9) { transition-delay: .51s; } .reveal-group .reveal:nth-child(10) { transition-delay: .57s; }
 @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
 .review-cards article:nth-child(2) .review-top small { color: var(--muted); }
+
+/* Reservation modal: short form that hands off to a pre-filled WhatsApp message. */
+.reserve-card { width: min(440px, 100%); }
+.reserve-form { padding: 6px 28px 28px; display: grid; gap: 16px; }
+.reserve-form-intro { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.5; }
+.reserve-form label { display: grid; gap: 6px; font-size: 12px; font-weight: 600; color: var(--ink); }
+.reserve-form input, .reserve-form textarea { font: inherit; font-size: 14px; font-weight: 400; padding: 11px 13px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); color: var(--ink); }
+.reserve-form input:focus, .reserve-form textarea:focus { outline: 2px solid var(--clay); outline-offset: 1px; }
+.reserve-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.reserve-form textarea { resize: vertical; }
+.reserve-form .reserve-button { justify-content: center; gap: 8px; }
+.final-note { margin: 12px 0 0; font-size: 12px; color: oklch(88% .01 85 / .85); }
+
+/* CTA consistency: the final-cta "Je réserve" must look and behave exactly like the header one. */
+.final-copy .reserve-button { display: inline-flex; align-items: center; gap: 8px; width: auto; max-width: none; margin-top: 32px; padding: 12px 18px; min-height: 44px; border-radius: 6px; background: #fff; color: var(--ink); font-size: 12px; font-weight: 700; }
+.final-copy .reserve-button:hover { background: #e2e3e4; color: var(--ink); transform: translateY(-2px); }
+
+/* Keep the reservation CTA reachable in the hero banner on mobile instead of hiding it. */
+@media (max-width: 720px) {
+  .header-cta { display: inline-flex; align-items: center; margin-left: auto; margin-right: 10px; padding: 10px 14px; font-size: 11px; min-height: 44px; }
+  .menu-toggle { margin-left: 0; }
+}
+/* The hamburger lines were drawn in var(--ink) (near-black) on the header's own dark
+   background — effectively invisible. The header is always dark, so the icon must be light. */
+.menu-toggle span { background: var(--paper); }
+.menu-toggle.open span:nth-child(2) { opacity: 0; }
+@media (max-width: 480px) { .reserve-form-row { grid-template-columns: 1fr; } }
+
+/* Nearby: pinned scroll section — stays in view while scroll reveals each activity in turn. */
+.nearby-scroller { position: relative; }
+.nearby-sticky { position: sticky; top: 76px; height: calc(100svh - 76px); display: flex; align-items: center; overflow: hidden; }
+.nearby-pin-body { display: grid; grid-template-columns: 1.1fr .9fr; gap: 14px; margin-top: 40px; }
+.nearby-pin-image { position: relative; min-height: 420px; height: 46vh; max-height: 520px; border-radius: 7px; overflow: hidden; }
+.nearby-pin-slide { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity .7s ease; }
+.nearby-pin-slide.active { opacity: 1; }
+.nearby-pin-slide::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(38,24,15,.4), transparent 55%); }
+.nearby-pin-list { display: flex; flex-direction: column; justify-content: center; }
+.nearby-pin-list article { padding: 20px 0; border-bottom: 1px solid color-mix(in oklch, var(--ink) 15%, transparent); display: grid; grid-template-columns: 32px 1fr auto; gap: 10px; align-items: flex-start; opacity: .4; transition: opacity .35s ease; }
+.nearby-pin-list article:first-child { padding-top: 0; }
+.nearby-pin-list article.active { opacity: 1; }
+.nearby-pin-list article:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
+.nearby-pin-list .nearby-no { color: var(--clay); font-family: var(--sans); font-size: 12px; font-weight: 700; }
+.nearby-pin-list h3 { font-family: var(--sans); font-weight: 700; letter-spacing: -.06em; font-size: 21px; margin: 0 0 6px; }
+.nearby-pin-list p { font-size: 12px; color: var(--muted); margin: 0; max-width: 30ch; }
+.nearby-pin-list article > span:last-child { font-size: 10px; color: var(--muted); white-space: nowrap; }
+.nearby-pin-progress { display: flex; gap: 6px; margin-top: 20px; }
+.nearby-pin-progress i { width: 26px; height: 3px; border-radius: 2px; background: color-mix(in oklch, var(--ink) 15%, transparent); transition: background .3s ease; }
+.nearby-pin-progress i.active { background: var(--clay); }
+@media (prefers-reduced-motion: reduce) { .nearby-pin-slide { transition: none; } }
+/* Below tablet width, pinned scrollytelling feels awkward — fall back to a plain stacked list. */
+@media (max-width: 720px) {
+  .nearby-scroller { height: auto !important; }
+  .nearby-sticky { position: static; height: auto; }
+  .nearby-pin-body { grid-template-columns: 1fr; margin-top: 28px; }
+  .nearby-pin-image { height: 260px; min-height: 0; }
+  .nearby-pin-list article { opacity: 1; cursor: default; }
+  .nearby-pin-progress { display: none; }
+}
+
+/* Responsive fix: nav-links hide at 960px but the burger only appeared at 720px, leaving a
+   721–960px dead zone with no way to reach the navigation at all. Burger now covers that gap. */
+@media (max-width: 960px) and (min-width: 721px) {
+  .menu-toggle { display: grid; gap: 5px; width: 44px; height: 44px; padding: 4px; border: 0; background: transparent; }
+  .menu-toggle span { height: 1px; background: var(--paper); display: block; transition: transform .2s; }
+  .menu-toggle.open span:first-child { transform: translateY(3px) rotate(45deg); }
+  .menu-toggle.open span:last-child { transform: translateY(-3px) rotate(-45deg); }
+  .nav-links.open { display: flex; position: absolute; top: 100%; left: 0; right: 0; background: var(--cream); padding: 22px max(24px, calc((100vw - 1180px) / 2)); gap: 19px; border-bottom: 1px solid var(--line); flex-wrap: wrap; z-index: 25; }
+}
+
+/* Header and footer: subtle rounded corners on mobile, staying full-width and flush against
+   the top/bottom edges (an earlier attempt floated them with margin on every side, which
+   read as broken rather than refined). */
+@media (max-width: 720px) {
+  .site-header { border-radius: 0 0 14px 14px; }
+  .nav-links.open { top: 100%; border-radius: 0 0 14px 14px; }
+  footer { border-radius: 14px 14px 0 0; }
+}
+
+/* The inline booking calendar crowded the hero on phones — reservation stays one tap away
+   via the "Je réserve" CTAs (header + hero link), which open the same WhatsApp form. */
+@media (max-width: 720px) {
+  .booking-card { display: none; }
+}
+
+/* Hero intro paragraph read as too small next to the eyebrow label on mobile. */
+@media (max-width: 720px) {
+  .hero-intro { font-size: 17px; line-height: 1.6; color: oklch(97% .01 86 / .95); }
+}

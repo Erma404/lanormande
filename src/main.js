@@ -57,6 +57,13 @@ const spaces = [
   ['Les pâturages', 'La maison est entourée de pâturages où paissent les vaches normandes.', '/images/paturages.avif']
 ];
 
+const nearbyItems = [
+  ['Balades du pays d’Auge', 'Tout près', 'Des chemins creux entre pommiers et manoirs.', '/images/randonnee-pays-dauge.webp'],
+  ['La route du cidre', '12 min', 'Calvados, vergers et rencontres de producteurs.', '/images/route-du-cidre.jpg'],
+  ['Les plages de Cabourg', 'À 18 min', 'Le sable fin, les cabines rayées et le front de mer de la Belle Époque.', '/images/plage-cabourg.webp'],
+  ['Deauville', '25 min', 'Flâner sur les planches et dîner sur le port.', '/images/deauville.webp']
+];
+
 const ratingCategories = [['Propreté', '4,8'], ['Emplacement', '4,8'], ['Qualité-prix', '4,8']];
 const reviews = [
   ['ML', 'Marie L.', 'Août 2026', 'Un havre de paix pour notre tribu. Le jardin est immense, la maison a une âme et Claire est d’une attention rare.'],
@@ -67,7 +74,7 @@ const reviews = [
 ];
 
 const days = ['L','M','M','J','V','S','D'];
-const dates = Array.from({length: 35}, (_, i) => i < 2 || i > 30 ? '' : i - 1);
+const monthNames = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 
 document.querySelector('#app').innerHTML = `
   <header class="site-header" id="top">
@@ -75,8 +82,8 @@ document.querySelector('#app').innerHTML = `
     <nav class="nav-links" aria-label="Navigation principale">
       <a href="#cadre">Le cadre</a><a href="#equipements">Équipements</a><a href="#chambres">Chambres</a><a href="#plan">Plan</a><a href="#avis">Avis</a><a href="#faq">FAQ</a>
     </nav>
-    <button class="header-cta booking-trigger">Vérifier les disponibilités <span>${icon('arrow', 15)}</span></button>
-    <button class="menu-toggle" aria-label="Ouvrir le menu"><span></span><span></span></button>
+    <button class="header-cta booking-trigger">Je réserve <span>${icon('arrow', 15)}</span></button>
+    <button class="menu-toggle" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
   </header>
 
   <main>
@@ -91,9 +98,9 @@ document.querySelector('#app').innerHTML = `
       </div>
       <aside class="booking-card" id="booking" aria-label="Réserver votre séjour">
         <div class="booking-top"><div><p class="booking-label">Votre séjour</p><h2>Choisir vos dates</h2></div><span class="booking-status"><i></i>Disponible</span></div>
-        <div class="calendar-header"><button aria-label="Mois précédent">‹</button><strong>Septembre 2026</strong><button aria-label="Mois suivant">›</button></div>
+        <div class="calendar-header"><button id="cal-prev" aria-label="Mois précédent">‹</button><strong id="cal-month"></strong><button id="cal-next" aria-label="Mois suivant">›</button></div>
         <div class="weekdays">${days.map(d => `<span>${d}</span>`).join('')}</div>
-        <div class="calendar-grid">${dates.map(d => d ? `<button class="calendar-day ${[5,6,12,13,19,20,26,27].includes(d) ? 'unavailable' : ''}" ${[5,6,12,13,19,20,26,27].includes(d) ? 'disabled' : ''}>${d}</button>` : '<span></span>').join('')}</div>
+        <div class="calendar-grid" id="calendar-grid"></div>
         <div class="date-fields"><button><span>Arrivée</span><strong id="arrival-value">Sélectionner</strong></button><button><span>Départ</span><strong id="departure-value">Sélectionner</strong></button></div>
         <div class="guest-line"><span>${icon('users', 17)} Voyageurs</span><button class="guest-toggle"><strong id="guest-summary">2 adultes</strong>${icon('chevron', 15)}</button></div>
         <div class="guest-panel" hidden>
@@ -175,12 +182,20 @@ document.querySelector('#app').innerHTML = `
       <div class="plan-key" id="plan-key"></div>
     </div></section>
 
-    <section class="nearby section"><div class="shell"><div class="section-top"><div><p class="eyebrow"><span></span>Autour de Danestal</p><h2>Des échappées,<br>juste <em>à côté.</em></h2></div><a class="text-link" href="#booking">Préparer votre séjour ${icon('arrow', 17)}</a></div>
-      <div class="nearby-grid">
-        <article class="nearby-main image-placeholder"><img src="/images/plage-cabourg.webp" alt="La plage de Cabourg et ses cabines de bain rayées" loading="lazy" /><div><p>À 18 min</p><h3>Les plages<br>de Cabourg</h3><span>Voir sur la carte ${icon('arrow', 16)}</span></div></article>
-        <div class="nearby-list"><article><span class="nearby-no">01</span><div><h3>Deauville</h3><p>Flâner sur les planches et dîner sur le port.</p></div><span>25 min</span></article><article><span class="nearby-no">02</span><div><h3>Balades du pays d’Auge</h3><p>Des chemins creux entre pommiers et manoirs.</p></div><span>Tout près</span></article><article><span class="nearby-no">03</span><div><h3>La route du cidre</h3><p>Calvados, vergers et rencontres de producteurs.</p></div><span>12 min</span></article></div>
+    <section class="nearby section" id="nearby">
+      <div class="nearby-scroller" id="nearby-scroller" style="height: calc(${nearbyItems.length} * 85vh)">
+        <div class="nearby-sticky">
+          <div class="shell">
+            <div class="section-top"><div><p class="eyebrow"><span></span>Autour de Danestal</p><h2>Des échappées,<br>juste <em>à côté.</em></h2></div><a class="text-link booking-trigger" href="#booking">Préparer votre séjour ${icon('arrow', 17)}</a></div>
+            <div class="nearby-pin-body">
+              <div class="nearby-pin-image" id="nearby-pin-image">${nearbyItems.map(([title, , , img], i) => `<div class="nearby-pin-slide ${i === 0 ? 'active' : ''}" data-index="${i}" style="background-image:url('${img}')"></div>`).join('')}</div>
+              <div class="nearby-pin-list" id="nearby-pin-list">${nearbyItems.map(([title, time, text], i) => `<article class="${i === 0 ? 'active' : ''}" data-index="${i}"><span class="nearby-no">0${i + 1}</span><div><h3>${title}</h3><p>${text}</p></div><span>${time}</span></article>`).join('')}</div>
+            </div>
+            <div class="nearby-pin-progress" id="nearby-pin-progress">${nearbyItems.map((_, i) => `<i class="${i === 0 ? 'active' : ''}"></i>`).join('')}</div>
+          </div>
+        </div>
       </div>
-    </div></section>
+    </section>
 
     <section class="reviews section" id="avis">
       <div class="shell reviews-lead"><p class="eyebrow"><span></span>Des séjours qui restent</p><h2>Ils en parlent<br><em>mieux que nous.</em></h2></div>
@@ -196,28 +211,114 @@ document.querySelector('#app').innerHTML = `
 
     <section class="faq section" id="faq"><div class="shell faq-grid"><div><p class="eyebrow"><span></span>Bon à savoir</p><h2>Tout ce qu’il faut<br>pour vous <em>projeter.</em></h2><p class="faq-intro">Une question avant de réserver ? Vous pouvez aussi écrire directement à Claire.</p><a class="outline-button small" href="mailto:bonjour@lamaisonnormande.fr">Contacter Claire ${icon('arrow', 16)}</a></div><div class="accordion"><details open><summary>Quels sont les horaires d’arrivée et de départ ? <span>${icon('plus',18)}</span></summary><p>Les arrivées se font à partir de 16h et les départs avant 11h. Une arrivée autonome peut être organisée sur demande.</p></details><details><summary>Combien de voyageurs la maison peut-elle accueillir ? <span>${icon('plus',18)}</span></summary><p>La maison accueille confortablement jusqu’à 8 voyageurs, avec quatre chambres, sept lits et trois salles de bain.</p></details><details><summary>Le ménage est-il inclus dans le séjour ? <span>${icon('plus',18)}</span></summary><p>Le ménage de fin de séjour est inclus. Un passage supplémentaire peut être réservé pendant votre séjour.</p></details><details><summary>Les animaux sont-ils acceptés ? <span>${icon('plus',18)}</span></summary><p>Vos compagnons sont les bienvenus sur demande préalable, afin de préparer au mieux leur arrivée.</p></details></div></div></section>
 
-    <section class="final-cta"><div class="final-image image-placeholder"><img src="/images/les-alentours.jpeg" alt="Vue aérienne de la maison et de ses alentours" loading="lazy" /></div><div class="final-wash"></div><div class="shell final-copy"><p class="eyebrow light"><span></span>Danestal, Pays d’Auge</p><h2>Et si votre prochain<br>souvenir commençait <em>ici ?</em></h2><button class="reserve-button booking-trigger">Voir les disponibilités <span>Réservation directe</span></button></div></section>
+    <section class="final-cta"><div class="final-image image-placeholder"><img src="/images/les-alentours.jpeg" alt="Vue aérienne de la maison et de ses alentours" loading="lazy" /></div><div class="final-wash"></div><div class="shell final-copy"><p class="eyebrow light"><span></span>Danestal, Pays d’Auge</p><h2>Et si votre prochain<br>souvenir commençait <em>ici ?</em></h2><button class="reserve-button booking-trigger">Je réserve</button><p class="final-note">Réponse rapide via WhatsApp</p></div></section>
   </main>
   <footer><div class="shell footer-row"><a class="brand footer-brand" href="#top"><span class="brand-mark"><i></i><i></i></span><span>La Maison<br><em>Normande</em></span></a><p>Une maison de famille, à Danestal.</p><div><a href="#cadre">La maison</a><a href="#faq">Questions fréquentes</a><a href="mailto:bonjour@lamaisonnormande.fr">Contact</a></div></div><div class="shell footer-bottom"><span>© 2026 La Maison Normande</span><span>Réservation directe & sécurisée</span></div></footer>
   <div class="toast" role="status" aria-live="polite"></div>
+
+  <div class="modal-backdrop" id="reserve-modal" hidden>
+    <div class="modal-card reserve-card" role="dialog" aria-modal="true" aria-labelledby="reserve-modal-title">
+      <div class="modal-head"><h3 id="reserve-modal-title">Je réserve</h3><button class="modal-close" id="reserve-modal-close" aria-label="Fermer">${icon('close', 18)}</button></div>
+      <form class="reserve-form" id="reserve-form">
+        <p class="reserve-form-intro">Un court message pré-rempli s’ouvrira dans WhatsApp — vous n’avez plus qu’à l’envoyer à Claire.</p>
+        <label>Votre nom<input type="text" id="rf-name" name="name" required placeholder="Prénom et nom" /></label>
+        <div class="reserve-form-row">
+          <label>Arrivée<input type="date" id="rf-arrival" name="arrival" required /></label>
+          <label>Départ<input type="date" id="rf-departure" name="departure" required /></label>
+        </div>
+        <label>Voyageurs<input type="number" id="rf-guests" name="guests" min="1" max="8" value="2" required /></label>
+        <label>Message (facultatif)<textarea id="rf-message" name="message" rows="2" placeholder="Une précision à ajouter ?"></textarea></label>
+        <button type="submit" class="reserve-button">Envoyer sur WhatsApp ${icon('arrow', 16)}</button>
+      </form>
+    </div>
+  </div>
 `;
 
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 
-// Booking widget
+// Booking widget — real calendar: correct days per month, past dates locked, month navigation works
+const today = new Date(); today.setHours(0, 0, 0, 0);
+let viewYear = today.getFullYear();
+let viewMonth = today.getMonth();
 let selected = [];
+
+const isoOf = (y, m, d) => `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+const formatShort = (iso) => { const [y, m, d] = iso.split('-').map(Number); return `${d} ${monthNames[m - 1].slice(0, 3).toLowerCase()}.`; };
+// No real booking data is connected — every future date is open. Wire this up to a real
+// source (Airbnb iCal export, PMS API, etc.) if/when the house's actual availability matters.
+const isUnavailableDate = () => false;
+const showToast = (message) => { const toast = $('.toast'); toast.textContent = message; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3500); };
+
+// True if any night strictly between two ISO dates falls on an already-booked day —
+// a stay can't be reserved "through" a date someone else already holds.
+function rangeCrossesBookedDate(startIso, endIso) {
+  const cursor = new Date(startIso + 'T00:00:00');
+  const end = new Date(endIso + 'T00:00:00');
+  cursor.setDate(cursor.getDate() + 1);
+  while (cursor < end) {
+    if (isUnavailableDate(cursor)) return true;
+    cursor.setDate(cursor.getDate() + 1);
+  }
+  return false;
+}
+
+function renderCalendar() {
+  const firstWeekday = (new Date(viewYear, viewMonth, 1).getDay() + 6) % 7; // Monday-first
+  const totalDays = new Date(viewYear, viewMonth + 1, 0).getDate();
+  const cells = Array(firstWeekday).fill(null).concat(Array.from({ length: totalDays }, (_, i) => i + 1));
+  while (cells.length % 7 !== 0) cells.push(null);
+
+  $('#cal-month').textContent = `${monthNames[viewMonth]} ${viewYear}`;
+  $('#cal-prev').disabled = viewYear === today.getFullYear() && viewMonth === today.getMonth();
+
+  $('#calendar-grid').innerHTML = cells.map(day => {
+    if (!day) return '<span></span>';
+    const cellDate = new Date(viewYear, viewMonth, day);
+    const iso = isoOf(viewYear, viewMonth, day);
+    const isPast = cellDate < today;
+    const isBooked = !isPast && isUnavailableDate(cellDate);
+    const disabled = isPast || isBooked;
+    const isSelected = selected.includes(iso);
+    const inRange = selected.length === 2 && iso > selected[0] && iso < selected[1];
+    return `<button class="calendar-day ${isBooked ? 'unavailable' : ''} ${isPast ? 'past' : ''} ${isSelected ? 'selected' : ''} ${inRange ? 'in-range' : ''}" data-date="${iso}" ${disabled ? 'disabled' : ''}>${day}</button>`;
+  }).join('');
+
+  $$('.calendar-day:not([disabled])').forEach(day => day.addEventListener('click', () => {
+    const iso = day.dataset.date;
+    if (selected.length === 2) selected = [];
+    selected.push(iso);
+    selected.sort();
+    if (selected.length === 2) {
+      if (rangeCrossesBookedDate(selected[0], selected[1])) {
+        showToast('Séjour impossible : une nuit déjà réservée se trouve dans cette période.');
+        selected = [iso];
+        $('#arrival-value').textContent = formatShort(iso);
+        $('#departure-value').textContent = 'Sélectionner';
+      } else {
+        $('#arrival-value').textContent = formatShort(selected[0]);
+        $('#departure-value').textContent = formatShort(selected[1]);
+      }
+    } else {
+      $('#arrival-value').textContent = formatShort(iso);
+      $('#departure-value').textContent = 'Sélectionner';
+    }
+    renderCalendar();
+  }));
+}
+
+$('#cal-prev').addEventListener('click', () => {
+  if ($('#cal-prev').disabled) return;
+  viewMonth--; if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+  renderCalendar();
+});
+$('#cal-next').addEventListener('click', () => {
+  viewMonth++; if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+  renderCalendar();
+});
+renderCalendar();
+
 let guests = { adults: 2, children: 0 };
-$$('.calendar-day:not([disabled])').forEach(day => day.addEventListener('click', () => {
-  if (selected.length === 2) { selected = []; $$('.calendar-day').forEach(d => d.classList.remove('selected', 'in-range')); }
-  selected.push(day.textContent);
-  day.classList.add('selected');
-  if (selected.length === 2) {
-    const [start, end] = selected.map(Number).sort((a,b) => a-b);
-    $$('.calendar-day').forEach(d => { const value = Number(d.textContent); if (value > start && value < end) d.classList.add('in-range'); });
-    $('#arrival-value').textContent = `${start} sept.`; $('#departure-value').textContent = `${end} sept.`;
-  } else $('#arrival-value').textContent = `${day.textContent} sept.`;
-}));
 
 $('.guest-toggle').addEventListener('click', () => { const panel = $('.guest-panel'); panel.hidden = !panel.hidden; });
 $$('.stepper button').forEach(button => button.addEventListener('click', () => {
@@ -227,9 +328,36 @@ $$('.stepper button').forEach(button => button.addEventListener('click', () => {
   $('#guest-summary').textContent = `${guests.adults} adulte${guests.adults > 1 ? 's' : ''}${guests.children ? `, ${guests.children} enfant${guests.children > 1 ? 's' : ''}` : ''}`;
 }));
 
-const scrollBooking = () => $('#booking').scrollIntoView({behavior:'smooth', block:'center'});
-$$('.booking-trigger').forEach(button => button.addEventListener('click', scrollBooking));
-$('#reserve').addEventListener('click', () => { const toast = $('.toast'); toast.textContent = selected.length < 2 ? 'Choisissez vos dates pour continuer.' : 'Votre demande de réservation est prête à être envoyée.'; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3500); });
+// Reservation modal: every "Je réserve" CTA opens a short form that hands off to WhatsApp.
+const WHATSAPP_NUMBER = '33611109870'; // test number — replace with the owner's real number when confirmed
+const reserveModal = $('#reserve-modal');
+const openReserveModal = () => {
+  if (selected.length === 2) { $('#rf-arrival').value = selected[0]; $('#rf-departure').value = selected[1]; }
+  $('#rf-guests').value = guests.adults + guests.children;
+  reserveModal.hidden = false;
+  document.body.style.overflow = 'hidden';
+  $('#rf-name').focus();
+};
+const closeReserveModal = () => { reserveModal.hidden = true; document.body.style.overflow = ''; };
+$$('.booking-trigger').forEach(button => button.addEventListener('click', (event) => { event.preventDefault(); openReserveModal(); }));
+$('#reserve').addEventListener('click', openReserveModal);
+$('#reserve-modal-close').addEventListener('click', closeReserveModal);
+reserveModal.addEventListener('click', (event) => { if (event.target === reserveModal) closeReserveModal(); });
+document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !reserveModal.hidden) closeReserveModal(); });
+
+$('#reserve-form').addEventListener('submit', (event) => {
+  event.preventDefault();
+  const name = $('#rf-name').value.trim();
+  const arrival = $('#rf-arrival').value;
+  const departure = $('#rf-departure').value;
+  const guestCount = $('#rf-guests').value;
+  const extra = $('#rf-message').value.trim();
+  const formatFull = (iso) => { if (!iso) return '—'; const [y, m, d] = iso.split('-').map(Number); return `${d} ${monthNames[m - 1].toLowerCase()} ${y}`; };
+  let message = `Bonjour Claire, je souhaite réserver La Maison Normande du ${formatFull(arrival)} au ${formatFull(departure)} pour ${guestCount} voyageur${guestCount > 1 ? 's' : ''}. Mon nom : ${name}.`;
+  if (extra) message += ` ${extra}`;
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
+  closeReserveModal();
+});
 
 // Spaces carousel
 const spacesTotal = String(spaces.length).padStart(2,'0');
@@ -344,15 +472,47 @@ if (heroImg && !reduceMotion) {
   updateParallax();
 }
 
+// Nearby: pinned scroll section — the block stays in view while scrolling reveals one
+// activity at a time; once the last one has shown, the page continues to the next section.
+const nearbyScroller = $('#nearby-scroller');
+if (nearbyScroller) {
+  const nearbySlides = $$('.nearby-pin-slide');
+  const nearbyListItems = $$('#nearby-pin-list > article');
+  const nearbyDots = $$('#nearby-pin-progress > i');
+  const nearbyTotal = nearbyItems.length;
+  const nearbyHeaderOffset = 76;
+  let nearbyActive = 0;
+
+  const setNearbyActive = (index) => {
+    if (index === nearbyActive) return;
+    nearbyActive = index;
+    nearbySlides.forEach(el => el.classList.toggle('active', Number(el.dataset.index) === index));
+    nearbyListItems.forEach(el => el.classList.toggle('active', Number(el.dataset.index) === index));
+    nearbyDots.forEach((el, i) => el.classList.toggle('active', i === index));
+  };
+
+  let nearbyTicking = false;
+  const updateNearbyScroll = () => {
+    const rect = nearbyScroller.getBoundingClientRect();
+    const scrollable = Math.max(rect.height - window.innerHeight + nearbyHeaderOffset, 1);
+    const progressed = Math.min(Math.max(-rect.top + nearbyHeaderOffset, 0), scrollable);
+    const ratio = progressed / scrollable;
+    const index = Math.min(nearbyTotal - 1, Math.floor(ratio * nearbyTotal));
+    setNearbyActive(index);
+    nearbyTicking = false;
+  };
+  window.addEventListener('scroll', () => { if (!nearbyTicking) { requestAnimationFrame(updateNearbyScroll); nearbyTicking = true; } }, { passive: true });
+  updateNearbyScroll();
+}
+
 // Scroll reveal: titles, copy and card groups fade + rise into place as they enter the viewport
-$$('.amenities-grid, .review-cards, .nearby-list, .accordion').forEach(group => group.classList.add('reveal-group'));
+$$('.amenities-grid, .review-cards, .accordion').forEach(group => group.classList.add('reveal-group'));
 const revealEls = $$([
   '.hero h1', '.hero-intro', '.hero .text-link',
   '.eyebrow', '.section h2', '.intro-copy > p:not(.eyebrow)',
   '.amenities-grid > .amenity',
   '.host-copy blockquote', '.host-copy > p:not(.eyebrow)', '.host-portrait-wrap',
   '.plan-heading > *:not(.eyebrow)',
-  '.nearby-main', '.nearby-list > article',
   '.reviews-stats', '.review-cards > article',
   '.faq-intro', '.accordion > details',
   '.final-copy > *:not(.eyebrow)'
