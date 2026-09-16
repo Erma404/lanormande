@@ -390,3 +390,17 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   .intro-copy { order: -1; }
   .reviews .shell { grid-template-columns: 1fr; }
 }
+
+/* Mobile menu: two bugs on real devices.
+   1) The X animation's translateY(3px)/(-3px) was tuned for the original 2-line icon,
+      where the outer lines sat directly next to each other. Adding a 3rd (middle) line
+      doubled the gap between the outer lines without updating these values, so on open
+      they rotated without actually meeting — reading as a stray ">" instead of an "X".
+   2) The open dropdown panel switches to a light cream background, but its links kept
+      the pale grey (#d2d4d3) tuned for the dark header bar — nearly invisible on cream. */
+@media (max-width: 960px) {
+  .menu-toggle.open span:first-child { transform: translateY(6px) rotate(45deg); }
+  .menu-toggle.open span:last-child { transform: translateY(-6px) rotate(-45deg); }
+  .nav-links.open a { color: var(--ink); }
+  .nav-links.open a:hover { color: var(--clay); }
+}
