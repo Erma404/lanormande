@@ -373,3 +373,15 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   .gallery-nav.next { right: 8px; }
   .gallery-close { top: 12px; right: 12px; }
 }
+
+/* Same source-order bug as the chambres carousel, on two more 2-column blocks: a later
+   unscoped rule (.intro{grid-template-columns:1.02fr .98fr} / .reviews .shell{…}) sat
+   after the ≤720px stacking rule and silently won at every width up to 960px, forcing
+   a cramped side-by-side layout ("côte à côte c'est illisible"). Stack both for real
+   across the same ≤960px range, and lead with the text above the photos in "Le cadre"
+   since that's the natural reading order once it's no longer two columns. */
+@media (max-width: 960px) {
+  .intro { grid-template-columns: 1fr; }
+  .intro-copy { order: -1; }
+  .reviews .shell { grid-template-columns: 1fr; }
+}
