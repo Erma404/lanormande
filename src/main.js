@@ -393,7 +393,7 @@ function mount() {
     </nav>
     <button class="header-cta booking-trigger">${t.headerCta} <span>${icon('arrow', 15)}</span></button>
     <button class="lang-toggle" id="lang-toggle" aria-label="${t.langToggleAria}">${t.langToggleLabel}</button>
-    <button class="menu-toggle" aria-label="${t.menuAria}"><span></span><span></span><span></span></button>
+    <button class="menu-toggle" aria-label="${t.menuAria}"><i class="menu-toggle-bars"><span></span><span></span><span></span></i><i class="menu-toggle-x">${icon('close', 20)}</i></button>
   </header>
 
   <main>

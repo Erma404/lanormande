@@ -391,16 +391,19 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   .reviews .shell { grid-template-columns: 1fr; }
 }
 
-/* Mobile menu: two bugs on real devices.
-   1) The X animation's translateY(3px)/(-3px) was tuned for the original 2-line icon,
-      where the outer lines sat directly next to each other. Adding a 3rd (middle) line
-      doubled the gap between the outer lines without updating these values, so on open
-      they rotated without actually meeting — reading as a stray ">" instead of an "X".
-   2) The open dropdown panel switches to a light cream background, but its links kept
-      the pale grey (#d2d4d3) tuned for the dark header bar — nearly invisible on cream. */
+/* Mobile menu, take two: rotating the 3 bar-spans into an X via translateY/rotate kept
+   coming out lopsided (line-thickness/gap rounding, different math needed per breakpoint,
+   Chrome vs Safari rendering...). Swapped for the same real "close" SVG (✕) already used
+   for every other close button on the site (modals, gallery) — hamburger bars show by
+   default, the ✕ icon replaces them on .open. Guaranteed crisp, no transform math at all.
+   Also fixes the open dropdown's link colour: it kept the pale grey tuned for the dark
+   header bar even though the panel itself switches to a light cream background. */
+.menu-toggle-bars, .menu-toggle-x { grid-area: 1 / 1; }
+.menu-toggle-bars { display: grid; gap: 5px; }
+.menu-toggle-x { display: none; align-items: center; justify-content: center; color: var(--paper); }
+.menu-toggle.open .menu-toggle-bars { display: none; }
+.menu-toggle.open .menu-toggle-x { display: flex; }
 @media (max-width: 960px) {
-  .menu-toggle.open span:first-child { transform: translateY(6px) rotate(45deg); }
-  .menu-toggle.open span:last-child { transform: translateY(-6px) rotate(-45deg); }
   .nav-links.open a { color: var(--ink); }
   .nav-links.open a:hover { color: var(--clay); }
 }
