@@ -354,3 +354,22 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
    own green makes that destination obvious at a glance, distinct from the CTAs above. */
 .reserve-form .reserve-button { background: #25d366; color: #fff; }
 .reserve-form .reserve-button:hover { background: #1ebe5a; color: #fff; }
+
+/* Root cause of the broken chambres carousel below 960px (mobile included, not just
+   the 721–960 dead zone): an earlier unscoped rule (`.space-stage{grid-template-columns:
+   1.55fr .72fr}`, no media query) sits later in the file than the ≤720px stacking rule,
+   so — by plain source order — it silently won at EVERY width up to 960px, squeezing a
+   real 2-column desktop grid into a narrow column and leaving a tall blank gap where the
+   fixed-height frame (460px) didn't match the shorter mobile content. Switching to
+   height:auto here removes that mismatch instead of trying to re-tune fixed numbers. */
+@media (max-width: 960px) {
+  .space-stage { grid-template-columns: 1fr; height: auto; min-height: 0; margin-top: 36px; overflow: visible; }
+  .space-image { height: 280px; min-height: 0; }
+  .space-caption { height: auto; min-height: 0; padding: 28px; }
+}
+@media (max-width: 960px) and (min-width: 721px) {
+  .gallery-nav { width: 40px; height: 40px; }
+  .gallery-nav.prev { left: 8px; }
+  .gallery-nav.next { right: 8px; }
+  .gallery-close { top: 12px; right: 12px; }
+}
