@@ -274,14 +274,17 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 .nearby-pin-progress i { width: 26px; height: 3px; border-radius: 2px; background: color-mix(in oklch, var(--ink) 15%, transparent); transition: background .3s ease; }
 .nearby-pin-progress i.active { background: var(--clay); }
 @media (prefers-reduced-motion: reduce) { .nearby-pin-slide { transition: none; } }
-/* Below tablet width, pinned scrollytelling feels awkward — fall back to a plain stacked list. */
+/* The pinned scroll animation was disabled below 720px ("feels awkward, fall back to a
+   plain list") — but that removed the effect entirely on mobile instead of adapting it.
+   Keep the same sticky, scroll-driven reveal; just shrink the image and list so the
+   stacked layout actually fits within one screen height (100svh - header). */
 @media (max-width: 720px) {
-  .nearby-scroller { height: auto !important; }
-  .nearby-sticky { position: static; height: auto; }
-  .nearby-pin-body { grid-template-columns: 1fr; margin-top: 28px; }
-  .nearby-pin-image { height: 260px; min-height: 0; }
-  .nearby-pin-list article { opacity: 1; cursor: default; }
-  .nearby-pin-progress { display: none; }
+  .nearby-pin-body { grid-template-columns: 1fr; margin-top: 20px; gap: 10px; }
+  .nearby-pin-image { height: 34vh; min-height: 190px; max-height: 260px; }
+  .nearby-pin-list article { padding: 12px 0; }
+  .nearby-pin-list h3 { font-size: 17px; margin-bottom: 3px; }
+  .nearby-pin-list p { font-size: 11px; -webkit-line-clamp: 2; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
+  .nearby-pin-progress { margin-top: 12px; }
 }
 
 /* Responsive fix: nav-links hide at 960px but the burger only appeared at 720px, leaving a
@@ -365,7 +368,10 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 @media (max-width: 960px) {
   .space-stage { grid-template-columns: 1fr; height: auto; min-height: 0; margin-top: 36px; overflow: visible; }
   .space-image { height: 280px; min-height: 0; }
-  .space-caption { height: auto; min-height: 0; padding: 28px; }
+  /* A plain height:auto here made the page jump on every prev/next click, since each
+     room's caption text is a different length. min-height covers the longest caption
+     (measured ~231px across every room, both languages) so the frame stays put. */
+  .space-caption { height: auto; min-height: 240px; padding: 28px; }
 }
 @media (max-width: 960px) and (min-width: 721px) {
   .gallery-nav { width: 40px; height: 40px; }
