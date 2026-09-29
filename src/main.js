@@ -106,11 +106,11 @@ const content = {
       ['Les pâturages', 'La maison est entourée de pâturages où paissent les vaches normandes.', '/images/paturages.avif']
     ],
     host: {
-      portraitAlt: 'Claire, votre hôte', name: 'Claire', languages: 'Français, Anglais',
-      lives: 'Vit à Danestal, pays d’Auge', years: 'Hôte depuis 6 ans',
+      portraitAlt: 'Christophe, votre hôte', name: 'Christophe', languages: 'Français, Anglais',
+      years: 'Hôte depuis 6 ans',
       eyebrow: 'Bienvenue chez nous',
       quote: '“J’ai imaginé cette maison comme un lieu où l’on pose les valises, et où le temps veut bien ralentir.”',
-      bio: 'Avec son père Christophe, Claire veille sur cette maison normande depuis six ans. Elle vous partage volontiers son marché préféré, la meilleure route pour rejoindre la plage et les coins secrets du pays d’Auge.',
+      bio: 'Avec sa fille Claire, Christophe veille sur cette maison normande depuis six ans. Il vous partage volontiers son marché préféré, la meilleure route pour rejoindre la plage et les coins secrets du pays d’Auge.',
       cta: 'Réserver maintenant'
     },
     floorPlan: {
@@ -138,13 +138,13 @@ const content = {
     },
     ratingCategories: [['Propreté', '4,8'], ['Emplacement', '4,8'], ['Qualité-prix', '4,8']],
     reviews: [
-      ['ML', 'Marie L.', 'Août 2026', 'Un havre de paix pour notre tribu. Le jardin est immense, la maison a une âme et Claire est d’une attention rare.'],
+      ['ML', 'Marie L.', 'Août 2026', 'Un havre de paix pour notre tribu. Le jardin est immense, la maison a une âme et Christophe est d’une attention rare.'],
       ['JD', 'Julien D.', 'Juillet 2026', 'Nos enfants ont adopté le ruisseau, nous avons adopté les apéros sous les pommiers. On reviendra, c’est sûr.'],
       ['AS', 'Anna S.', 'Mai 2026', 'La beauté des poutres, le feu de cheminée, le calme absolu. C’était exactement ce que nous cherchions.'],
       ['SR', 'Sophie R.', 'Juin 2026', 'Un accueil chaleureux du début à la fin. La maison est encore plus belle qu’en photo, et si bien équipée.'],
       ['TB', 'Thomas B.', 'Septembre 2025', 'L’extérieur est un vrai bonheur pour les enfants comme pour les adultes. On s’est sentis chez nous immédiatement.']
     ],
-    faqSection: { eyebrow: 'Bon à savoir', h2: 'Tout ce qu’il faut<br>pour vous <em>projeter.</em>', intro: 'Une question avant de réserver ? Vous pouvez aussi écrire directement à Claire.', contact: 'Contacter Claire' },
+    faqSection: { eyebrow: 'Bon à savoir', h2: 'Tout ce qu’il faut<br>pour vous <em>projeter.</em>', intro: 'Une question avant de réserver ? Vous pouvez aussi écrire directement à Christophe.', contact: 'Contacter Christophe' },
     faq: [
       ['Quels sont les horaires d’arrivée et de départ ?', 'Les arrivées se font à partir de 16h et les départs avant 11h. Une arrivée autonome peut être organisée sur demande.'],
       ['Combien de voyageurs la maison peut-elle accueillir ?', 'La maison accueille confortablement jusqu’à 8 voyageurs, avec quatre chambres, sept lits et trois salles de bain.'],
@@ -157,12 +157,12 @@ const content = {
     },
     footer: { tagline: 'Une maison de famille, à Danestal.', linkHouse: 'La maison', linkFaq: 'Questions fréquentes', linkContact: 'Contact', copyright: '© 2026 La Maison Normande', bottomNote: 'Réservation directe & sécurisée' },
     reserveModal: {
-      title: 'Je réserve', intro: 'Un court message pré-rempli s’ouvrira dans WhatsApp — vous n’avez plus qu’à l’envoyer à Claire.',
+      title: 'Je réserve', intro: 'Un court message pré-rempli s’ouvrira dans WhatsApp — vous n’avez plus qu’à l’envoyer à Christophe.',
       name: 'Votre nom', namePlaceholder: 'Prénom et nom', arrival: 'Arrivée', departure: 'Départ', guests: 'Voyageurs',
       message: 'Message (facultatif)', messagePlaceholder: 'Une précision à ajouter ?', submit: 'Envoyer sur WhatsApp'
     },
     toast: { conflict: 'Séjour impossible : une nuit déjà réservée se trouve dans cette période.' },
-    whatsapp: (name, arrival, departure, guestCount) => `Bonjour Claire, je souhaite réserver La Maison Normande du ${arrival} au ${departure} pour ${guestCount} voyageur${guestCount > 1 ? 's' : ''}. Mon nom : ${name}.`,
+    whatsapp: (name, arrival, departure, guestCount) => `Bonjour Christophe, je souhaite réserver La Maison Normande du ${arrival} au ${departure} pour ${guestCount} voyageur${guestCount > 1 ? 's' : ''}. Mon nom : ${name}.`,
     days: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
     monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
     formatShort: (day, monthAbbr) => `${day} ${monthAbbr}.`,
@@ -240,11 +240,11 @@ const content = {
       ['The Pastures', 'The house is surrounded by pastures where Normandy cows graze.', '/images/paturages.avif']
     ],
     host: {
-      portraitAlt: 'Claire, your host', name: 'Claire', languages: 'French, English',
-      lives: 'Lives in Danestal, Pays d’Auge', years: 'Hosting for 6 years',
+      portraitAlt: 'Christophe, your host', name: 'Christophe', languages: 'French, English',
+      years: 'Hosting for 6 years',
       eyebrow: 'Welcome to our home',
       quote: '“I imagined this house as a place to set down your bags, where time slows down a little.”',
-      bio: 'Claire, together with her father Christophe, has looked after this Normandy house for six years. She’s always happy to share her favourite market, the best route to the beach, and the hidden corners of the Pays d’Auge.',
+      bio: 'Christophe, together with his daughter Claire, has looked after this Normandy house for six years. He’s always happy to share his favourite market, the best route to the beach, and the hidden corners of the Pays d’Auge.',
       cta: 'Book now'
     },
     floorPlan: {
@@ -272,13 +272,13 @@ const content = {
     },
     ratingCategories: [['Cleanliness', '4.8'], ['Location', '4.8'], ['Value', '4.8']],
     reviews: [
-      ['ML', 'Marie L.', 'August 2026', 'A haven of peace for our whole tribe. The garden is huge, the house has real soul, and Claire’s attentiveness is rare.'],
+      ['ML', 'Marie L.', 'August 2026', 'A haven of peace for our whole tribe. The garden is huge, the house has real soul, and Christophe’s attentiveness is rare.'],
       ['JD', 'Julien D.', 'July 2026', 'Our kids adopted the stream, we adopted evening drinks under the apple trees. We’ll definitely be back.'],
       ['AS', 'Anna S.', 'May 2026', 'The beauty of the beams, the crackling fireplace, the absolute quiet. Exactly what we were looking for.'],
       ['SR', 'Sophie R.', 'June 2026', 'A warm welcome from start to finish. The house is even more beautiful in person, and so well equipped.'],
       ['TB', 'Thomas B.', 'September 2025', 'The grounds are a real joy for kids and adults alike. We felt right at home from the moment we arrived.']
     ],
-    faqSection: { eyebrow: 'Good to know', h2: 'Everything you need<br>to <em>picture it.</em>', intro: 'A question before booking? You can also write directly to Claire.', contact: 'Contact Claire' },
+    faqSection: { eyebrow: 'Good to know', h2: 'Everything you need<br>to <em>picture it.</em>', intro: 'A question before booking? You can also write directly to Christophe.', contact: 'Contact Christophe' },
     faq: [
       ['What are the check-in and check-out times?', 'Check-in is from 4pm and check-out before 11am. Self check-in can be arranged on request.'],
       ['How many guests can the house accommodate?', 'The house comfortably sleeps up to 8 guests, with four bedrooms, seven beds and three bathrooms.'],
@@ -291,12 +291,12 @@ const content = {
     },
     footer: { tagline: 'A family home, in Danestal.', linkHouse: 'The house', linkFaq: 'FAQ', linkContact: 'Contact', copyright: '© 2026 La Maison Normande', bottomNote: 'Direct & secure booking' },
     reserveModal: {
-      title: 'Book now', intro: 'A short pre-filled message will open in WhatsApp — all you need to do is send it to Claire.',
+      title: 'Book now', intro: 'A short pre-filled message will open in WhatsApp — all you need to do is send it to Christophe.',
       name: 'Your name', namePlaceholder: 'First and last name', arrival: 'Check-in', departure: 'Check-out', guests: 'Guests',
       message: 'Message (optional)', messagePlaceholder: 'Anything else to add?', submit: 'Send via WhatsApp'
     },
     toast: { conflict: 'Stay not available: a night already booked falls within this period.' },
-    whatsapp: (name, arrival, departure, guestCount) => `Hello Claire, I would like to book La Maison Normande from ${arrival} to ${departure} for ${guestCount} guest${guestCount > 1 ? 's' : ''}. My name: ${name}.`,
+    whatsapp: (name, arrival, departure, guestCount) => `Hello Christophe, I would like to book La Maison Normande from ${arrival} to ${departure} for ${guestCount} guest${guestCount > 1 ? 's' : ''}. My name: ${name}.`,
     days: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
     monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     formatShort: (day, monthAbbr) => `${monthAbbr} ${day}`,
@@ -348,6 +348,30 @@ const today = new Date(); today.setHours(0, 0, 0, 0);
 let viewYear = today.getFullYear();
 let viewMonth = today.getMonth();
 let selected = [];
+
+// Nuits indisponibles (Airbnb + blocages admin), plages [arrivée, départ) au format ISO.
+let blockedRanges = [];
+let refreshCalendar = () => {};
+const isoOf = (date) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+const isNightBlocked = (iso) => blockedRanges.some(([start, end]) => iso >= start && iso < end);
+function rangeCrossesBookedDate(startIso, endIso) {
+  const cursor = new Date(startIso + 'T00:00:00');
+  const end = new Date(endIso + 'T00:00:00');
+  while (cursor < end) {
+    if (isNightBlocked(isoOf(cursor))) return true;
+    cursor.setDate(cursor.getDate() + 1);
+  }
+  return false;
+}
+fetch('/api/availability')
+  .then((response) => (response.ok ? response.json() : null))
+  .then((data) => {
+    if (!data?.blocked) return;
+    blockedRanges = data.blocked;
+    if (selected.length && (isNightBlocked(selected[0]) || (selected[1] && rangeCrossesBookedDate(selected[0], selected[1])))) selected = [];
+    refreshCalendar();
+  })
+  .catch(() => {});
 let guests = { adults: 2, children: 0 };
 let activeSpace = 0;
 let activeFloor = 'ground';
@@ -474,11 +498,10 @@ function mount() {
 
     <section class="host section"><div class="shell host-grid">
       <div class="host-portrait-wrap">
-        <div class="host-portrait image-placeholder"><img src="/images/claire.avif" alt="${t.host.portraitAlt}" loading="lazy" /></div>
+        <div class="host-portrait image-placeholder"><img src="/images/christophe.jpg" alt="${t.host.portraitAlt}" loading="lazy" /></div>
         <div class="host-card">
           <strong>${t.host.name}</strong>
           <div class="host-fact">${icon('globe', 16)}<span>${t.host.languages}</span></div>
-          <div class="host-fact">${icon('pin', 16)}<span>${t.host.lives}</span></div>
           <div class="host-fact">${icon('badge', 16)}<span>${t.host.years}</span></div>
         </div>
       </div>
@@ -548,19 +571,7 @@ function mount() {
   });
 
   // ---- booking widget: real calendar (past dates locked, month navigation) -
-  const isUnavailableDate = () => false;
   const showToast = (message) => { const toast = $('.toast'); toast.textContent = message; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3500); };
-
-  function rangeCrossesBookedDate(startIso, endIso) {
-    const cursor = new Date(startIso + 'T00:00:00');
-    const end = new Date(endIso + 'T00:00:00');
-    cursor.setDate(cursor.getDate() + 1);
-    while (cursor < end) {
-      if (isUnavailableDate(cursor)) return true;
-      cursor.setDate(cursor.getDate() + 1);
-    }
-    return false;
-  }
 
   function renderCalendar() {
     const firstWeekday = (new Date(viewYear, viewMonth, 1).getDay() + 6) % 7; // Monday-first
@@ -576,11 +587,13 @@ function mount() {
       const cellDate = new Date(viewYear, viewMonth, day);
       const iso = `${viewYear}-${String(viewMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
       const isPast = cellDate < today;
-      const isBooked = !isPast && isUnavailableDate(cellDate);
-      const disabled = isPast || isBooked;
+      const isBooked = !isPast && isNightBlocked(iso);
+      // Un jour dont la nuit est prise reste choisissable comme date de départ.
+      const isValidDeparture = selected.length === 1 && iso > selected[0] && !rangeCrossesBookedDate(selected[0], iso);
+      const disabled = isPast || (isBooked && !isValidDeparture);
       const isSelected = selected.includes(iso);
       const inRange = selected.length === 2 && iso > selected[0] && iso < selected[1];
-      return `<button class="calendar-day ${isBooked ? 'unavailable' : ''} ${isPast ? 'past' : ''} ${isSelected ? 'selected' : ''} ${inRange ? 'in-range' : ''}" data-date="${iso}" ${disabled ? 'disabled' : ''}>${day}</button>`;
+      return `<button class="calendar-day ${isBooked && !isValidDeparture ? 'unavailable' : ''} ${isPast ? 'past' : ''} ${isSelected ? 'selected' : ''} ${inRange ? 'in-range' : ''}" data-date="${iso}" ${disabled ? 'disabled' : ''}>${day}</button>`;
     }).join('');
 
     $$('.calendar-day:not([disabled])').forEach(day => day.addEventListener('click', () => {
@@ -616,6 +629,7 @@ function mount() {
     renderCalendar();
   });
   renderCalendar();
+  refreshCalendar = renderCalendar;
 
   $('.guest-toggle').addEventListener('click', () => { const panel = $('.guest-panel'); panel.hidden = !panel.hidden; });
   $$('.stepper button').forEach(button => button.addEventListener('click', () => {
@@ -648,6 +662,10 @@ function mount() {
     const arrival = $('#rf-arrival').value;
     const departure = $('#rf-departure').value;
     const guestCount = $('#rf-guests').value;
+    if (arrival && departure && (departure <= arrival || rangeCrossesBookedDate(arrival, departure))) {
+      showToast(t.toast.conflict);
+      return;
+    }
     const extra = $('#rf-message').value.trim();
     let message = t.whatsapp(name, formatFull(arrival), formatFull(departure), guestCount);
     if (extra) message += ` ${extra}`;
