@@ -161,7 +161,7 @@ export function renderContentEditor(container, { escape, onDirtyChange }) {
     updateBar(message, kind);
   }
 
-  container.innerHTML = '<p class="muted">Chargement des textes…</p>';
+  container.innerHTML = `<div aria-busy="true" aria-label="Chargement des textes"><span class="skel skel-switch"></span><div class="sections">${'<div class="section-card skel-card"><span class="skel skel-h"></span></div>'.repeat(6)}</div></div>`;
   request().then((result) => {
     if (result.error) { container.innerHTML = `<p class="form-error">${escape(result.error)}</p>`; return; }
     saved = { fr: { ...(result.data.fr || {}) }, en: { ...(result.data.en || {}) } };

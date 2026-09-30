@@ -407,3 +407,22 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   .nav-links.open a { color: var(--ink); }
   .nav-links.open a:hover { color: var(--clay); }
 }
+
+/* --- Squelettes de chargement : affichés le temps que les données ou les photos arrivent --- */
+@keyframes lmn-shimmer { from { background-position: 150% 0; } to { background-position: -50% 0; } }
+.cal-skel { display: block; height: 30px; margin: 4px; border-radius: 6px; background: rgba(255,255,255,.08); }
+.calendar-grid.loading { position: relative; }
+.calendar-grid.loading .calendar-day { opacity: .35; pointer-events: none; }
+.calendar-grid.loading::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.14) 50%, transparent 70%); background-size: 200% 100%; animation: lmn-shimmer 1.3s linear infinite; }
+#cal-month:empty { display: inline-block; width: 110px; height: 14px; border-radius: 4px; background: rgba(255,255,255,.14); }
+.image-placeholder:has(> img):not(.hero-image), #house-plan:empty, #space-thumbnails:empty {
+  background-color: #eee4d6;
+  background-image: linear-gradient(100deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.55) 50%, rgba(255,255,255,0) 70%);
+  background-size: 200% 100%;
+  animation: lmn-shimmer 1.4s linear infinite;
+}
+#house-plan:empty { background-color: #2a2d2c; background-image: linear-gradient(100deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.06) 50%, rgba(255,255,255,0) 70%); }
+#space-thumbnails:empty { min-height: 50px; border-radius: 4px; }
+@media (prefers-reduced-motion: reduce) {
+  .calendar-grid.loading::after, .image-placeholder:has(> img), #house-plan:empty, #space-thumbnails:empty { animation: none; }
+}

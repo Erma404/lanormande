@@ -115,7 +115,7 @@ export function renderAvailability(container, { escape }) {
     }));
   }
 
-  container.innerHTML = '<p class="muted">Chargement des disponibilités…</p>';
+  container.innerHTML = `<div class="panels" aria-busy="true" aria-label="Chargement des disponibilités">${'<div class="panel"><span class="skel skel-h"></span><span class="skel skel-line"></span><span class="skel skel-line short"></span><span class="skel skel-input"></span></div>'.repeat(4)}</div>`;
   call().then((result) => {
     if (result.error) container.innerHTML = `<p class="form-error">${escape(result.error)}</p>`;
     else render();

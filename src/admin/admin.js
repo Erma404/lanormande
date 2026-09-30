@@ -218,7 +218,7 @@ function renderDashboard() {
 }
 
 (async function init() {
-  root.innerHTML = '<p class="boot">Chargement…</p>';
+  root.innerHTML = '<div class="boot" aria-busy="true" aria-label="Chargement"><span class="skel skel-bar"></span><span class="skel skel-title"></span><span class="skel skel-line"></span><span class="skel skel-block"></span></div>';
   const result = await api('me');
   if (result.ok) { state.user = result.data; renderDashboard(); } else { renderEmailStep(); }
 })();
