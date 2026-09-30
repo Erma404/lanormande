@@ -16,7 +16,7 @@ a { color: inherit; }
 /* Connexion */
 .auth { min-height: 100svh; display: grid; grid-template-columns: minmax(0, 1fr) minmax(420px, 560px); }
 .auth-visual { position: relative; overflow: hidden; background: #5d4838; color: var(--paper); }
-.auth-visual img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.auth-visual img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 56% 70%; }
 .auth-visual::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(38,24,15,.62), rgba(38,24,15,.08) 55%); }
 .auth-visual-copy { position: absolute; z-index: 1; left: 40px; right: 40px; bottom: 36px; display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; }
 .auth-visual-copy p { margin: 0; font-size: 13px; font-weight: 600; opacity: .85; }

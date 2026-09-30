@@ -47,7 +47,7 @@ function shell(content) {
   root.innerHTML = `
     <main class="auth">
       <aside class="auth-visual">
-        <img src="/images/maison-exterieur-jardin.avif" alt="" />
+        <img src="/images/admin-alentours.jpg" alt="" />
         <div class="auth-visual-copy">
           <a class="brand" href="/"><span class="brand-mark"><i></i><i></i></span><span>La Maison<br><em>Normande</em></span></a>
           <p>Espace propriétaires</p>
