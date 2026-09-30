@@ -5,7 +5,8 @@ import * as store from './store.js';
 export const CODE_TTL = 15 * 60;          // code valable 15 minutes
 export const MAX_ATTEMPTS = 5;            // essais par code
 export const SESSION_TTL = 12 * 60 * 60;  // session admin de 12 heures
-const COOKIE = 'lmn_admin';
+// Préfixe __Host- en ligne : cookie lié à ce domaine exact, en HTTPS uniquement.
+const cookieName = () => (isDeployed() ? '__Host-lmn_admin' : 'lmn_admin');
 
 function secret() {
   const value = process.env.OTP_SECRET;
@@ -22,16 +23,21 @@ export function isAdminEmail(email) {
   return allowed.includes(normalizeEmail(email));
 }
 
+// Clé de stockage dérivée de l'adresse : aucune adresse email en clair dans Redis.
+export const emailKey = (email) => digest(`email:${email}`).slice(0, 32);
+
+// Un code est émis pour toute adresse (leurre si elle n'est pas admin) : le serveur se comporte
+// de façon identique dans les deux cas, ce qui empêche de deviner quelles adresses sont admin.
 export async function issueCode(email) {
   const code = String(randomInt(0, 1_000_000)).padStart(6, '0');
   const expiresAt = Date.now() + CODE_TTL * 1000;
-  await store.set(`otp:${email}`, { hash: digest(`${email}:${code}`), expiresAt, attempts: 0 }, CODE_TTL);
+  await store.set(`otp:${emailKey(email)}`, { hash: digest(`${email}:${code}`), expiresAt, attempts: 0 }, CODE_TTL);
   return { code, expiresAt };
 }
 
 // Renvoie 'ok', 'invalid' (avec essais restants) ou 'expired'.
 export async function checkCode(email, code) {
-  const key = `otp:${email}`;
+  const key = `otp:${emailKey(email)}`;
   const entry = await store.get(key);
   if (!entry || entry.expiresAt < Date.now()) return { status: 'expired' };
 
@@ -53,7 +59,7 @@ export async function checkCode(email, code) {
 }
 
 function cookie(value, maxAge) {
-  const parts = [`${COOKIE}=${value}`, 'Path=/', 'HttpOnly', 'SameSite=Strict', `Max-Age=${maxAge}`];
+  const parts = [`${cookieName()}=${value}`, 'Path=/', 'HttpOnly', 'SameSite=Strict', `Max-Age=${maxAge}`];
   if (isDeployed()) parts.push('Secure');
   return parts.join('; ');
 }
@@ -65,7 +71,7 @@ export async function createSession(email) {
 }
 
 export async function getSession(req) {
-  const token = parseCookies(req)[COOKIE];
+  const token = parseCookies(req)[cookieName()];
   if (!token || !/^[a-f0-9]{64}$/.test(token)) return null;
   const session = await store.get(`session:${digest(token)}`);
   // Un admin retiré de ADMIN_EMAILS perd l'accès immédiatement.
@@ -74,7 +80,7 @@ export async function getSession(req) {
 }
 
 export async function destroySession(req) {
-  const token = parseCookies(req)[COOKIE];
+  const token = parseCookies(req)[cookieName()];
   if (token && /^[a-f0-9]{64}$/.test(token)) await store.del(`session:${digest(token)}`);
   return cookie('', 0);
 }

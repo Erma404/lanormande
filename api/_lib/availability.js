@@ -14,10 +14,17 @@ const DATE = /^\d{4}-\d{2}-\d{2}$/;
 
 export const isValidDate = (value) => DATE.test(value) && !Number.isNaN(new Date(`${value}T00:00:00Z`).getTime());
 
+// Seuls les domaines officiels d'Airbnb sont acceptés (anti-SSRF).
+const AIRBNB_HOSTS = /^(www\.)?airbnb\.(com|fr|be|ch|ca|de|es|it|nl|pt|ie|at|dk|se|no|fi|pl|co\.uk|com\.au|com\.br|mx|co\.nz)$/;
+const MAX_ICAL_SIZE = 2 * 1024 * 1024;
+
+const isAirbnbHost = (hostname) => AIRBNB_HOSTS.test(hostname);
+
 export function isAirbnbUrl(value) {
   try {
     const url = new URL(value);
-    return url.protocol === 'https:' && /(^|\.)airbnb\.[a-z.]{2,6}$/.test(url.hostname) && url.pathname.endsWith('.ics');
+    return url.protocol === 'https:' && !url.username && !url.password && !url.port
+      && isAirbnbHost(url.hostname) && url.pathname.startsWith('/calendar/ical/') && url.pathname.endsWith('.ics');
   } catch { return false; }
 }
 
@@ -61,8 +68,12 @@ async function fetchIcal(source) {
   if (!isDeployed() && source.startsWith('/')) return readFile(source, 'utf8');
   if (!isAirbnbUrl(source)) throw new Error('URL iCal Airbnb invalide');
   const response = await fetch(source, { headers: { 'User-Agent': 'LaMaisonNormande-Sync/1.0' }, signal: AbortSignal.timeout(8000) });
+  // Une redirection ne doit pas sortir des domaines Airbnb.
+  if (response.url && !isAirbnbHost(new URL(response.url).hostname)) throw new Error('Redirection hors d’Airbnb refusée');
   if (!response.ok) throw new Error(`Airbnb a répondu ${response.status}`);
+  if (Number(response.headers.get('content-length') || 0) > MAX_ICAL_SIZE) throw new Error('Calendrier trop volumineux');
   const text = await response.text();
+  if (text.length > MAX_ICAL_SIZE) throw new Error('Calendrier trop volumineux');
   if (!text.includes('BEGIN:VCALENDAR')) throw new Error('Réponse Airbnb inattendue (pas un calendrier)');
   return text;
 }
@@ -92,6 +103,7 @@ export async function getManual() {
 
 export async function addManual({ start, end, note }) {
   const blocks = await getManual();
+  if (blocks.length >= 500) throw new Error('Trop de blocages enregistrés');
   const block = { id: randomBytes(6).toString('hex'), start, end, note: String(note || '').slice(0, 120), createdAt: Date.now() };
   blocks.push(block);
   blocks.sort((a, b) => a.start.localeCompare(b.start));
