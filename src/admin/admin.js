@@ -1,15 +1,18 @@
 import { renderAvailability } from './availability.js';
+import { renderContentEditor } from './content-editor.js';
 
 const root = document.querySelector('#admin');
 const RESEND_DELAY = 60;
 
-const state = { email: '', expiresAt: 0, resendAt: 0, timer: null, user: null, tab: 'availability' };
+const state = { email: '', expiresAt: 0, resendAt: 0, timer: null, user: null, tab: 'availability', dirty: false };
+
+window.addEventListener('beforeunload', (event) => { if (state.dirty) event.preventDefault(); });
 
 const tabs = [
   ['availability', 'Disponibilités', 'Bloquer ou libérer des dates dans le calendrier du site.'],
   ['pricing', 'Tarifs', 'Prix par nuit, saisons et durée minimale de séjour.'],
   ['requests', 'Demandes', 'Demandes de réservation reçues, à confirmer ou refuser.'],
-  ['content', 'Contenus', 'Textes et photos du site, sans toucher au code.']
+  ['content', 'Contenus', 'Les textes de la page d’accueil, en français et en anglais.']
 ];
 
 const errors = {
@@ -198,9 +201,12 @@ function renderDashboard() {
       </main>
     </div>`;
 
+  state.dirty = false;
   if (state.tab === 'availability') renderAvailability(root.querySelector('#tab-content'), { escape });
+  if (state.tab === 'content') renderContentEditor(root.querySelector('#tab-content'), { escape, onDirtyChange: (dirty) => { state.dirty = dirty; } });
 
   root.querySelectorAll('[data-tab]').forEach((button) => button.addEventListener('click', () => {
+    if (state.dirty && !window.confirm('Des modifications ne sont pas enregistrées. Quitter cet onglet quand même ?')) return;
     state.tab = button.dataset.tab;
     renderDashboard();
   }));
