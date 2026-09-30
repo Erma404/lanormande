@@ -129,6 +129,25 @@ function mount() {
     mount();
   });
 
+  // ---- la photo du haut grandit si la carte de réservation devient plus haute
+  // (mois sur 6 semaines, choix des voyageurs ouvert) : la carte n'est jamais coupée.
+  const bookingCard = $('.booking-card');
+  const hero = $('.hero');
+  if (window.ResizeObserver && bookingCard && hero) {
+    const fitHero = () => {
+      hero.style.minHeight = '';
+      if (getComputedStyle(bookingCard).display === 'none') return;
+      const margin = 32;
+      const needed = bookingCard.offsetTop + bookingCard.offsetHeight + margin;
+      const neededFromBottom = bookingCard.offsetHeight + margin * 2;
+      const target = Math.max(needed, neededFromBottom);
+      if (target > hero.offsetHeight) hero.style.minHeight = `${target}px`;
+    };
+    const observer = new ResizeObserver(fitHero);
+    observer.observe(bookingCard);
+    signal.addEventListener('abort', () => observer.disconnect());
+  }
+
   // ---- booking widget: real calendar (past dates locked, month navigation) -
   const showToast = (message) => { const toast = $('.toast'); toast.textContent = message; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3500); };
 
