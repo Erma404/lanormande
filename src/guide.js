@@ -186,6 +186,36 @@ export const guide = {
   }
 };
 
+// Photos de chaque lieu : celles du site, sinon Wikimedia Commons (licences libres, crédit affiché).
+const PHOTOS = {
+  cabourg: { src: '/images/plage-cabourg.webp' },
+  deauville: { src: '/images/deauville.webp' },
+  'route-du-cidre': { src: '/images/route-du-cidre.jpg' },
+  balades: { src: '/images/randonnee-pays-dauge.webp' },
+  'houlgate': { src: '/images/guide/houlgate.webp', credit: "DimiTalen", license: "CC0", url: "https://commons.wikimedia.org/wiki/File:Promenade_Roland_Garros,_Houlgate,_2024.jpg" },
+  'honfleur': { src: '/images/guide/honfleur.webp', credit: "Rebexho", license: "CC BY-SA 3.0", url: "https://commons.wikimedia.org/wiki/File:Vieux_bassin_Honfleur.JPG" },
+  'beuvron': { src: '/images/guide/beuvron.webp', credit: "Nono vlf", license: "CC BY-SA 3.0", url: "https://commons.wikimedia.org/wiki/File:Manoir_-_Beuvron_en_Auge.JPG" },
+  'pont-l-eveque': { src: '/images/guide/pont-l-eveque.webp', credit: "Zubro", license: "CC BY-SA 3.0", url: "https://commons.wikimedia.org/wiki/File:Petit_pont-l%27%C3%A9v%C3%AAque.jpg" },
+  'lisieux': { src: '/images/guide/lisieux.webp', credit: "Raimond Spekking", license: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Basilique_Sainte-Th%C3%A9r%C3%A8se_de_Lisieux-2876.jpg" },
+  'pegasus-bridge': { src: '/images/guide/pegasus-bridge.webp', credit: "Yummifruitbat", license: "CC BY-SA 2.0", url: "https://commons.wikimedia.org/wiki/File:Pegasus_bridge_new.jpg" },
+  'memorial-caen': { src: '/images/guide/memorial-caen.webp', credit: "Nick-D", license: "CC BY-SA 3.0", url: "https://commons.wikimedia.org/wiki/File:M%C3%A9morial_de_Caen_foyer_October_2011.JPG" },
+  'juno-beach': { src: '/images/guide/juno-beach.webp', credit: "Zairon", license: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Courseulles_Juno_Beach_1.jpg" },
+  'arromanches': { src: '/images/guide/arromanches.webp', credit: "Myrabella", license: "CC BY-SA 3.0", url: "https://commons.wikimedia.org/wiki/File:Arromanches-les-Bains_port_artificiel_Mulberry.jpg" },
+  'bayeux': { src: '/images/guide/bayeux.webp', credit: "MagicRubberDuck", license: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Bayeux_Cathedral,_Normandy.jpg" },
+  'cimetiere-americain': { src: '/images/guide/cimetiere-americain.webp', credit: "Myrabella", license: "CC BY-SA 3.0", url: "https://commons.wikimedia.org/wiki/File:Cimetiere_americain_Colleville-sur-Mer.jpg" },
+  'pointe-du-hoc': { src: '/images/guide/pointe-du-hoc.webp', credit: "Myrabella", license: "CC BY-SA 3.0", url: "https://commons.wikimedia.org/wiki/File:03_Pointe_du_Hoc_bunker.jpg" },
+  'etretat': { src: '/images/guide/etretat.webp', credit: "Abajolet", license: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Etretat_vue_a%C3%A9rienne_de_la_falaise_aval_et_de_l%27aiguille.jpg" },
+  'mont-saint-michel': { src: '/images/guide/mont-saint-michel.webp', credit: "Eric Kilby", license: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Mont_Saint_Michel_and_sheep_-_2026.jpg" },
+};
+// Même ordre que les lieux de chaque section, en français comme en anglais.
+const SECTION_PHOTOS = {
+  'cote-fleurie': ['cabourg', 'houlgate', 'deauville', 'honfleur'],
+  'pays-d-auge': ['route-du-cidre', 'beuvron', 'pont-l-eveque', 'lisieux', 'balades'],
+  debarquement: ['pegasus-bridge', 'memorial-caen', 'juno-beach', 'arromanches', 'bayeux', 'cimetiere-americain', 'pointe-du-hoc'],
+  'plus-loin': ['etretat', 'mont-saint-michel']
+};
+const photoOf = (sectionId, index) => PHOTOS[SECTION_PHOTOS[sectionId]?.[index]];
+
 const esc = (value) => String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const jsonLd = (data) => `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`;
 const arrow = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
@@ -203,7 +233,10 @@ export function guideHead(lang) {
     url, image, dateModified: '2026-10-03', author: { '@type': 'Person', name: 'Christophe', url: SITE_URL + HOME[lang] },
     publisher: { '@id': `${SITE_URL}/#maison` },
     about: { '@type': 'Place', name: 'Pays d’Auge', containedInPlace: { '@type': 'AdministrativeArea', name: 'Calvados, Normandie' } },
-    mentions: g.sections.flatMap((section) => section.places.map(([name, , text]) => ({ '@type': 'TouristAttraction', name, description: text }))) };
+    mentions: g.sections.flatMap((section) => section.places.map(([name, , text], index) => {
+      const photo = photoOf(section.id, index);
+      return { '@type': 'TouristAttraction', name, description: text, ...(photo ? { image: SITE_URL + photo.src } : {}) };
+    })) };
   const faq = { '@context': 'https://schema.org', '@type': 'FAQPage', inLanguage: lang,
     mainEntity: [[g.where.h2, g.where.text], ...g.faq.items].map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) };
   return [
@@ -230,8 +263,11 @@ export function renderGuide(lang) {
   const g = guide[lang];
   const other = lang === 'fr' ? 'en' : 'fr';
   const home = HOME[lang];
-  const places = (section) => section.places.map(([name, time, text]) => `
-          <article class="guide-place"><div class="guide-place-head"><h3>${esc(name)}</h3><span class="guide-time">${esc(time)}</span></div><p>${esc(text)}</p></article>`).join('');
+  const creditLabel = lang === 'fr' ? 'Photo' : 'Photo';
+  const figure = (photo, name) => photo ? `<figure class="guide-photo"><img src="${photo.src}" alt="${esc(name)}, ${lang === 'fr' ? 'Normandie' : 'Normandy'}" width="1200" height="800" loading="lazy" decoding="async" />${photo.credit
+      ? `<figcaption><a href="${photo.url}" target="_blank" rel="noopener license">${creditLabel} : ${esc(photo.credit)}, ${esc(photo.license)}</a></figcaption>` : ''}</figure>` : '';
+  const places = (section) => section.places.map(([name, time, text], index) => `
+          <article class="guide-place">${figure(photoOf(section.id, index), name)}<div class="guide-place-body"><div class="guide-place-head"><h3>${esc(name)}</h3><span class="guide-time">${esc(time)}</span></div><p>${esc(text)}</p></div></article>`).join('');
   return `
   <header class="site-header guide-header">
     <a class="brand" href="${home}" aria-label="Villa Normande"><span class="brand-mark"><i></i><i></i></span><span>Villa<br><em>Normande</em></span></a>

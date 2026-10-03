@@ -27,7 +27,15 @@
 .guide-where .guide-answer { margin: 0; }
 
 .guide-places { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-.guide-place { padding: 24px; border-radius: 12px; background: var(--paper); border: 1px solid var(--line); }
+.guide-place { display: flex; flex-direction: column; overflow: hidden; border-radius: 12px; background: var(--paper); border: 1px solid var(--line); }
+.guide-place-body { padding: 22px 24px 24px; }
+.guide-photo { position: relative; margin: 0; aspect-ratio: 3 / 2; overflow: hidden; background: var(--line); }
+.guide-photo img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+.guide-place:hover .guide-photo img { transform: scale(1.03); }
+.guide-photo figcaption { position: absolute; right: 8px; bottom: 8px; max-width: calc(100% - 16px); padding: 3px 8px; border-radius: 4px; background: rgba(0,0,0,.55); font-size: 10px; line-height: 1.4; }
+.guide-photo figcaption a { color: rgba(255,255,255,.9); }
+.guide-photo figcaption a:hover { color: #fff; text-decoration: underline; }
+@media (prefers-reduced-motion: reduce) { .guide-photo img { transition: none; } }
 .guide-place-head { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; margin-bottom: 10px; }
 .guide-place h3 { margin: 0; font-family: var(--sans); font-size: 20px; font-weight: 700; letter-spacing: -.04em; line-height: 1.15; }
 .guide-time { flex: 0 0 auto; padding: 4px 10px; border-radius: 999px; background: color-mix(in oklch, var(--clay) 14%, transparent); color: var(--clay); font-size: 12px; font-weight: 700; white-space: nowrap; }
