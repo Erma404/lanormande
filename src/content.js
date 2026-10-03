@@ -5,7 +5,7 @@
 // ---------------------------------------------------------------------------
 export const content = {
   fr: {
-    meta: { title: 'Villa Normande — Danestal', description: 'Villa Normande — une maison de famille à Danestal, au cœur du pays d’Auge.' },
+    meta: { title: 'Maison à louer pour 8 près de Deauville · Villa Normande', description: 'Maison à colombages pour 8 à Danestal, au cœur du pays d’Auge : 4 chambres, jacuzzi, cheminée, jardin de 8 000 m², plages à 18 min. Réservez en direct.' },
     nav: { cadre: 'Le cadre', equipements: 'Équipements', chambres: 'Chambres', plan: 'Plan', avis: 'Avis', faq: 'FAQ' },
     brandAria: 'Villa Normande, accueil',
     headerCta: 'Je réserve',
@@ -13,7 +13,7 @@ export const content = {
     langToggleLabel: 'EN',
     langToggleAria: 'Switch to English',
     hero: {
-      eyebrow: 'Danestal, Pays d’Auge',
+      eyebrow: 'Maison à louer pour 8 · Danestal, pays d’Auge',
       titleLine1: 'La Normandie,', titleEm: 'en famille.',
       imageAlt: 'Villa Normande, maison à colombages au cœur du jardin',
       intro: 'Une maison à colombages, un jardin qui s’étire jusqu’au ruisseau et assez de place pour être ensemble.',
@@ -95,7 +95,7 @@ export const content = {
       bath0: 'Salle de bain', terrace: 'Terrasse & jardin', veranda: 'Véranda', firepit: 'Coin du feu', pingpong: 'Ping-pong',
       bed2: 'Chambre lin', bed3: 'Chambre brique', bath: 'Salle de bain', bed4: 'Chambre ruisseau', bath2: 'Salle de bain'
     },
-    nearbySection: { eyebrow: 'Autour de Danestal', h2: 'Des échappées,<br>juste <em>à côté.</em>', cta: 'Préparer votre séjour' },
+    nearbySection: { eyebrow: 'Autour de Danestal', h2: 'Des échappées,<br>juste <em>à côté.</em>', cta: 'Préparer votre séjour', guide: 'Notre guide du pays d’Auge', guideUrl: '/normandie-pays-d-auge' },
     nearbyItems: [
       ['Balades du pays d’Auge', 'Tout près', 'Des chemins creux entre pommiers et manoirs.', '/images/randonnee-pays-dauge.webp'],
       ['La route du cidre', '12 min', 'Calvados, vergers et rencontres de producteurs.', '/images/route-du-cidre.jpg'],
@@ -119,13 +119,20 @@ export const content = {
       ['Quels sont les horaires d’arrivée et de départ ?', 'Les arrivées se font à partir de 16h et les départs avant 11h. Une arrivée autonome peut être organisée sur demande.'],
       ['Combien de voyageurs la maison peut-elle accueillir ?', 'La maison accueille confortablement jusqu’à 8 voyageurs, avec quatre chambres, sept lits et trois salles de bain.'],
       ['Le ménage est-il inclus dans le séjour ?', 'Le ménage de fin de séjour est inclus. Un passage supplémentaire peut être réservé pendant votre séjour.'],
-      ['Les animaux sont-ils acceptés ?', 'Vos compagnons sont les bienvenus sur demande préalable, afin de préparer au mieux leur arrivée.']
+      ['Les animaux sont-ils acceptés ?', 'Vos compagnons sont les bienvenus sur demande préalable, afin de préparer au mieux leur arrivée.'],
+      ['Le linge de maison est-il fourni ?', 'Oui : draps, serviettes et savon sont fournis. Un lave-linge et un sèche-linge sont à votre disposition gratuitement.'],
+      ['La maison est-elle adaptée aux enfants et aux bébés ?', 'Oui : lit bébé, chaise haute, jeux de société et table de ping-pong vous attendent, dans un terrain clos et arboré de 8 000 m².'],
+      ['La maison a-t-elle un jacuzzi et une cheminée ?', 'Oui : un jacuzzi privé accessible toute l’année et une cheminée à bois dans la pièce de vie.'],
+      ['Peut-on télétravailler depuis la maison ?', 'Oui, la maison dispose d’un wifi haut débit.'],
+      ['À quelle distance se trouvent les plages ?', 'Les plages de Cabourg sont à environ 18 minutes en voiture, Deauville à environ 25 minutes.'],
+      ['Comment venir depuis Paris ?', 'Comptez environ 2 h 15 en voiture par l’autoroute A13. En train, Paris-Saint-Lazare dessert Lisieux et Deauville-Trouville en 2 h environ, puis 30 minutes de voiture. Le parking est gratuit sur place.'],
+      ['Que faire autour de la maison ?', 'Le pays d’Auge offre balades entre vergers, route du cidre, plages de la côte Fleurie, Deauville, Honfleur et les plages du Débarquement. Notre guide du pays d’Auge détaille chaque idée de sortie.']
     ],
     finalCta: {
       eyebrow: 'Danestal, Pays d’Auge', h2: 'Et si votre prochain<br>souvenir commençait <em>ici ?</em>',
       imageAlt: 'Vue aérienne de la maison et de ses alentours', button: 'Je réserve', note: 'Réponse rapide via WhatsApp'
     },
-    footer: { tagline: 'Une maison de famille, à Danestal.', linkHouse: 'La maison', linkFaq: 'Questions fréquentes', linkContact: 'Contact', copyright: '© 2026 Villa Normande', bottomNote: 'Réservation directe & sécurisée' },
+    footer: { tagline: 'Une maison de famille, à Danestal.', linkHouse: 'La maison', linkFaq: 'Questions fréquentes', linkGuide: 'Guide du pays d’Auge', linkContact: 'Contact', copyright: '© 2026 Villa Normande', bottomNote: 'Réservation directe & sécurisée' },
     reserveModal: {
       title: 'Je réserve', intro: 'Envoyez votre demande : Christophe vous répond par email ou par téléphone sous 48 h maximum. Rien n’est débité à cette étape.',
       name: 'Votre nom', namePlaceholder: 'Prénom et nom', email: 'Email', emailPlaceholder: 'vous@exemple.fr', phone: 'Téléphone (facultatif)', phonePlaceholder: '06 12 34 56 78',
@@ -149,7 +156,7 @@ export const content = {
     formatFull: (day, month, year) => `${day} ${month} ${year}`
   },
   en: {
-    meta: { title: 'Villa Normande — Danestal, Normandy', description: 'Villa Normande — a family house in Danestal, in the heart of the Pays d’Auge, Normandy.' },
+    meta: { title: 'Normandy holiday home for 8 near Deauville · Villa Normande', description: 'Half-timbered house for 8 in Danestal, Pays d’Auge: 4 bedrooms, hot tub, fireplace, 8,000 m² garden, beaches 18 min away. Book direct with the host.' },
     nav: { cadre: 'The House', equipements: 'Amenities', chambres: 'Rooms', plan: 'Floor Plan', avis: 'Reviews', faq: 'FAQ' },
     brandAria: 'Villa Normande, home',
     headerCta: 'Book now',
@@ -157,7 +164,7 @@ export const content = {
     langToggleLabel: 'FR',
     langToggleAria: 'Passer en français',
     hero: {
-      eyebrow: 'Danestal, Normandy',
+      eyebrow: 'Holiday home for 8 · Danestal, Normandy',
       titleLine1: 'Normandy,', titleEm: 'as a family.',
       imageAlt: 'Villa Normande, a half-timbered house at the heart of the garden',
       intro: 'A half-timbered farmhouse, a garden that stretches down to the stream, and room enough for everyone.',
@@ -239,7 +246,7 @@ export const content = {
       bath0: 'Bathroom', terrace: 'Terrace & garden', veranda: 'Veranda', firepit: 'Fire pit', pingpong: 'Ping-pong',
       bed2: 'Linen Room', bed3: 'Brick Room', bath: 'Bathroom', bed4: 'Stream Room', bath2: 'Bathroom'
     },
-    nearbySection: { eyebrow: 'Around Danestal', h2: 'Getaways,<br>just <em>next door.</em>', cta: 'Plan your stay' },
+    nearbySection: { eyebrow: 'Around Danestal', h2: 'Getaways,<br>just <em>next door.</em>', cta: 'Plan your stay', guide: 'Our Pays d’Auge guide', guideUrl: '/en/normandy-guide' },
     nearbyItems: [
       ['Walks through the Pays d’Auge', 'Right nearby', 'Sunken lanes winding between apple orchards and manor houses.', '/images/randonnee-pays-dauge.webp'],
       ['The Cider Route', '12 min', 'Calvados, orchards, and visits with local producers.', '/images/route-du-cidre.jpg'],
@@ -263,13 +270,20 @@ export const content = {
       ['What are the check-in and check-out times?', 'Check-in is from 4pm and check-out before 11am. Self check-in can be arranged on request.'],
       ['How many guests can the house accommodate?', 'The house comfortably sleeps up to 8 guests, with four bedrooms, seven beds and three bathrooms.'],
       ['Is housekeeping included in the stay?', 'End-of-stay cleaning is included. An extra cleaning visit can be booked during your stay.'],
-      ['Are pets allowed?', 'Your pets are welcome with advance notice, so we can prepare properly for their arrival.']
+      ['Are pets allowed?', 'Your pets are welcome with advance notice, so we can prepare properly for their arrival.'],
+      ['Are bed linen and towels provided?', 'Yes: sheets, towels and soap are provided. A washing machine and a tumble dryer are free to use.'],
+      ['Is the house suitable for children and babies?', 'Yes: a cot, a high chair, board games and a ping-pong table await you, in an enclosed, tree-lined 8,000 m² garden.'],
+      ['Does the house have a hot tub and a fireplace?', 'Yes: a private hot tub open all year round and a wood-burning fireplace in the living room.'],
+      ['Can I work remotely from the house?', 'Yes, the house has high-speed wifi.'],
+      ['How far are the beaches?', 'The beaches of Cabourg are about 18 minutes away by car, Deauville about 25 minutes.'],
+      ['How do I get there from Paris?', 'Allow about 2 h 15 by car on the A13 motorway. By train, Paris-Saint-Lazare serves Lisieux and Deauville-Trouville in about 2 hours, then a 30-minute drive. Parking is free on site.'],
+      ['What is there to do nearby?', 'The Pays d’Auge offers orchard walks, the Cider Route, the beaches of the Côte Fleurie, Deauville, Honfleur and the D-Day beaches. Our Pays d’Auge guide covers every outing idea.']
     ],
     finalCta: {
       eyebrow: 'Danestal, Normandy', h2: 'What if your next<br>memory started <em>here?</em>',
       imageAlt: 'Aerial view of the house and surrounding countryside', button: 'Book now', note: 'Quick reply via WhatsApp'
     },
-    footer: { tagline: 'A family home, in Danestal.', linkHouse: 'The house', linkFaq: 'FAQ', linkContact: 'Contact', copyright: '© 2026 Villa Normande', bottomNote: 'Direct & secure booking' },
+    footer: { tagline: 'A family home, in Danestal.', linkHouse: 'The house', linkFaq: 'FAQ', linkGuide: 'Pays d’Auge guide', linkContact: 'Contact', copyright: '© 2026 Villa Normande', bottomNote: 'Direct & secure booking' },
     reserveModal: {
       title: 'Book now', intro: 'Send your request: Christophe will get back to you by email or phone within 48 hours at most. Nothing is charged at this stage.',
       name: 'Your name', namePlaceholder: 'First and last name', email: 'Email', emailPlaceholder: 'you@example.com', phone: 'Phone (optional)', phonePlaceholder: '+44 7700 900123',

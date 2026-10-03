@@ -48,8 +48,7 @@ export const renderPage = (t, s) => `
       <div class="hero-image image-placeholder"><img src="/images/la-maison.jpeg" alt="${t.hero.imageAlt}" fetchpriority="high" decoding="async" /></div>
       <div class="hero-wash"></div>
       <div class="hero-copy shell">
-        <p class="eyebrow light"><span></span>${t.hero.eyebrow}</p>
-        <h1 id="hero-title">${t.hero.titleLine1}<br><em>${t.hero.titleEm}</em></h1>
+        <h1 id="hero-title"><span class="eyebrow light"><span></span>${t.hero.eyebrow}</span> ${t.hero.titleLine1}<br><em>${t.hero.titleEm}</em></h1>
         <p class="hero-intro">${t.hero.intro}</p>
         <a href="#cadre" class="text-link light-link">${t.hero.discover} ${icon('arrow', 17)}</a>
       </div>
@@ -140,7 +139,7 @@ export const renderPage = (t, s) => `
 
     <section class="nearby section" id="nearby">
       <div class="shell">
-        <div class="section-top"><div><p class="eyebrow"><span></span>${t.nearbySection.eyebrow}</p><h2>${t.nearbySection.h2}</h2></div><a class="text-link booking-trigger" href="#booking">${t.nearbySection.cta} ${icon('arrow', 17)}</a></div>
+        <div class="section-top"><div><p class="eyebrow"><span></span>${t.nearbySection.eyebrow}</p><h2>${t.nearbySection.h2}</h2></div><a class="text-link nearby-guide-link" href="${t.nearbySection.guideUrl}">${t.nearbySection.cta} ${icon('arrow', 17)}</a></div>
         <div class="nearby-pin-body">
           <div class="nearby-pin-image" id="nearby-pin-image">${t.nearbyItems.map(([, , , img], i) => `<div class="nearby-pin-slide ${i === 0 ? 'active' : ''}" data-index="${i}" style="background-image:url('${img}')"></div>`).join('')}</div>
           <div class="nearby-pin-list" id="nearby-pin-list">${t.nearbyItems.map(([title, time, text], i) => `<article class="${i === 0 ? 'active' : ''}" data-index="${i}" role="button" tabindex="0" aria-label="${title}"><span class="nearby-no">0${i + 1}</span><div><h3>${title}</h3><p>${text}</p></div><span>${time}</span></article>`).join('')}</div>
@@ -161,11 +160,11 @@ export const renderPage = (t, s) => `
       </div>
     </section>
 
-    <section class="faq section" id="faq"><div class="shell faq-grid"><div><p class="eyebrow"><span></span>${t.faqSection.eyebrow}</p><h2>${t.faqSection.h2}</h2><p class="faq-intro">${t.faqSection.intro}</p><a class="outline-button small" href="mailto:bonjour@lamaisonnormande.fr">${t.faqSection.contact} ${icon('arrow', 16)}</a></div><div class="accordion">${t.faq.map(([q, a], i) => `<details ${i === 0 ? 'open' : ''}><summary>${q} <span>${icon('plus',18)}</span></summary><p>${a}</p></details>`).join('')}</div></div></section>
+    <section class="faq section" id="faq"><div class="shell faq-grid"><div><p class="eyebrow"><span></span>${t.faqSection.eyebrow}</p><h2>${t.faqSection.h2}</h2><p class="faq-intro">${t.faqSection.intro}</p><a class="outline-button small" href="mailto:contact@villanormande.com">${t.faqSection.contact} ${icon('arrow', 16)}</a></div><div class="accordion">${t.faq.map(([q, a], i) => `<details ${i === 0 ? 'open' : ''}><summary>${q} <span>${icon('plus',18)}</span></summary><p>${a}</p></details>`).join('')}</div></div></section>
 
     <section class="final-cta"><div class="final-image image-placeholder"><img src="/images/les-alentours.jpeg" alt="${t.finalCta.imageAlt}" loading="lazy" /></div><div class="final-wash"></div><div class="shell final-copy"><p class="eyebrow light"><span></span>${t.finalCta.eyebrow}</p><h2>${t.finalCta.h2}</h2><button class="reserve-button booking-trigger">${t.finalCta.button}</button><p class="final-note">${t.finalCta.note}</p></div></section>
   </main>
-  <footer><div class="shell footer-row"><a class="brand footer-brand" href="#top"><span class="brand-mark"><i></i><i></i></span><span>Villa<br><em>Normande</em></span></a><p>${t.footer.tagline}</p><div><a href="#cadre">${t.footer.linkHouse}</a><a href="#faq">${t.footer.linkFaq}</a><a href="mailto:bonjour@lamaisonnormande.fr">${t.footer.linkContact}</a></div></div><div class="shell footer-bottom"><span>${t.footer.copyright}</span><span>${t.footer.bottomNote}</span></div></footer>
+  <footer><div class="shell footer-row"><a class="brand footer-brand" href="#top"><span class="brand-mark"><i></i><i></i></span><span>Villa<br><em>Normande</em></span></a><p>${t.footer.tagline}</p><div><a href="#cadre">${t.footer.linkHouse}</a><a href="#faq">${t.footer.linkFaq}</a><a href="${t.nearbySection.guideUrl}">${t.footer.linkGuide}</a><a href="mailto:contact@villanormande.com">${t.footer.linkContact}</a></div></div><div class="shell footer-bottom"><span>${t.footer.copyright}</span><span>${t.footer.bottomNote}</span></div></footer>
   <div class="toast" role="status" aria-live="polite"></div>
 
   <div class="modal-backdrop" id="reserve-modal" hidden>

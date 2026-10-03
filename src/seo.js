@@ -16,7 +16,7 @@ export function headTags(lang, t) {
 
   const lodging = {
     '@context': 'https://schema.org',
-    '@type': 'LodgingBusiness',
+    '@type': 'VacationRental',
     '@id': `${SITE_URL}/#maison`,
     name: 'Villa Normande',
     description: text(t.meta.description),
@@ -24,7 +24,20 @@ export function headTags(lang, t) {
     image: [OG_IMAGE, `${SITE_URL}/images/la-maison.jpeg`, `${SITE_URL}/images/piece-de-vie.jpeg`, `${SITE_URL}/images/les-alentours.jpeg`],
     telephone: '+33603830585',
     priceRange: text(t.booking.fromPrice),
-    address: { '@type': 'PostalAddress', addressLocality: 'Danestal', postalCode: '14430', addressRegion: 'Normandie', addressCountry: 'FR' },
+    address: { '@type': 'PostalAddress', addressLocality: 'Danestal', postalCode: '14430', addressRegion: 'Calvados, Normandie', addressCountry: 'FR' },
+    geo: { '@type': 'GeoCoordinates', latitude: 49.2503, longitude: 0.0198 },
+    containedInPlace: { '@type': 'Place', name: 'Pays d’Auge, Calvados, Normandie' },
+    // Annonce Airbnb de la même maison : relie l'entité au reste du web.
+    sameAs: ['https://www.airbnb.fr/rooms/43267561'],
+    containsPlace: {
+      '@type': 'Accommodation',
+      additionalType: 'House',
+      occupancy: { '@type': 'QuantitativeValue', maxValue: 8 },
+      numberOfBedrooms: 4,
+      numberOfBathroomsTotal: 3,
+      petsAllowed: true
+    },
+    subjectOf: { '@type': 'Article', url: `${SITE_URL}${lang === 'en' ? '/en/normandy-guide' : '/normandie-pays-d-auge'}` },
     checkinTime: '16:00',
     checkoutTime: '11:00',
     numberOfRooms: 4,

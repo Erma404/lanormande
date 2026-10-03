@@ -6,6 +6,7 @@ import { content } from './src/content.js';
 import { applyOverrides } from './src/content-overrides.js';
 import { renderPage } from './src/page.js';
 import { headTags } from './src/seo.js';
+import { guideHead, renderGuide } from './src/guide.js';
 import { VERCEL_URL } from './src/site.js';
 
 const root = fileURLToPath(new URL('.', import.meta.url));
@@ -54,6 +55,10 @@ function prerender() {
     transformIndexHtml: {
       order: 'pre',
       handler(html, ctx) {
+        if (html.includes('<!--guide-->')) {
+          const guideLang = ctx.path.startsWith('/en') ? 'en' : 'fr';
+          return html.replace('<!--guide-seo-->', guideHead(guideLang)).replace('<!--guide-->', renderGuide(guideLang));
+        }
         if (!html.includes('<!--app-->')) return html;
         const lang = ctx.path.startsWith('/en') ? 'en' : 'fr';
         const t = content[lang];
@@ -74,7 +79,9 @@ export default defineConfig(({ mode }) => {
           main: resolve(root, 'index.html'),
           en: resolve(root, 'en/index.html'),
           admin: resolve(root, 'admin.html'),
-          notFound: resolve(root, '404.html')
+          notFound: resolve(root, '404.html'),
+          guideFr: resolve(root, 'normandie-pays-d-auge.html'),
+          guideEn: resolve(root, 'en/normandy-guide.html')
         }
       }
     }

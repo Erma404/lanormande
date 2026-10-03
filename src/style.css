@@ -486,3 +486,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   .promo-banner, .promo-inner { transition: none; }
   .promo-spark { animation: none; }
 }
+
+/* SEO : le petit titre du haut fait partie du H1 (mots-clés) sans changer l'apparence. */
+.hero h1 > .eyebrow { line-height: 1.5; }
+/* « Préparer votre séjour » mène au guide : visible aussi sur mobile. */
+@media (max-width: 720px) { .section-top > .nearby-guide-link { display: inline-flex; margin-top: 18px; } }
