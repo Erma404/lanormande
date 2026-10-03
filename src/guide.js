@@ -64,14 +64,13 @@ export const guide = {
         ]
       }
     ],
-    table: { h2: 'Combien de temps pour aller de Danestal aux principaux sites ?', caption: 'Temps indicatifs en voiture depuis la Villa Normande, hors trafic.', cols: ['Lieu', 'Trajet', 'Idéal pour'],
-      rows: [
-        ['Route du cidre', '12 min', 'Dégustations, vergers'], ['Pont-l’Évêque', '15 min', 'Marché, fromages'], ['Cabourg', '18 min', 'Plage en famille'],
-        ['Beuvron-en-Auge', '20 min', 'Village de caractère'], ['Deauville et Trouville', '25 min', 'Plage, balade, restaurants'], ['Lisieux', '30 min', 'Basilique'],
-        ['Pegasus Bridge', '30 min', 'Histoire du Débarquement'], ['Honfleur', '40 min', 'Port, peintres, galeries'], ['Mémorial de Caen', '40 min', 'Comprendre 1944'],
-        ['Bayeux', '55 min', 'Tapisserie, vieille ville'], ['Arromanches', '1 h', 'Port artificiel'], ['Cimetière américain', '1 h 10', 'Mémoire, Omaha Beach'],
-        ['Étretat', '1 h 10', 'Falaises'], ['Mont-Saint-Michel', 'environ 2 h', 'Excursion à la journée'], ['Paris', '2 h 15', 'Accès en voiture (A13)']
-      ] },
+    map: {
+      h2: 'Combien de temps pour aller de Danestal aux principaux sites ?',
+      note: 'Temps indicatifs en voiture depuis la Villa Normande, hors trafic. Cliquez sur un lieu pour le voir sur la carte.',
+      all: 'Tout', house: 'Villa Normande', houseText: 'Votre point de départ, à Danestal, au cœur du pays d’Auge.', bestFor: 'Idéal pour',
+      categories: { 'cote-fleurie': 'Côte Fleurie', 'pays-d-auge': 'Pays d’Auge', debarquement: 'Débarquement', 'plus-loin': 'Excursions' },
+      loading: 'Chargement de la carte…', zoomHint: 'Utilisez deux doigts pour déplacer la carte'
+    },
     seasons: { h2: 'Quand venir dans le pays d’Auge ?', items: [
       ['Au printemps', 'Les pommiers sont en fleurs de fin avril à mai : la meilleure saison pour les balades et les photos.'],
       ['En été', 'Plages de la côte Fleurie, marchés et soirées au jardin. Réservez tôt pour juillet et août.'],
@@ -153,14 +152,13 @@ export const guide = {
         ]
       }
     ],
-    table: { h2: 'How long does it take to get from Danestal to the main sights?', caption: 'Approximate driving times from Villa Normande, without traffic.', cols: ['Place', 'Drive', 'Best for'],
-      rows: [
-        ['Cider Route', '12 min', 'Tastings, orchards'], ['Pont-l’Évêque', '15 min', 'Market, cheese'], ['Cabourg', '18 min', 'Family beach'],
-        ['Beuvron-en-Auge', '20 min', 'Historic village'], ['Deauville and Trouville', '25 min', 'Beach, strolls, restaurants'], ['Lisieux', '30 min', 'Basilica'],
-        ['Pegasus Bridge', '30 min', 'D-Day history'], ['Honfleur', '40 min', 'Harbour, painters, galleries'], ['Caen Memorial', '40 min', 'Understanding 1944'],
-        ['Bayeux', '55 min', 'Tapestry, old town'], ['Arromanches', '1 h', 'Artificial harbour'], ['American Cemetery', '1 h 10', 'Remembrance, Omaha Beach'],
-        ['Étretat', '1 h 10', 'Cliffs'], ['Mont-Saint-Michel', 'about 2 h', 'Day trip'], ['Paris', '2 h 15', 'By car (A13)']
-      ] },
+    map: {
+      h2: 'How long does it take to get from Danestal to the main sights?',
+      note: 'Approximate driving times from Villa Normande, without traffic. Click a place to see it on the map.',
+      all: 'All', house: 'Villa Normande', houseText: 'Your base in Danestal, in the heart of the Pays d’Auge.', bestFor: 'Best for',
+      categories: { 'cote-fleurie': 'Côte Fleurie', 'pays-d-auge': 'Pays d’Auge', debarquement: 'D-Day', 'plus-loin': 'Day trips' },
+      loading: 'Loading map…', zoomHint: 'Use two fingers to move the map'
+    },
     seasons: { h2: 'When is the best time to visit the Pays d’Auge?', items: [
       ['Spring', 'Apple trees blossom from late April to May: the best season for walks and photos.'],
       ['Summer', 'Côte Fleurie beaches, markets and evenings in the garden. Book early for July and August.'],
@@ -195,7 +193,7 @@ const PHOTOS = {
   'houlgate': { src: '/images/guide/houlgate.webp', credit: "DimiTalen", license: "CC0", url: "https://commons.wikimedia.org/wiki/File:Promenade_Roland_Garros,_Houlgate,_2024.jpg" },
   'honfleur': { src: '/images/guide/honfleur.webp', credit: "Rebexho", license: "CC BY-SA 3.0", url: "https://commons.wikimedia.org/wiki/File:Vieux_bassin_Honfleur.JPG" },
   'beuvron': { src: '/images/guide/beuvron.webp', credit: "Nono vlf", license: "CC BY-SA 3.0", url: "https://commons.wikimedia.org/wiki/File:Manoir_-_Beuvron_en_Auge.JPG" },
-  'pont-l-eveque': { src: '/images/guide/pont-l-eveque.webp', credit: "Zubro", license: "CC BY-SA 3.0", url: "https://commons.wikimedia.org/wiki/File:Petit_pont-l%27%C3%A9v%C3%AAque.jpg" },
+  'pont-l-eveque': { src: '/images/guide/pont-l-eveque.webp' },
   'lisieux': { src: '/images/guide/lisieux.webp', credit: "Raimond Spekking", license: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Basilique_Sainte-Th%C3%A9r%C3%A8se_de_Lisieux-2876.jpg" },
   'pegasus-bridge': { src: '/images/guide/pegasus-bridge.webp', credit: "Yummifruitbat", license: "CC BY-SA 2.0", url: "https://commons.wikimedia.org/wiki/File:Pegasus_bridge_new.jpg" },
   'memorial-caen': { src: '/images/guide/memorial-caen.webp', credit: "Nick-D", license: "CC BY-SA 3.0", url: "https://commons.wikimedia.org/wiki/File:M%C3%A9morial_de_Caen_foyer_October_2011.JPG" },
@@ -215,6 +213,49 @@ const SECTION_PHOTOS = {
   'plus-loin': ['etretat', 'mont-saint-michel']
 };
 const photoOf = (sectionId, index) => PHOTOS[SECTION_PHOTOS[sectionId]?.[index]];
+
+// Coordonnées relevées une fois (OpenStreetMap) : aucune recherche d'adresse à l'affichage.
+// La maison est placée au centre du village, par discrétion.
+export const HOUSE_COORDS = [49.2503, 0.0198];
+const COORDS = {
+  'cabourg': [49.2879, -0.1294],
+  'houlgate': [49.3009, -0.0752],
+  'deauville': [49.3607, 0.0665],
+  'honfleur': [49.4202, 0.2332],
+  'route-du-cidre': [49.1517, 0.048],
+  'beuvron': [49.1879, -0.046],
+  'pont-l-eveque': [49.285, 0.1833],
+  'lisieux': [49.1395, 0.2365],
+  'pegasus-bridge': [49.2424, -0.2741],
+  'memorial-caen': [49.1985, -0.3824],
+  'juno-beach': [49.3364, -0.4617],
+  'arromanches': [49.3373, -0.6228],
+  'bayeux': [49.2756, -0.7037],
+  'cimetiere-americain': [49.3586, -0.8547],
+  'pointe-du-hoc': [49.3978, -0.9894],
+  'etretat': [49.7075, 0.2032],
+  'mont-saint-michel': [48.636, -1.5115]
+};
+const BEST_FOR = {
+  fr: { cabourg: 'Plage en famille', houlgate: 'Plage, villas, fossiles', deauville: 'Plage, balade, restaurants', honfleur: 'Port, peintres, galeries',
+    'route-du-cidre': 'Dégustations, vergers', beuvron: 'Village de caractère', 'pont-l-eveque': 'Marché, fromages', lisieux: 'Basilique',
+    'pegasus-bridge': 'Histoire du Débarquement', 'memorial-caen': 'Comprendre 1944', 'juno-beach': 'Plages du Débarquement', arromanches: 'Port artificiel',
+    bayeux: 'Tapisserie, vieille ville', 'cimetiere-americain': 'Mémoire, Omaha Beach', 'pointe-du-hoc': 'Falaises des Rangers', etretat: 'Falaises', 'mont-saint-michel': 'Excursion à la journée' },
+  en: { cabourg: 'Family beach', houlgate: 'Beach, villas, fossils', deauville: 'Beach, strolls, restaurants', honfleur: 'Harbour, painters, galleries',
+    'route-du-cidre': 'Tastings, orchards', beuvron: 'Historic village', 'pont-l-eveque': 'Market, cheese', lisieux: 'Basilica',
+    'pegasus-bridge': 'D-Day history', 'memorial-caen': 'Understanding 1944', 'juno-beach': 'D-Day beaches', arromanches: 'Artificial harbour',
+    bayeux: 'Tapestry, old town', 'cimetiere-americain': 'Remembrance, Omaha Beach', 'pointe-du-hoc': 'Rangers’ cliffs', etretat: 'Cliffs', 'mont-saint-michel': 'Day trip' }
+};
+
+// Lieux de la carte, dans l'ordre du guide (les balades sur place sont rattachées à la maison).
+function mapPlaces(lang) {
+  const g = guide[lang];
+  return g.sections.flatMap((section) => section.places.map(([name, time, text], index) => {
+    const key = SECTION_PHOTOS[section.id]?.[index];
+    if (!key || !COORDS[key]) return null;
+    return { key, name, time, text, category: section.id, bestFor: BEST_FOR[lang][key], photo: PHOTOS[key]?.src || '', coords: COORDS[key] };
+  })).filter(Boolean);
+}
 
 const esc = (value) => String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const jsonLd = (data) => `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`;
@@ -263,10 +304,11 @@ export function renderGuide(lang) {
   const g = guide[lang];
   const other = lang === 'fr' ? 'en' : 'fr';
   const home = HOME[lang];
-  const creditLabel = lang === 'fr' ? 'Photo' : 'Photo';
+  const creditLabel = 'Photo';
+  const places = mapPlaces(lang);
   const figure = (photo, name) => photo ? `<figure class="guide-photo"><img src="${photo.src}" alt="${esc(name)}, ${lang === 'fr' ? 'Normandie' : 'Normandy'}" width="1200" height="800" loading="lazy" decoding="async" />${photo.credit
       ? `<figcaption><a href="${photo.url}" target="_blank" rel="noopener license">${creditLabel} : ${esc(photo.credit)}, ${esc(photo.license)}</a></figcaption>` : ''}</figure>` : '';
-  const places = (section) => section.places.map(([name, time, text], index) => `
+  const placeCards = (section) => section.places.map(([name, time, text], index) => `
           <article class="guide-place">${figure(photoOf(section.id, index), name)}<div class="guide-place-body"><div class="guide-place-head"><h3>${esc(name)}</h3><span class="guide-time">${esc(time)}</span></div><p>${esc(text)}</p></div></article>`).join('');
   return `
   <header class="site-header guide-header">
@@ -292,7 +334,7 @@ export function renderGuide(lang) {
     <div class="shell guide-body">
       <nav class="guide-toc" aria-label="Sommaire">
         ${g.sections.map((section) => `<a href="#${section.id}">${esc(section.h2)}</a>`).join('')}
-        <a href="#trajets">${esc(g.table.h2)}</a>
+        <a href="#trajets">${esc(g.map.h2)}</a>
       </nav>
 
       <section class="guide-section guide-where">
@@ -304,17 +346,26 @@ export function renderGuide(lang) {
       <section class="guide-section" id="${section.id}">
         <h2>${esc(section.h2)}</h2>
         <p class="guide-answer">${esc(section.lead)}</p>
-        <div class="guide-places">${places(section)}
+        <div class="guide-places">${placeCards(section)}
         </div>
       </section>`).join('')}
 
-      <section class="guide-section" id="trajets">
-        <h2>${esc(g.table.h2)}</h2>
-        <div class="guide-table-wrap"><table class="guide-table">
-          <caption>${esc(g.table.caption)}</caption>
-          <thead><tr>${g.table.cols.map((col) => `<th scope="col">${esc(col)}</th>`).join('')}</tr></thead>
-          <tbody>${g.table.rows.map(([place, time, best]) => `<tr><th scope="row">${esc(place)}</th><td>${esc(time)}</td><td>${esc(best)}</td></tr>`).join('')}</tbody>
-        </table></div>
+      <section class="guide-section guide-map-section" id="trajets">
+        <h2>${esc(g.map.h2)}</h2>
+        <p class="guide-answer">${esc(g.map.note)}</p>
+        <div class="map-filters" role="group" aria-label="${esc(g.map.all)}">
+          <button type="button" class="active" data-filter="all" aria-pressed="true">${esc(g.map.all)}</button>
+          ${Object.entries(g.map.categories).map(([id, label]) => `<button type="button" data-filter="${id}" aria-pressed="false">${esc(label)}</button>`).join('')}
+        </div>
+        <div class="map-layout">
+          <ol class="map-list" id="map-list">
+            ${places.map((place, index) => `<li data-key="${place.key}" data-category="${place.category}"><button type="button" class="map-item">
+              <span class="map-item-no" aria-hidden="true">${index + 1}</span><span class="map-item-text"><strong>${esc(place.name)}</strong><span>${esc(g.map.bestFor)} : ${esc(place.bestFor)}</span></span>
+              <span class="map-item-time">${esc(place.time)}</span></button></li>`).join('')}
+          </ol>
+          <div class="map-canvas" id="guide-map" aria-label="${esc(g.map.h2)}"><p class="map-loading">${esc(g.map.loading)}</p></div>
+        </div>
+        <script type="application/json" id="map-data">${JSON.stringify({ lang, house: { name: g.map.house, text: g.map.houseText, coords: HOUSE_COORDS }, places, labels: { bestFor: g.map.bestFor, categories: g.map.categories } }).replace(/</g, '\\u003c')}</script>
       </section>
 
       <div class="guide-two">
