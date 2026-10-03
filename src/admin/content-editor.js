@@ -1,6 +1,7 @@
 // Onglet Contenus : modifier les textes de la page d'accueil, en français et en anglais.
 import { content as defaults } from '../content.js';
 import { getPath, toEditable } from '../content-overrides.js';
+import { autosize } from './autosize.js';
 
 const fields = (base, list) => list.map(([key, label]) => ({ path: `${base}.${key}`, label }));
 const items = (base, parts, name) => (defaults.fr[base] || []).flatMap((item, i) =>
@@ -81,10 +82,11 @@ export function renderContentEditor(container, { escape, onDirtyChange }) {
     const original = defaultText(lang, path);
     const value = valueOf(path);
     const changed = path in draft[lang];
-    const long = original.length > 70 || original.includes('\n');
+    // Au-delà d'une quarantaine de caractères, un champ d'une ligne couperait le texte : zone de texte.
+    const long = Math.max(original.length, value.length) > 40 || original.includes('\n');
     const id = `f-${path.replaceAll('.', '-')}`;
     const input = long
-      ? `<textarea id="${id}" data-path="${path}" rows="${Math.min(6, Math.max(2, Math.ceil(original.length / 70)))}">${escape(value)}</textarea>`
+      ? `<textarea id="${id}" data-path="${path}" rows="2">${escape(value)}</textarea>`
       : `<input id="${id}" data-path="${path}" type="text" value="${escape(value)}" />`;
     return `<div class="field ${changed ? 'changed' : ''}">
       <div class="field-head"><label for="${id}">${escape(label)}</label>${changed ? `<span class="badge">Modifié</span><button type="button" class="link-button reset" data-reset="${path}">Rétablir</button>` : ''}</div>
@@ -158,6 +160,7 @@ export function renderContentEditor(container, { escape, onDirtyChange }) {
       saved = { fr: { ...(last.data.fr || {}) }, en: { ...(last.data.en || {}) } };
       render('Enregistré. Le site est à jour d’ici une minute.', 'ok');
     });
+    autosize(container);
     updateBar(message, kind);
   }
 

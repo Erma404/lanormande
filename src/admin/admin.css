@@ -30,7 +30,10 @@ h1 { margin: 0; font-size: clamp(30px, 3.2vw, 40px); line-height: 1.05; font-wei
 label { display: block; margin-bottom: 8px; font-size: 13px; font-weight: 700; }
 input { width: 100%; min-height: 50px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--ink); transition: border-color .2s, box-shadow .2s; }
 input:focus { outline: none; border-color: var(--forest); box-shadow: 0 0 0 3px rgba(39,55,42,.12); }
-input::placeholder { color: #b3a898; }
+input::placeholder, textarea::placeholder { color: #b3a898; }
+/* Zones de texte : même apparence que les champs d'une ligne, hauteur ajustée au texte (admin.js). */
+textarea { display: block; width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--ink); font: inherit; transition: border-color .2s, box-shadow .2s; }
+textarea:focus { outline: none; border-color: var(--forest); box-shadow: 0 0 0 3px rgba(39,55,42,.12); }
 .code-input { font-size: 28px; font-weight: 700; letter-spacing: .5em; text-align: center; padding-left: calc(14px + .5em); font-variant-numeric: tabular-nums; }
 .primary { width: 100%; min-height: 50px; margin-top: 18px; border: 0; border-radius: 8px; background: var(--forest); color: var(--paper); font-size: 15px; font-weight: 700; cursor: pointer; transition: background .2s, transform .2s; }
 .primary:hover:not(:disabled) { background: var(--clay); transform: translateY(-1px); }
@@ -134,7 +137,7 @@ input::placeholder { color: #b3a898; }
 .field-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; min-height: 24px; }
 .field-head label { margin: 0; font-size: 13px; }
 .field input, .field textarea { min-height: 44px; font-size: 15px; line-height: 1.5; }
-.field textarea { resize: vertical; font-family: inherit; }
+.field textarea { resize: vertical; font-family: inherit; overflow: hidden; }
 .field.changed input, .field.changed textarea { border-color: var(--clay); background: #fffaf5; }
 .badge { padding: 2px 8px; border-radius: 10px; background: #fbf1e9; color: #8a4f33; font-size: 11px; font-weight: 700; }
 .link-button.reset { min-height: 24px; padding: 0; font-size: 12px; color: var(--muted); }
@@ -207,7 +210,8 @@ input::placeholder { color: #b3a898; }
 .promo-dates input { min-height: 44px; font-size: 15px; }
 .promo-dates[hidden] { display: none; }
 .promo-field { margin-bottom: 16px; }
-.promo-field input { min-height: 44px; font-size: 15px; }
+.promo-field input, .promo-field textarea { min-height: 44px; font-size: 15px; line-height: 1.5; }
+.promo-field textarea { resize: vertical; overflow: hidden; }
 .char-count { margin-left: auto; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
 .check { display: flex; align-items: center; gap: 10px; margin: 4px 0 16px; font-size: 14px; font-weight: 600; cursor: pointer; }
 .check input, .switch input { width: auto; min-height: 0; }

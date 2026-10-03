@@ -1,4 +1,5 @@
 // Onglet Promotion : bannière affichée en haut du site, entre deux dates, en français et en anglais.
+import { autosize } from './autosize.js';
 
 const dateFormat = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
 const formatDate = (iso) => dateFormat.format(new Date(`${iso}T00:00:00`));
@@ -36,10 +37,12 @@ export function renderPromo(container, { escape, onDirtyChange }) {
     return {};
   }
 
-  const field = (id, label, value, max, placeholder, hint = '') => `
+  const field = (id, label, value, max, placeholder, hint = '', multiline = false) => `
     <div class="promo-field">
       <div class="field-head"><label for="${id}">${label}</label><small class="char-count" data-for="${id}">${value.length}/${max}</small></div>
-      <input id="${id}" type="text" maxlength="${max}" value="${escape(value)}" placeholder="${escape(placeholder)}" />
+      ${multiline
+        ? `<textarea id="${id}" rows="2" maxlength="${max}" placeholder="${escape(placeholder)}">${escape(value)}</textarea>`
+        : `<input id="${id}" type="text" maxlength="${max}" value="${escape(value)}" placeholder="${escape(placeholder)}" />`}
       ${hint ? `<p class="muted small-text">${hint}</p>` : ''}
     </div>`;
 
@@ -71,8 +74,8 @@ export function renderPromo(container, { escape, onDirtyChange }) {
 
         <section class="panel">
           <h2>Textes</h2>
-          ${field('promo-fr-text', 'Message en français', promo.fr.text, 140, '-15 % sur les séjours de novembre, réservez en direct')}
-          ${field('promo-en-text', 'Message en anglais', promo.en.text, 140, '15% off November stays, book direct', 'Laissé vide, le message français est affiché aux visiteurs anglophones.')}
+          ${field('promo-fr-text', 'Message en français', promo.fr.text, 140, '-15 % sur les séjours de novembre, réservez en direct', '', true)}
+          ${field('promo-en-text', 'Message en anglais', promo.en.text, 140, '15% off November stays, book direct', 'Laissé vide, le message français est affiché aux visiteurs anglophones.', true)}
           <label class="check"><input type="checkbox" id="promo-button" ${promo.showButton ? 'checked' : ''} /> Afficher un bouton qui ouvre la réservation</label>
           <div class="promo-dates" id="promo-cta-fields" ${promo.showButton ? '' : 'hidden'}>
             ${field('promo-fr-cta', 'Bouton (français)', promo.fr.cta, 30, 'J’en profite')}
@@ -87,6 +90,7 @@ export function renderPromo(container, { escape, onDirtyChange }) {
       </form>`;
 
     const $ = (selector) => container.querySelector(selector);
+    autosize(container);
     let previewLang = 'fr';
     const read = () => ({
       enabled: $('#promo-enabled').checked,
