@@ -92,7 +92,7 @@ export const guide = {
       ['Que faire dans le pays d’Auge quand il pleut ?', 'Le Mémorial de Caen, la tapisserie de Bayeux, les caves de cidre et de calvados, la basilique de Lisieux et les galeries d’Honfleur.'],
       ['Quelle est la meilleure période pour visiter le pays d’Auge ?', 'Le printemps pour les pommiers en fleurs, l’été pour les plages, l’automne pour le cidre et l’hiver pour le calme et les feux de cheminée.']
     ] },
-    cta: { h2: 'Séjourner au cœur du pays d’Auge', text: 'La Villa Normande accueille jusqu’à 8 voyageurs dans une maison à colombages avec jacuzzi, cheminée et jardin de 8 000 m², à Danestal.', button: 'Voir la maison et réserver' },
+    cta: { h2: 'Séjourner au cœur du pays d’Auge', text: 'La Villa Normande accueille jusqu’à 8 voyageurs dans une maison à colombages avec jacuzzi, cheminée et jardin de 8 000 m², à Danestal.', button: 'Réserver mon séjour', secondary: 'Découvrir la maison' },
     footer: { tagline: 'Une maison de famille, à Danestal.', home: 'La maison', faq: 'Questions fréquentes', contact: 'Contact' },
     toc: { title: 'Sommaire', trajets: 'Carte et trajets', where: 'Où est Danestal ?', 'cote-fleurie': 'Plages', 'pays-d-auge': 'Campagne du pays d’Auge', debarquement: 'Plages du Débarquement', 'plus-loin': 'Excursions', saisons: 'Quand venir ?', acces: 'Comment venir ?', faq: 'Questions fréquentes' },
     updated: 'Mis à jour en octobre 2026'
@@ -181,7 +181,7 @@ export const guide = {
       ['What to do in the Pays d’Auge when it rains?', 'The Caen Memorial, the Bayeux Tapestry, cider and calvados cellars, the Lisieux basilica and the galleries of Honfleur.'],
       ['When is the best time to visit the Pays d’Auge?', 'Spring for apple blossom, summer for the beaches, autumn for cider and winter for peace and log fires.']
     ] },
-    cta: { h2: 'Stay in the heart of the Pays d’Auge', text: 'Villa Normande welcomes up to 8 guests in a half-timbered house with a hot tub, fireplace and 8,000 m² garden, in Danestal.', button: 'See the house and book' },
+    cta: { h2: 'Stay in the heart of the Pays d’Auge', text: 'Villa Normande welcomes up to 8 guests in a half-timbered house with a hot tub, fireplace and 8,000 m² garden, in Danestal.', button: 'Book my stay', secondary: 'Discover the house' },
     footer: { tagline: 'A family home, in Danestal.', home: 'The house', faq: 'FAQ', contact: 'Contact' },
     toc: { title: 'Contents', trajets: 'Map and driving times', where: 'Where is Danestal?', 'cote-fleurie': 'Beaches', 'pays-d-auge': 'Pays d’Auge countryside', debarquement: 'D-Day beaches', 'plus-loin': 'Day trips', saisons: 'When to come', acces: 'Getting there', faq: 'FAQ' },
     updated: 'Updated October 2026'
@@ -324,7 +324,7 @@ export function renderGuide(lang) {
     <nav class="guide-nav" aria-label="${esc(g.nav.breadcrumb)}">
       <a href="${home}">${esc(g.nav.home)}</a>
       <a class="guide-lang" href="${GUIDE_PATHS[other]}" hreflang="${other}" aria-label="${esc(g.nav.langAria)}">${g.nav.lang}</a>
-      <a class="header-cta" href="${home}#booking">${esc(g.nav.book)} ${arrow}</a>
+      <a class="header-cta" href="${home}#reserver">${esc(g.nav.book)} ${arrow}</a>
     </nav>
   </header>
   <main class="guide">
@@ -396,7 +396,7 @@ export function renderGuide(lang) {
 
       <section class="guide-cta">
         <div><h2>${esc(g.cta.h2)}</h2><p>${esc(g.cta.text)}</p></div>
-        <a class="reserve-button guide-cta-button" href="${home}">${esc(g.cta.button)} ${arrow}</a>
+        <div class="guide-cta-actions"><a class="reserve-button guide-cta-button" href="${home}#reserver">${esc(g.cta.button)} ${arrow}</a><a class="guide-cta-secondary" href="${home}">${esc(g.cta.secondary)}</a></div>
       </section>
       </div>
     </div>

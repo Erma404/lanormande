@@ -77,6 +77,9 @@
 .guide-cta { display: flex; align-items: center; justify-content: space-between; gap: 28px; padding: 40px; border-radius: 14px; background: var(--dark); color: #fff; }
 .guide-cta h2 { margin: 0 0 8px; font-family: var(--sans); font-size: clamp(26px, 3vw, 36px); font-weight: 600; letter-spacing: -.05em; }
 .guide-cta p { margin: 0; max-width: 52ch; color: rgba(255,255,255,.78); font-size: 15px; line-height: 1.6; }
+.guide-cta-actions { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.guide-cta-secondary { color: rgba(255,255,255,.75); font-size: 13px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.guide-cta-secondary:hover { color: #fff; }
 .guide-cta .guide-cta-button { flex: 0 0 auto; width: auto; margin: 0; display: inline-flex; align-items: center; gap: 10px; padding: 14px 20px; border-radius: 6px; background: #fff; color: var(--ink); font-size: 14px; }
 .guide-cta .guide-cta-button:hover { background: var(--clay); color: #fff; }
 
@@ -94,6 +97,7 @@
   .guide-places, .guide-two { grid-template-columns: 1fr; }
   .guide-two { gap: 48px; }
   .guide-cta { flex-direction: column; align-items: flex-start; padding: 28px; }
+  .guide-cta-actions { align-items: flex-start; }
 }
 
 /* Carte interactive (remplace le tableau des trajets). */

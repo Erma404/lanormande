@@ -246,6 +246,8 @@ function mount() {
   const setReserveError = (message) => { $('#rf-error').textContent = message; $('#rf-error').hidden = !message; };
   const closeReserveModal = () => { reserveModal.hidden = true; document.body.style.overflow = ''; };
   $$('.booking-trigger').forEach(button => button.addEventListener('click', (event) => { event.preventDefault(); openReserveModal(); }));
+  // Arrivée depuis le guide (lien « /#reserver ») : on ouvre la réservation tout de suite.
+  if (location.hash === '#reserver') { history.replaceState(null, '', location.pathname + location.search); openReserveModal(); }
   $('#reserve').addEventListener('click', openReserveModal);
   $('#reserve-modal-close').addEventListener('click', closeReserveModal);
   reserveModal.addEventListener('click', (event) => { if (event.target === reserveModal) closeReserveModal(); });
@@ -361,12 +363,21 @@ function mount() {
     </div>`;
     }).join('');
     $('#plan-key').innerHTML = rooms.map(([n, cls]) => `<span><b>${n}</b>${t.roomNames[cls]}</span>`).join('');
+    // Une seule fiche ouverte à la fois : sur mobile, les fiches s'empilaient et masquaient le plan.
+    const setOpen = (room, open) => { room.classList.toggle('open', open); room.setAttribute('aria-expanded', String(open)); };
     $$('.room').forEach(room => {
-      const toggle = () => { const open = room.classList.toggle('open'); room.setAttribute('aria-expanded', String(open)); };
-      room.addEventListener('click', toggle);
+      const toggle = () => {
+        const open = !room.classList.contains('open');
+        $$('.room.open').forEach(other => setOpen(other, false));
+        setOpen(room, open);
+      };
+      room.addEventListener('click', (event) => { event.stopPropagation(); toggle(); });
       room.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); toggle(); } });
     });
   }
+  // Toucher ailleurs ou Échap referme la fiche ouverte.
+  document.addEventListener('click', () => $$('.room.open').forEach(room => { room.classList.remove('open'); room.setAttribute('aria-expanded', 'false'); }), { signal });
+  document.addEventListener('keydown', (event) => { if (event.key === 'Escape') $$('.room.open').forEach(room => { room.classList.remove('open'); room.setAttribute('aria-expanded', 'false'); }); }, { signal });
   $$('.plan-tabs button').forEach(button => button.addEventListener('click', () => { $$('.plan-tabs button').forEach(b => b.classList.toggle('active', b === button)); renderFloor(button.dataset.floor); }));
   renderFloor(activeFloor);
 

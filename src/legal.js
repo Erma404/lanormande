@@ -76,7 +76,7 @@ export function renderLegal(kind) {
     <a class="brand" href="/" aria-label="Villa Normande"><span class="brand-mark"><i></i><i></i></span><span>Villa<br><em>Normande</em></span></a>
     <nav class="guide-nav" aria-label="Navigation">
       <a href="/">La maison</a>
-      <a class="header-cta" href="/#booking">Je réserve ${arrow}</a>
+      <a class="header-cta" href="/#reserver">Je réserve ${arrow}</a>
     </nav>
   </header>
   <main class="legal shell">
