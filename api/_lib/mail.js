@@ -16,7 +16,7 @@ export async function sendLoginCode(email, code) {
     method: 'POST',
     headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      from: process.env.MAIL_FROM || 'Villa Normande <onboarding@resend.dev>',
+      from: process.env.MAIL_FROM || 'Villa Normande <contact@villanormande.com>',
       to: [email],
       subject: `${code} — votre code de connexion`,
       text: `Votre code de connexion à l'espace admin de la Villa Normande : ${code}\n\nIl est valable 15 minutes. Si vous n'êtes pas à l'origine de cette demande, ignorez simplement cet email.`,
@@ -61,7 +61,7 @@ export async function sendRequestNotification(request) {
     method: 'POST',
     headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      from: process.env.MAIL_FROM || 'Villa Normande <onboarding@resend.dev>',
+      from: process.env.MAIL_FROM || 'Villa Normande <contact@villanormande.com>',
       to: recipients,
       reply_to: request.email,
       subject: `Nouvelle demande de réservation — ${request.name}`,
