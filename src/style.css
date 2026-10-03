@@ -227,7 +227,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 .review-cards article:nth-child(2) .review-top small { color: var(--muted); }
 
 /* Reservation modal: short form that hands off to a pre-filled WhatsApp message. */
-.reserve-card { width: min(440px, 100%); }
+.reserve-card { width: min(600px, 100%); }
 .reserve-form { padding: 14px 24px 20px; display: grid; gap: 10px; }
 .reserve-form-intro { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.5; }
 .reserve-form label { display: grid; gap: 4px; min-width: 0; font-size: 12px; font-weight: 600; color: var(--ink); }

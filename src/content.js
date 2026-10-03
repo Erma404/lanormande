@@ -127,12 +127,12 @@ export const content = {
     },
     footer: { tagline: 'Une maison de famille, à Danestal.', linkHouse: 'La maison', linkFaq: 'Questions fréquentes', linkContact: 'Contact', copyright: '© 2026 Villa Normande', bottomNote: 'Réservation directe & sécurisée' },
     reserveModal: {
-      title: 'Je réserve', intro: 'Envoyez votre demande : Christophe vous répond par email ou par téléphone, en général dans la journée. Rien n’est débité à cette étape.',
+      title: 'Je réserve', intro: 'Envoyez votre demande : Christophe vous répond par email ou par téléphone sous 48 h maximum. Rien n’est débité à cette étape.',
       name: 'Votre nom', namePlaceholder: 'Prénom et nom', email: 'Email', emailPlaceholder: 'vous@exemple.fr', phone: 'Téléphone (facultatif)', phonePlaceholder: '06 12 34 56 78',
       arrival: 'Arrivée', departure: 'Départ', guests: 'Voyageurs',
       message: 'Message (facultatif)', messagePlaceholder: 'Une précision à ajouter ?', submit: 'Envoyer ma demande', sending: 'Envoi…',
       whatsapp: 'Vous préférez WhatsApp ? Écrire à Christophe',
-      successTitle: 'Demande envoyée', successText: 'Merci ! Christophe a bien reçu votre demande et revient vers vous très vite pour la confirmer.', successClose: 'Fermer',
+      successTitle: 'Demande envoyée', successText: 'Merci ! Christophe a bien reçu votre demande et vous répond sous 48 h maximum. Un email de confirmation vient de vous être envoyé.', successClose: 'Fermer',
       errors: {
         invalid_name: 'Indiquez votre nom.', invalid_email: 'Cette adresse email ne semble pas valide.', invalid_phone: 'Ce numéro de téléphone ne semble pas valide.',
         invalid_range: 'Choisissez une date d’arrivée à venir et une date de départ après l’arrivée.', too_long: 'Pour un séjour de plus de 60 nuits, écrivez directement à Christophe.',
@@ -271,12 +271,12 @@ export const content = {
     },
     footer: { tagline: 'A family home, in Danestal.', linkHouse: 'The house', linkFaq: 'FAQ', linkContact: 'Contact', copyright: '© 2026 Villa Normande', bottomNote: 'Direct & secure booking' },
     reserveModal: {
-      title: 'Book now', intro: 'Send your request: Christophe will get back to you by email or phone, usually the same day. Nothing is charged at this stage.',
+      title: 'Book now', intro: 'Send your request: Christophe will get back to you by email or phone within 48 hours at most. Nothing is charged at this stage.',
       name: 'Your name', namePlaceholder: 'First and last name', email: 'Email', emailPlaceholder: 'you@example.com', phone: 'Phone (optional)', phonePlaceholder: '+44 7700 900123',
       arrival: 'Check-in', departure: 'Check-out', guests: 'Guests',
       message: 'Message (optional)', messagePlaceholder: 'Anything else to add?', submit: 'Send my request', sending: 'Sending…',
       whatsapp: 'Prefer WhatsApp? Message Christophe',
-      successTitle: 'Request sent', successText: 'Thank you! Christophe has received your request and will get back to you shortly to confirm it.', successClose: 'Close',
+      successTitle: 'Request sent', successText: 'Thank you! Christophe has received your request and will reply within 48 hours at most. A confirmation email is on its way to you.', successClose: 'Close',
       errors: {
         invalid_name: 'Please enter your name.', invalid_email: 'This email address doesn’t look valid.', invalid_phone: 'This phone number doesn’t look valid.',
         invalid_range: 'Choose an upcoming check-in date and a check-out date after it.', too_long: 'For stays over 60 nights, please contact Christophe directly.',

@@ -1,6 +1,6 @@
 import { clientIp, readJson, route, send } from './_lib/http.js';
 import { create, isAvailable, validate } from './_lib/requests.js';
-import { sendRequestNotification } from './_lib/mail.js';
+import { sendRequestConfirmation, sendRequestNotification } from './_lib/mail.js';
 import { hit } from './_lib/store.js';
 
 const HOUR = 60 * 60;
@@ -20,7 +20,9 @@ export default route(['POST'], async (req, res) => {
   if (byHour > 5 || byDay > 15) return send(res, 429, { error: 'too_many_requests' });
 
   const entry = await create(request);
-  // L'email aux propriétaires est un bonus : la demande est enregistrée même s'il échoue.
-  try { await sendRequestNotification(entry); } catch (mailError) { console.error('[requests] notification', mailError); }
+  // Les emails sont un bonus : la demande est enregistrée même si l'un d'eux échoue.
+  const [notified, confirmed] = await Promise.allSettled([sendRequestNotification(entry), sendRequestConfirmation(entry)]);
+  if (notified.status === 'rejected') console.error('[requests] notification', notified.reason);
+  if (confirmed.status === 'rejected') console.error('[requests] confirmation', confirmed.reason);
   return send(res, 201, { ok: true });
 }, 'requests');
