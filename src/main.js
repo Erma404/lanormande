@@ -2,6 +2,7 @@ import { content } from './content.js';
 import { applyOverrides } from './content-overrides.js';
 import { icon, renderPage } from './page.js';
 import { SITE_URL } from './site.js';
+import './cookie-notice.js';
 
 // Floor-plan room data: language-independent (image, class, grid size, area,
 // capacity number). Only the room name and "N guests" wording are translated,
@@ -483,6 +484,28 @@ fetch('/api/promo')
   .then((response) => (response.ok ? response.json() : null))
   .then((data) => { promo = data?.promo || null; renderPromo(); })
   .catch(() => {});
+
+// ---- parallaxe de la photo au-dessus du pied de page ----------------------
+// La photo est plus haute que son cadre (style.css) et glisse plus lentement que la page.
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  let parallaxTicking = false;
+  const updateParallax = () => {
+    parallaxTicking = false;
+    const section = document.querySelector('.final-cta');
+    const image = section?.querySelector('.final-image');
+    if (!image) return;
+    const rect = section.getBoundingClientRect();
+    if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+    // -1 quand la section entre par le bas, +1 quand elle sort par le haut.
+    const progress = (window.innerHeight / 2 - (rect.top + rect.height / 2)) / (window.innerHeight / 2 + rect.height / 2);
+    // Elle n'entre que par le bas (le pied de page suit) : déplacement surtout vers le haut, d'où l'image allongée en bas.
+    image.style.setProperty('--parallax', `${(Math.max(-1, Math.min(0.35, progress)) * rect.height * 0.26).toFixed(1)}px`);
+  };
+  const requestParallax = () => { if (!parallaxTicking) { parallaxTicking = true; requestAnimationFrame(updateParallax); } };
+  window.addEventListener('scroll', requestParallax, { passive: true });
+  window.addEventListener('resize', requestParallax);
+  requestParallax();
+}
 
 // La page arrive déjà rendue (HTML généré au build) : on la rend interactive tout de suite,
 // puis on applique les textes modifiés depuis l'admin s'il y en a de plus récents.

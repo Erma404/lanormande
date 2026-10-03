@@ -15,12 +15,30 @@
 .guide-intro { max-width: 62ch; margin: 20px 0 0; font-size: 16px; line-height: 1.6; color: rgba(255,255,255,.88); }
 .guide-updated { margin: 14px 0 0; font-size: 12px; color: rgba(255,255,255,.6); }
 
-.guide-body { padding: 56px 0 96px; display: grid; gap: 64px; }
-.guide-toc { display: flex; flex-wrap: wrap; gap: 10px; }
-.guide-toc a { padding: 9px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); font-size: 13px; font-weight: 600; transition: border-color .2s, color .2s; }
-.guide-toc a:hover { border-color: var(--clay); color: var(--clay); }
+.guide-body { padding: 56px 0 96px; display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 56px; align-items: start; }
+.guide-content { display: grid; gap: 64px; min-width: 0; }
+/* Sommaire fixe sur le côté ; la rubrique lue est mise en avant (guide-page.js). */
+.guide-toc { position: sticky; top: 96px; display: flex; flex-direction: column; gap: 2px; padding-left: 14px; border-left: 1px solid var(--line); }
+.guide-toc-title { margin: 0 0 10px; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.guide-toc a { position: relative; padding: 7px 0; font-size: 14px; font-weight: 600; color: var(--muted); transition: color .2s; }
+.guide-toc a::before { content: ''; position: absolute; left: -15px; top: 7px; bottom: 7px; width: 2px; border-radius: 2px; background: transparent; transition: background .2s; }
+.guide-toc a:hover { color: var(--ink); }
+.guide-toc a.active { color: var(--ink); }
+.guide-toc a.active::before { background: var(--clay); }
 
 .guide-section { scroll-margin-top: 90px; }
+@media (max-width: 1080px) {
+  /* En grille, un élément « sticky » ne colle que dans sa propre ligne : mise en page en bloc. */
+  .guide-body { display: block; }
+  .guide-content { margin-top: 32px; }
+  .guide-toc { position: sticky; top: 66px; z-index: 5; flex-direction: row; gap: 8px; margin: 0 -16px; padding: 10px 16px; border: 0; border-bottom: 1px solid var(--line); background: var(--cream); overflow-x: auto; scrollbar-width: none; }
+  .guide-toc::-webkit-scrollbar { display: none; }
+  .guide-toc-title { display: none; }
+  .guide-toc a { flex: 0 0 auto; padding: 7px 13px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); font-size: 13px; }
+  .guide-toc a::before { display: none; }
+  .guide-toc a.active { border-color: var(--dark); background: var(--dark); color: #fff; }
+  .guide-section { scroll-margin-top: 130px; }
+}
 .guide-section h2 { margin: 0 0 16px; max-width: 28ch; font-family: var(--sans); font-size: clamp(28px, 3.2vw, 42px); font-weight: 600; line-height: 1.05; letter-spacing: -.05em; }
 .guide-answer { max-width: 68ch; margin: 0 0 28px; font-size: 17px; line-height: 1.65; color: var(--ink); }
 .guide-where { padding: 32px; border-radius: 12px; background: var(--paper); border-left: 4px solid var(--clay); }
@@ -62,12 +80,14 @@
 .guide-cta .guide-cta-button:hover { background: var(--clay); color: #fff; }
 
 @media (max-width: 720px) {
+  .guide-toc { top: 62px; }
   .guide-nav { gap: 12px; }
   .guide-nav > a:first-child { display: none; }
   .guide-hero { min-height: 420px; }
   .guide-hero-copy { padding: 96px 0 32px; }
   .guide-intro { font-size: 15px; }
-  .guide-body { padding: 40px 0 72px; gap: 48px; }
+  .guide-body { padding: 24px 0 72px; }
+  .guide-content { gap: 48px; }
   .guide-where { padding: 22px; }
   .guide-answer { font-size: 16px; }
   .guide-places, .guide-two { grid-template-columns: 1fr; }
@@ -115,3 +135,14 @@
   .map-canvas { order: -1; height: 360px; }
   .map-list { max-height: none; overflow: visible; }
 }
+
+/* Pages légales */
+.legal { max-width: 760px; padding: 64px 0 96px; }
+.legal h1 { margin: 6px 0 36px; font-family: var(--sans); font-size: clamp(34px, 4vw, 52px); font-weight: 600; letter-spacing: -.05em; line-height: 1; }
+.legal-updated { margin: 0; font-size: 13px; color: var(--muted); }
+.legal section { padding: 26px 0; border-top: 1px solid var(--line); scroll-margin-top: 90px; }
+.legal h2 { margin: 0 0 12px; font-family: var(--sans); font-size: 20px; font-weight: 700; letter-spacing: -.03em; }
+.legal p, .legal li { font-size: 15px; line-height: 1.7; color: var(--ink); }
+.legal p { margin: 0 0 12px; }
+.legal ul { margin: 0 0 12px; padding-left: 20px; }
+.legal a { color: var(--clay); text-decoration: underline; text-underline-offset: 3px; }

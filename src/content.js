@@ -5,6 +5,7 @@
 // ---------------------------------------------------------------------------
 export const content = {
   fr: {
+    lang: 'fr',
     meta: { title: 'Maison à louer pour 8 près de Deauville · Villa Normande', description: 'Maison à colombages pour 8 à Danestal, au cœur du pays d’Auge : 4 chambres, jacuzzi, cheminée, jardin de 8 000 m², plages à 18 min. Réservez en direct.' },
     nav: { cadre: 'Le cadre', equipements: 'Équipements', chambres: 'Chambres', plan: 'Plan', avis: 'Avis', faq: 'FAQ' },
     brandAria: 'Villa Normande, accueil',
@@ -95,7 +96,7 @@ export const content = {
       bath0: 'Salle de bain', terrace: 'Terrasse & jardin', veranda: 'Véranda', firepit: 'Coin du feu', pingpong: 'Ping-pong',
       bed2: 'Chambre lin', bed3: 'Chambre brique', bath: 'Salle de bain', bed4: 'Chambre ruisseau', bath2: 'Salle de bain'
     },
-    nearbySection: { eyebrow: 'Autour de Danestal', h2: 'Des échappées,<br>juste <em>à côté.</em>', cta: 'Préparer votre séjour', guide: 'Notre guide du pays d’Auge', guideUrl: '/normandie-pays-d-auge' },
+    nearbySection: { eyebrow: 'Autour de Danestal', h2: 'Des échappées,<br>juste <em>à côté.</em>', cta: 'Préparer votre séjour', guide: 'Notre guide du pays d’Auge', guideUrl: '/normandie-pays-d-auge#trajets' },
     nearbyItems: [
       ['Balades du pays d’Auge', 'Tout près', 'Des chemins creux entre pommiers et manoirs.', '/images/randonnee-pays-dauge.webp'],
       ['La route du cidre', '12 min', 'Calvados, vergers et rencontres de producteurs.', '/images/route-du-cidre.jpg'],
@@ -156,6 +157,7 @@ export const content = {
     formatFull: (day, month, year) => `${day} ${month} ${year}`
   },
   en: {
+    lang: 'en',
     meta: { title: 'Normandy holiday home for 8 near Deauville · Villa Normande', description: 'Half-timbered house for 8 in Danestal, Pays d’Auge: 4 bedrooms, hot tub, fireplace, 8,000 m² garden, beaches 18 min away. Book direct with the host.' },
     nav: { cadre: 'The House', equipements: 'Amenities', chambres: 'Rooms', plan: 'Floor Plan', avis: 'Reviews', faq: 'FAQ' },
     brandAria: 'Villa Normande, home',
@@ -246,7 +248,7 @@ export const content = {
       bath0: 'Bathroom', terrace: 'Terrace & garden', veranda: 'Veranda', firepit: 'Fire pit', pingpong: 'Ping-pong',
       bed2: 'Linen Room', bed3: 'Brick Room', bath: 'Bathroom', bed4: 'Stream Room', bath2: 'Bathroom'
     },
-    nearbySection: { eyebrow: 'Around Danestal', h2: 'Getaways,<br>just <em>next door.</em>', cta: 'Plan your stay', guide: 'Our Pays d’Auge guide', guideUrl: '/en/normandy-guide' },
+    nearbySection: { eyebrow: 'Around Danestal', h2: 'Getaways,<br>just <em>next door.</em>', cta: 'Plan your stay', guide: 'Our Pays d’Auge guide', guideUrl: '/en/normandy-guide#trajets' },
     nearbyItems: [
       ['Walks through the Pays d’Auge', 'Right nearby', 'Sunken lanes winding between apple orchards and manor houses.', '/images/randonnee-pays-dauge.webp'],
       ['The Cider Route', '12 min', 'Calvados, orchards, and visits with local producers.', '/images/route-du-cidre.jpg'],

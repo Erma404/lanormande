@@ -1,5 +1,6 @@
 // Gabarit HTML de la page d'accueil : fonction pure, utilisée par le navigateur
 // et au moment du build pour générer le HTML complet (SEO, affichage immédiat).
+import { footerBottom } from './footer.js';
 
 export const icon = (name, size = 18) => {
   const paths = {
@@ -164,7 +165,7 @@ export const renderPage = (t, s) => `
 
     <section class="final-cta"><div class="final-image image-placeholder"><img src="/images/les-alentours.jpeg" alt="${t.finalCta.imageAlt}" loading="lazy" /></div><div class="final-wash"></div><div class="shell final-copy"><p class="eyebrow light"><span></span>${t.finalCta.eyebrow}</p><h2>${t.finalCta.h2}</h2><button class="reserve-button booking-trigger">${t.finalCta.button}</button><p class="final-note">${t.finalCta.note}</p></div></section>
   </main>
-  <footer><div class="shell footer-row"><a class="brand footer-brand" href="#top"><span class="brand-mark"><i></i><i></i></span><span>Villa<br><em>Normande</em></span></a><p>${t.footer.tagline}</p><div><a href="#cadre">${t.footer.linkHouse}</a><a href="#faq">${t.footer.linkFaq}</a><a href="${t.nearbySection.guideUrl}">${t.footer.linkGuide}</a><a href="mailto:contact@villanormande.com">${t.footer.linkContact}</a></div></div><div class="shell footer-bottom"><span>${t.footer.copyright}</span><span>${t.footer.bottomNote}</span></div></footer>
+  <footer><div class="shell footer-row"><a class="brand footer-brand" href="#top"><span class="brand-mark"><i></i><i></i></span><span>Villa<br><em>Normande</em></span></a><p>${t.footer.tagline}</p><div><a href="#cadre">${t.footer.linkHouse}</a><a href="#faq">${t.footer.linkFaq}</a><a href="${t.nearbySection.guideUrl.split('#')[0]}">${t.footer.linkGuide}</a><a href="mailto:contact@villanormande.com">${t.footer.linkContact}</a></div></div>${footerBottom(t.lang, t.footer.bottomNote)}</footer>
   <div class="toast" role="status" aria-live="polite"></div>
 
   <div class="modal-backdrop" id="reserve-modal" hidden>

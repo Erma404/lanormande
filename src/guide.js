@@ -2,6 +2,7 @@
 // préparent un séjour en Normandie (SEO), pour être cité par les moteurs IA (GEO) et pour
 // répondre directement aux questions (AEO). Temps de trajet indicatifs, en voiture, depuis Danestal.
 import { SITE_URL } from './site.js';
+import { siteFooter } from './footer.js';
 
 export const GUIDE_PATHS = { fr: '/normandie-pays-d-auge', en: '/en/normandy-guide' };
 const HOME = { fr: '/', en: '/en' };
@@ -92,6 +93,7 @@ export const guide = {
     ] },
     cta: { h2: 'Séjourner au cœur du pays d’Auge', text: 'La Villa Normande accueille jusqu’à 8 voyageurs dans une maison à colombages avec jacuzzi, cheminée et jardin de 8 000 m², à Danestal.', button: 'Voir la maison et réserver' },
     footer: { tagline: 'Une maison de famille, à Danestal.', home: 'La maison', faq: 'Questions fréquentes', contact: 'Contact' },
+    toc: { title: 'Sommaire', trajets: 'Carte et trajets', where: 'Où est Danestal ?', 'cote-fleurie': 'Plages', 'pays-d-auge': 'Campagne du pays d’Auge', debarquement: 'Plages du Débarquement', 'plus-loin': 'Excursions', saisons: 'Quand venir ?', acces: 'Comment venir ?', faq: 'Questions fréquentes' },
     updated: 'Mis à jour en octobre 2026'
   },
 
@@ -180,6 +182,7 @@ export const guide = {
     ] },
     cta: { h2: 'Stay in the heart of the Pays d’Auge', text: 'Villa Normande welcomes up to 8 guests in a half-timbered house with a hot tub, fireplace and 8,000 m² garden, in Danestal.', button: 'See the house and book' },
     footer: { tagline: 'A family home, in Danestal.', home: 'The house', faq: 'FAQ', contact: 'Contact' },
+    toc: { title: 'Contents', trajets: 'Map and driving times', where: 'Where is Danestal?', 'cote-fleurie': 'Beaches', 'pays-d-auge': 'Pays d’Auge countryside', debarquement: 'D-Day beaches', 'plus-loin': 'Day trips', saisons: 'When to come', acces: 'Getting there', faq: 'FAQ' },
     updated: 'Updated October 2026'
   }
 };
@@ -332,23 +335,11 @@ export function renderGuide(lang) {
     </section>
 
     <div class="shell guide-body">
-      <nav class="guide-toc" aria-label="Sommaire">
-        ${g.sections.map((section) => `<a href="#${section.id}">${esc(section.h2)}</a>`).join('')}
-        <a href="#trajets">${esc(g.map.h2)}</a>
+      <nav class="guide-toc" aria-label="${esc(g.toc.title)}">
+        <p class="guide-toc-title">${esc(g.toc.title)}</p>
+        ${['trajets', 'where', ...g.sections.map((section) => section.id), 'saisons', 'acces', 'faq'].map((id) => `<a href="#${id}">${esc(g.toc[id])}</a>`).join('')}
       </nav>
-
-      <section class="guide-section guide-where">
-        <h2>${esc(g.where.h2)}</h2>
-        <p class="guide-answer">${esc(g.where.text)}</p>
-      </section>
-
-      ${g.sections.map((section) => `
-      <section class="guide-section" id="${section.id}">
-        <h2>${esc(section.h2)}</h2>
-        <p class="guide-answer">${esc(section.lead)}</p>
-        <div class="guide-places">${placeCards(section)}
-        </div>
-      </section>`).join('')}
+      <div class="guide-content">
 
       <section class="guide-section guide-map-section" id="trajets">
         <h2>${esc(g.map.h2)}</h2>
@@ -368,18 +359,31 @@ export function renderGuide(lang) {
         <script type="application/json" id="map-data">${JSON.stringify({ lang, house: { name: g.map.house, text: g.map.houseText, coords: HOUSE_COORDS }, places, labels: { bestFor: g.map.bestFor, categories: g.map.categories } }).replace(/</g, '\\u003c')}</script>
       </section>
 
+      <section class="guide-section guide-where" id="where">
+        <h2>${esc(g.where.h2)}</h2>
+        <p class="guide-answer">${esc(g.where.text)}</p>
+      </section>
+
+      ${g.sections.map((section) => `
+      <section class="guide-section" id="${section.id}">
+        <h2>${esc(section.h2)}</h2>
+        <p class="guide-answer">${esc(section.lead)}</p>
+        <div class="guide-places">${placeCards(section)}
+        </div>
+      </section>`).join('')}
+
       <div class="guide-two">
-        <section class="guide-section">
+        <section class="guide-section" id="saisons">
           <h2>${esc(g.seasons.h2)}</h2>
           <ul class="guide-list">${g.seasons.items.map(([title, text]) => `<li><strong>${esc(title)}</strong> ${esc(text)}</li>`).join('')}</ul>
         </section>
-        <section class="guide-section">
+        <section class="guide-section" id="acces">
           <h2>${esc(g.access.h2)}</h2>
           <ul class="guide-list">${g.access.items.map(([title, text]) => `<li><strong>${esc(title)}</strong> ${esc(text)}</li>`).join('')}</ul>
         </section>
       </div>
 
-      <section class="guide-section guide-faq">
+      <section class="guide-section guide-faq" id="faq">
         <h2>${esc(g.faq.h2)}</h2>
         ${g.faq.items.map(([q, a]) => `<details><summary>${esc(q)}<span aria-hidden="true">+</span></summary><p>${esc(a)}</p></details>`).join('')}
       </section>
@@ -388,7 +392,8 @@ export function renderGuide(lang) {
         <div><h2>${esc(g.cta.h2)}</h2><p>${esc(g.cta.text)}</p></div>
         <a class="reserve-button guide-cta-button" href="${home}">${esc(g.cta.button)} ${arrow}</a>
       </section>
+      </div>
     </div>
   </main>
-  <footer><div class="shell footer-row"><a class="brand footer-brand" href="${home}"><span class="brand-mark"><i></i><i></i></span><span>Villa<br><em>Normande</em></span></a><p>${esc(g.footer.tagline)}</p><div><a href="${home}">${esc(g.footer.home)}</a><a href="${home}#faq">${esc(g.footer.faq)}</a><a href="mailto:contact@villanormande.com">${esc(g.footer.contact)}</a></div></div><div class="shell footer-bottom"><span>© 2026 Villa Normande</span><span>Danestal, Calvados, Normandie</span></div></footer>`;
+  ${siteFooter(lang, { home, faqHref: `${home}#faq`, tagline: esc(g.footer.tagline), homeLabel: esc(g.footer.home), faqLabel: esc(g.footer.faq) })}`;
 }
