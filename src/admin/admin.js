@@ -1,17 +1,18 @@
 import { renderAvailability } from './availability.js';
 import { renderContentEditor } from './content-editor.js';
+import { renderRequests } from './requests.js';
 
 const root = document.querySelector('#admin');
 const RESEND_DELAY = 60;
 
-const state = { email: '', expiresAt: 0, resendAt: 0, timer: null, user: null, tab: 'availability', dirty: false };
+const state = { email: '', expiresAt: 0, resendAt: 0, timer: null, user: null, tab: 'availability', dirty: false, pendingRequests: 0 };
 
 window.addEventListener('beforeunload', (event) => { if (state.dirty) event.preventDefault(); });
 
 const tabs = [
   ['availability', 'Disponibilités', 'Bloquer ou libérer des dates dans le calendrier du site.'],
   ['pricing', 'Tarifs', 'Prix par nuit, saisons et durée minimale de séjour.'],
-  ['requests', 'Demandes', 'Demandes de réservation reçues, à confirmer ou refuser.'],
+  ['requests', 'Demandes', 'Demandes de réservation envoyées depuis le site. Accepter une demande bloque ses dates sur le site et dans le calendrier exporté vers Airbnb.'],
   ['content', 'Contenus', 'Les textes de la page d’accueil, en français et en anglais.']
 ];
 
@@ -152,7 +153,7 @@ function renderCodeStep(notice = '') {
     setBusy(form, true);
     const result = await api('verify', { email: state.email, code: input.value });
     setBusy(form, false);
-    if (result.ok) { stopTimer(); state.user = { email: result.data.email }; return renderDashboard(); }
+    if (result.ok) { stopTimer(); state.user = { email: result.data.email }; return openDashboard(); }
     const { error, remaining } = result.data;
     if (error === 'invalid_code') {
       showError(remaining > 0 ? `Code incorrect. Il vous reste ${remaining} essai${remaining > 1 ? 's' : ''}.` : 'Code incorrect.');
@@ -177,6 +178,19 @@ function renderCodeStep(notice = '') {
   root.querySelector('#change-email').addEventListener('click', renderEmailStep);
 }
 
+// À l'ouverture, on arrive directement sur les demandes s'il y en a en attente.
+async function openDashboard() {
+  state.pendingRequests = await refreshPendingCount();
+  if (state.pendingRequests) state.tab = 'requests';
+  renderDashboard();
+}
+
+async function refreshPendingCount() {
+  const response = await fetch('/api/admin/requests', { credentials: 'same-origin' }).catch(() => null);
+  const data = response?.ok ? await response.json().catch(() => null) : null;
+  return data ? data.requests.filter((request) => request.status === 'new').length : state.pendingRequests;
+}
+
 function renderDashboard() {
   const [, title, description] = tabs.find(([id]) => id === state.tab);
   root.innerHTML = `
@@ -184,7 +198,7 @@ function renderDashboard() {
       <header class="dash-header">
         <a class="brand" href="/" target="_blank" rel="noopener"><span class="brand-mark"><i></i><i></i></span><span>Villa<br><em>Normande</em></span></a>
         <nav class="dash-tabs" aria-label="Sections">
-          ${tabs.map(([id, label]) => `<button data-tab="${id}" class="${id === state.tab ? 'active' : ''}" ${id === state.tab ? 'aria-current="page"' : ''}>${label}</button>`).join('')}
+          ${tabs.map(([id, label]) => `<button data-tab="${id}" class="${id === state.tab ? 'active' : ''}" ${id === state.tab ? 'aria-current="page"' : ''}>${label}${id === 'requests' ? '<small class="tab-count" hidden></small>' : ''}</button>`).join('')}
         </nav>
         <div class="dash-user"><span>${escape(state.user.email)}</span><button id="logout" class="ghost">Déconnexion</button></div>
       </header>
@@ -202,6 +216,16 @@ function renderDashboard() {
     </div>`;
 
   state.dirty = false;
+  const setPendingCount = (count) => {
+    state.pendingRequests = count;
+    const badge = root.querySelector('.tab-count');
+    badge.textContent = count;
+    badge.hidden = !count;
+    badge.setAttribute('aria-label', `${count} en attente`);
+  };
+  setPendingCount(state.pendingRequests);
+  if (state.tab === 'requests') renderRequests(root.querySelector('#tab-content'), { escape, onCount: setPendingCount });
+  else refreshPendingCount().then(setPendingCount);
   if (state.tab === 'availability') renderAvailability(root.querySelector('#tab-content'), { escape });
   if (state.tab === 'content') renderContentEditor(root.querySelector('#tab-content'), { escape, onDirtyChange: (dirty) => { state.dirty = dirty; } });
 
@@ -220,5 +244,5 @@ function renderDashboard() {
 (async function init() {
   root.innerHTML = '<div class="boot" aria-busy="true" aria-label="Chargement"><span class="skel skel-bar"></span><span class="skel skel-title"></span><span class="skel skel-line"></span><span class="skel skel-block"></span></div>';
   const result = await api('me');
-  if (result.ok) { state.user = result.data; renderDashboard(); } else { renderEmailStep(); }
+  if (result.ok) { state.user = result.data; openDashboard(); } else { renderEmailStep(); }
 })();

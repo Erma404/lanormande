@@ -228,12 +228,13 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 
 /* Reservation modal: short form that hands off to a pre-filled WhatsApp message. */
 .reserve-card { width: min(440px, 100%); }
-.reserve-form { padding: 6px 28px 28px; display: grid; gap: 16px; }
+.reserve-form { padding: 14px 24px 20px; display: grid; gap: 10px; }
 .reserve-form-intro { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.5; }
-.reserve-form label { display: grid; gap: 6px; font-size: 12px; font-weight: 600; color: var(--ink); }
-.reserve-form input, .reserve-form textarea { font: inherit; font-size: 14px; font-weight: 400; padding: 11px 13px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); color: var(--ink); }
+.reserve-form label { display: grid; gap: 4px; min-width: 0; font-size: 12px; font-weight: 600; color: var(--ink); }
+.reserve-form input, .reserve-form textarea { font: inherit; font-size: 14px; font-weight: 400; padding: 9px 12px; min-width: 0; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); color: var(--ink); }
 .reserve-form input:focus, .reserve-form textarea:focus { outline: 2px solid var(--clay); outline-offset: 1px; }
-.reserve-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.reserve-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.reserve-form-row-name { grid-template-columns: 1fr 92px; }
 .reserve-form textarea { resize: vertical; }
 .reserve-form .reserve-button { justify-content: center; gap: 8px; }
 .final-note { margin: 12px 0 0; font-size: 12px; color: oklch(88% .01 85 / .85); }
@@ -251,7 +252,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
    background — effectively invisible. The header is always dark, so the icon must be light. */
 .menu-toggle span { background: var(--paper); }
 .menu-toggle.open span:nth-child(2) { opacity: 0; }
-@media (max-width: 480px) { .reserve-form-row { grid-template-columns: 1fr; } }
 
 /* Nearby: click a list item to switch the photo (was scroll-pinned; now a plain click,
    same on desktop and mobile — see the ≤960px note further down for why). */
@@ -352,10 +352,43 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 .final-copy .reserve-button { background: var(--clay); color: var(--paper); }
 .final-copy .reserve-button:hover { background: var(--forest); color: var(--paper); }
 
-/* The reservation form's submit button hands off to WhatsApp — giving it WhatsApp's
-   own green makes that destination obvious at a glance, distinct from the CTAs above. */
-.reserve-form .reserve-button { background: #25d366; color: #fff; }
-.reserve-form .reserve-button:hover { background: #1ebe5a; color: #fff; }
+/* Reservation request: saved on the site, WhatsApp offered as a quieter alternative. */
+.reserve-form .reserve-button, .reserve-success .reserve-button { margin-top: 2px; padding: 12px 16px; border-radius: 6px; background: var(--forest); color: var(--paper); font-size: 13px; }
+.reserve-form .reserve-button:hover, .reserve-success .reserve-button:hover { background: var(--clay); color: var(--paper); }
+.reserve-form .reserve-button:disabled { opacity: .7; cursor: progress; transform: none; }
+.reserve-whatsapp { justify-self: center; margin-top: -4px; padding: 4px 0; border: 0; background: none; color: var(--muted); font-size: 12px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.reserve-whatsapp:hover { color: #128c4b; }
+.reserve-form-error { margin: 0; padding: 10px 12px; border-radius: 6px; background: oklch(93% .03 40); color: oklch(45% .13 35); font-size: 13px; line-height: 1.45; }
+.reserve-form-error[hidden], .reserve-success[hidden], .reserve-form[hidden] { display: none; }
+.rf-trap { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.reserve-success { padding: 8px 28px 30px; display: grid; gap: 12px; }
+.reserve-success .reserve-button { justify-content: center; margin-top: 6px; }
+.reserve-success-mark { margin: 0; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; background: color-mix(in oklch, var(--moss) 18%, transparent); color: var(--forest); }
+.reserve-success h4 { margin: 0; font-family: var(--serif); font-size: 26px; font-weight: 600; letter-spacing: -.04em; }
+/* The booking pop-in must fit any screen without scrolling: capped at the visible height,
+   compact head, and 16px fields on phones so iOS doesn't zoom in on focus. */
+#reserve-modal { padding: 16px; }
+.reserve-card { max-height: calc(100dvh - 32px); }
+.reserve-card .modal-head { padding: 20px 24px 14px; }
+@media (max-width: 720px) {
+  .reserve-card .modal-head { padding: 16px 18px 12px; }
+  .reserve-form { padding: 12px 18px 16px; }
+  .reserve-form input, .reserve-form textarea { font-size: 16px; padding: 8px 10px; }
+  .reserve-form-row-name { grid-template-columns: 1fr 72px; }
+}
+/* Short screens (small phones once the browser bars are counted, low laptop windows). */
+@media (max-height: 760px) {
+  .reserve-card .modal-head { padding: 14px 20px 10px; }
+  .reserve-card .modal-head h3 { font-size: 19px; }
+  .reserve-card .modal-close { width: 32px; height: 32px; }
+  .reserve-form { padding-top: 10px; padding-bottom: 14px; gap: 8px; }
+  .reserve-form-intro { font-size: 12px; line-height: 1.4; }
+  .reserve-form label { font-size: 11.5px; gap: 3px; }
+  .reserve-form input, .reserve-form textarea { padding-top: 7px; padding-bottom: 7px; }
+  .reserve-form textarea { height: 38px; min-height: 38px; }
+  .reserve-form .reserve-button { padding: 10px 16px; min-height: 44px; }
+}
+.reserve-success p:not(.reserve-success-mark) { margin: 0 0 6px; font-size: 14px; line-height: 1.55; color: var(--muted); }
 
 /* Root cause of the broken chambres carousel below 960px (mobile included, not just
    the 721–960 dead zone): an earlier unscoped rule (`.space-stage{grid-template-columns:

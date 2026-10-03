@@ -127,9 +127,19 @@ export const content = {
     },
     footer: { tagline: 'Une maison de famille, à Danestal.', linkHouse: 'La maison', linkFaq: 'Questions fréquentes', linkContact: 'Contact', copyright: '© 2026 Villa Normande', bottomNote: 'Réservation directe & sécurisée' },
     reserveModal: {
-      title: 'Je réserve', intro: 'Un court message pré-rempli s’ouvrira dans WhatsApp — vous n’avez plus qu’à l’envoyer à Christophe.',
-      name: 'Votre nom', namePlaceholder: 'Prénom et nom', arrival: 'Arrivée', departure: 'Départ', guests: 'Voyageurs',
-      message: 'Message (facultatif)', messagePlaceholder: 'Une précision à ajouter ?', submit: 'Envoyer sur WhatsApp'
+      title: 'Je réserve', intro: 'Envoyez votre demande : Christophe vous répond par email ou par téléphone, en général dans la journée. Rien n’est débité à cette étape.',
+      name: 'Votre nom', namePlaceholder: 'Prénom et nom', email: 'Email', emailPlaceholder: 'vous@exemple.fr', phone: 'Téléphone (facultatif)', phonePlaceholder: '06 12 34 56 78',
+      arrival: 'Arrivée', departure: 'Départ', guests: 'Voyageurs',
+      message: 'Message (facultatif)', messagePlaceholder: 'Une précision à ajouter ?', submit: 'Envoyer ma demande', sending: 'Envoi…',
+      whatsapp: 'Vous préférez WhatsApp ? Écrire à Christophe',
+      successTitle: 'Demande envoyée', successText: 'Merci ! Christophe a bien reçu votre demande et revient vers vous très vite pour la confirmer.', successClose: 'Fermer',
+      errors: {
+        invalid_name: 'Indiquez votre nom.', invalid_email: 'Cette adresse email ne semble pas valide.', invalid_phone: 'Ce numéro de téléphone ne semble pas valide.',
+        invalid_range: 'Choisissez une date d’arrivée à venir et une date de départ après l’arrivée.', too_long: 'Pour un séjour de plus de 60 nuits, écrivez directement à Christophe.',
+        invalid_guests: 'La maison accueille de 1 à 8 voyageurs.', unavailable: 'Ces dates ne sont plus disponibles. Choisissez une autre période.',
+        too_many_requests: 'Plusieurs demandes ont déjà été envoyées. Réessayez dans une heure ou écrivez sur WhatsApp.', network: 'Connexion impossible. Vérifiez votre réseau et réessayez.',
+        server_error: 'Une erreur est survenue. Réessayez ou écrivez sur WhatsApp.'
+      }
     },
     toast: { conflict: 'Séjour impossible : une nuit déjà réservée se trouve dans cette période.' },
     whatsapp: (name, arrival, departure, guestCount) => `Bonjour Christophe, je souhaite réserver la Villa Normande du ${arrival} au ${departure} pour ${guestCount} voyageur${guestCount > 1 ? 's' : ''}. Mon nom : ${name}.`,
@@ -261,9 +271,19 @@ export const content = {
     },
     footer: { tagline: 'A family home, in Danestal.', linkHouse: 'The house', linkFaq: 'FAQ', linkContact: 'Contact', copyright: '© 2026 Villa Normande', bottomNote: 'Direct & secure booking' },
     reserveModal: {
-      title: 'Book now', intro: 'A short pre-filled message will open in WhatsApp — all you need to do is send it to Christophe.',
-      name: 'Your name', namePlaceholder: 'First and last name', arrival: 'Check-in', departure: 'Check-out', guests: 'Guests',
-      message: 'Message (optional)', messagePlaceholder: 'Anything else to add?', submit: 'Send via WhatsApp'
+      title: 'Book now', intro: 'Send your request: Christophe will get back to you by email or phone, usually the same day. Nothing is charged at this stage.',
+      name: 'Your name', namePlaceholder: 'First and last name', email: 'Email', emailPlaceholder: 'you@example.com', phone: 'Phone (optional)', phonePlaceholder: '+44 7700 900123',
+      arrival: 'Check-in', departure: 'Check-out', guests: 'Guests',
+      message: 'Message (optional)', messagePlaceholder: 'Anything else to add?', submit: 'Send my request', sending: 'Sending…',
+      whatsapp: 'Prefer WhatsApp? Message Christophe',
+      successTitle: 'Request sent', successText: 'Thank you! Christophe has received your request and will get back to you shortly to confirm it.', successClose: 'Close',
+      errors: {
+        invalid_name: 'Please enter your name.', invalid_email: 'This email address doesn’t look valid.', invalid_phone: 'This phone number doesn’t look valid.',
+        invalid_range: 'Choose an upcoming check-in date and a check-out date after it.', too_long: 'For stays over 60 nights, please contact Christophe directly.',
+        invalid_guests: 'The house sleeps 1 to 8 guests.', unavailable: 'These dates are no longer available. Please choose another period.',
+        too_many_requests: 'Several requests have already been sent. Try again in an hour or use WhatsApp.', network: 'Connection failed. Check your network and try again.',
+        server_error: 'Something went wrong. Try again or use WhatsApp.'
+      }
     },
     toast: { conflict: 'Stay not available: a night already booked falls within this period.' },
     whatsapp: (name, arrival, departure, guestCount) => `Hello Christophe, I would like to book Villa Normande from ${arrival} to ${departure} for ${guestCount} guest${guestCount > 1 ? 's' : ''}. My name: ${name}.`,

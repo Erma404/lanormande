@@ -221,16 +221,26 @@ function mount() {
     $('#guest-summary').textContent = guestSummaryText();
   }));
 
-  // ---- reservation modal: every "book now" CTA hands off to WhatsApp -------
+  // ---- reservation modal: the request is saved on the site, WhatsApp stays as an alternative
   const WHATSAPP_NUMBER = '33603830585'; // Christophe
   const reserveModal = $('#reserve-modal');
   const openReserveModal = () => {
     if (selected.length === 2) { $('#rf-arrival').value = selected[0]; $('#rf-departure').value = selected[1]; }
     $('#rf-guests').value = guests.adults + guests.children;
+    $('#reserve-form').hidden = false;
+    $('#reserve-success').hidden = true;
+    setReserveError('');
     reserveModal.hidden = false;
     document.body.style.overflow = 'hidden';
     $('#rf-name').focus();
   };
+  // The message field starts small so the pop-in fits short screens, then grows with the text.
+  $('#rf-message').addEventListener('input', (event) => {
+    const field = event.target;
+    field.style.height = '';
+    field.style.height = `${Math.min(field.scrollHeight + 2, 140)}px`;
+  });
+  const setReserveError = (message) => { $('#rf-error').textContent = message; $('#rf-error').hidden = !message; };
   const closeReserveModal = () => { reserveModal.hidden = true; document.body.style.overflow = ''; };
   $$('.booking-trigger').forEach(button => button.addEventListener('click', (event) => { event.preventDefault(); openReserveModal(); }));
   $('#reserve').addEventListener('click', openReserveModal);
@@ -238,21 +248,58 @@ function mount() {
   reserveModal.addEventListener('click', (event) => { if (event.target === reserveModal) closeReserveModal(); });
   document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !reserveModal.hidden) closeReserveModal(); }, { signal });
 
-  $('#reserve-form').addEventListener('submit', (event) => {
+  const readReserveForm = () => ({
+    name: $('#rf-name').value.trim(),
+    email: $('#rf-email').value.trim(),
+    phone: $('#rf-phone').value.trim(),
+    arrival: $('#rf-arrival').value,
+    departure: $('#rf-departure').value,
+    guests: Number($('#rf-guests').value),
+    message: $('#rf-message').value.trim(),
+    website: $('#rf-website').value,
+    lang
+  });
+  // Contrôles faits avant l'envoi ; le serveur refait les mêmes.
+  const reserveFormError = (data) => {
+    const errors = t.reserveModal.errors;
+    if (data.name.length < 2) return errors.invalid_name;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(data.email)) return errors.invalid_email;
+    if (!data.arrival || !data.departure || data.departure <= data.arrival || data.arrival < isoOf(today)) return errors.invalid_range;
+    if (rangeCrossesBookedDate(data.arrival, data.departure)) return t.toast.conflict;
+    if (!Number.isInteger(data.guests) || data.guests < 1 || data.guests > 8) return errors.invalid_guests;
+    return '';
+  };
+
+  $('#reserve-form').addEventListener('submit', async (event) => {
     event.preventDefault();
-    const name = $('#rf-name').value.trim();
-    const arrival = $('#rf-arrival').value;
-    const departure = $('#rf-departure').value;
-    const guestCount = $('#rf-guests').value;
-    if (arrival && departure && (departure <= arrival || rangeCrossesBookedDate(arrival, departure))) {
-      showToast(t.toast.conflict);
-      return;
-    }
-    const extra = $('#rf-message').value.trim();
-    let message = t.whatsapp(name, formatFull(arrival), formatFull(departure), guestCount);
-    if (extra) message += ` ${extra}`;
+    const data = readReserveForm();
+    const problem = reserveFormError(data);
+    if (problem) return setReserveError(problem);
+    setReserveError('');
+    const button = event.submitter || $('#reserve-form .reserve-button');
+    const label = button.innerHTML;
+    button.disabled = true;
+    button.textContent = t.reserveModal.sending;
+    let error = '';
+    try {
+      const response = await fetch('/api/requests', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+      if (!response.ok) error = (await response.json().catch(() => ({}))).error || 'server_error';
+    } catch { error = 'network'; }
+    button.disabled = false;
+    button.innerHTML = label;
+    if (error) return setReserveError(t.reserveModal.errors[error] || t.reserveModal.errors.server_error);
+    $('#reserve-form').reset();
+    $('#reserve-form').hidden = true;
+    $('#reserve-success').hidden = false;
+    $('#reserve-success-close').focus();
+  });
+  $('#reserve-success-close').addEventListener('click', closeReserveModal);
+
+  $('#rf-whatsapp').addEventListener('click', () => {
+    const data = readReserveForm();
+    let message = t.whatsapp(data.name || '—', formatFull(data.arrival), formatFull(data.departure), data.guests || 1);
+    if (data.message) message += ` ${data.message}`;
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
-    closeReserveModal();
   });
 
   // ---- spaces carousel ------------------------------------------------------
