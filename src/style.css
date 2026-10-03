@@ -462,3 +462,27 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 
 /* Image du bas de page : couleurs naturelles, texte lisible grâce à une ombre douce. */
 .final-copy .eyebrow, .final-copy h2, .final-note { text-shadow: 0 1px 14px rgba(30,20,12,.45); }
+
+/* Bannière de promotion (réglée dans l'admin) : glisse depuis le haut, au-dessus de l'en-tête. */
+.promo-banner { position: relative; z-index: 31; display: grid; grid-template-rows: 0fr; background: var(--clay); color: #fff; overflow: hidden; transition: grid-template-rows .45s cubic-bezier(.2,.7,.2,1); }
+.promo-banner.show { grid-template-rows: 1fr; }
+.promo-banner > * { min-height: 0; }
+.promo-inner { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 6px 16px; padding: 10px 52px; text-align: center; opacity: 0; transform: translateY(-6px); transition: opacity .35s .15s, transform .35s .15s; }
+.promo-banner.show .promo-inner { opacity: 1; transform: none; }
+.promo-text { margin: 0; display: inline-flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; letter-spacing: -.01em; line-height: 1.35; }
+.promo-spark { flex: 0 0 auto; width: 7px; height: 7px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 0 rgba(255,255,255,.7); animation: promo-pulse 2.2s ease-out infinite; }
+@keyframes promo-pulse { 0% { box-shadow: 0 0 0 0 rgba(255,255,255,.65); } 70%, 100% { box-shadow: 0 0 0 9px rgba(255,255,255,0); } }
+.promo-cta { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border: 0; border-radius: 6px; background: #fff; color: var(--ink); font-size: 12px; font-weight: 700; transition: background .2s, transform .2s; }
+.promo-cta:hover { background: #f1e6df; transform: translateY(-1px); }
+.promo-cta svg { transition: transform .2s; }
+.promo-cta:hover svg { transform: translateX(2px); }
+.promo-close { position: absolute; top: 50%; right: 12px; transform: translateY(-50%); width: 32px; height: 32px; display: grid; place-items: center; border: 0; border-radius: 50%; background: transparent; color: #fff; opacity: .8; }
+.promo-close:hover { opacity: 1; background: rgba(255,255,255,.14); }
+@media (max-width: 720px) {
+  .promo-inner { justify-content: flex-start; text-align: left; padding: 10px 48px 10px 16px; }
+  .promo-text { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .promo-banner, .promo-inner { transition: none; }
+  .promo-spark { animation: none; }
+}

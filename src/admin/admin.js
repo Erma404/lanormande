@@ -1,5 +1,6 @@
 import { renderAvailability } from './availability.js';
 import { renderContentEditor } from './content-editor.js';
+import { renderPromo } from './promo.js';
 import { renderRequests } from './requests.js';
 
 const root = document.querySelector('#admin');
@@ -13,7 +14,8 @@ const tabs = [
   ['availability', 'Disponibilités', 'Bloquer ou libérer des dates dans le calendrier du site.'],
   ['pricing', 'Tarifs', 'Prix par nuit, saisons et durée minimale de séjour.'],
   ['requests', 'Demandes', 'Demandes de réservation envoyées depuis le site. Accepter une demande bloque ses dates sur le site et dans le calendrier exporté vers Airbnb.'],
-  ['content', 'Contenus', 'Les textes de la page d’accueil, en français et en anglais.']
+  ['content', 'Contenus', 'Les textes de la page d’accueil, en français et en anglais.'],
+  ['promo', 'Promotion', 'Une bannière en haut du site, affichée seulement pendant les dates choisies. Les changements sont visibles sur le site en moins d’une minute.']
 ];
 
 const errors = {
@@ -227,6 +229,7 @@ function renderDashboard() {
   if (state.tab === 'requests') renderRequests(root.querySelector('#tab-content'), { escape, onCount: setPendingCount });
   else refreshPendingCount().then(setPendingCount);
   if (state.tab === 'availability') renderAvailability(root.querySelector('#tab-content'), { escape });
+  if (state.tab === 'promo') renderPromo(root.querySelector('#tab-content'), { escape, onDirtyChange: (dirty) => { state.dirty = dirty; } });
   if (state.tab === 'content') renderContentEditor(root.querySelector('#tab-content'), { escape, onDirtyChange: (dirty) => { state.dirty = dirty; } });
 
   root.querySelectorAll('[data-tab]').forEach((button) => button.addEventListener('click', () => {

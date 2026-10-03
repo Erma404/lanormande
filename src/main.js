@@ -108,6 +108,7 @@ function mount() {
 
   const t = content[lang];
   document.documentElement.lang = lang;
+  renderPromo();
   document.title = t.meta.title;
   const metaDesc = document.querySelector('meta[name="description"]');
   if (metaDesc) metaDesc.setAttribute('content', t.meta.description);
@@ -444,6 +445,44 @@ function mount() {
     revealEls.forEach(el => revealObserver.observe(el));
   }
 }
+
+// ---- bannière de promotion ------------------------------------------------
+// Réglée par Christophe dans l'admin ; l'API ne la renvoie que pendant ses dates.
+// Placée hors de #app pour survivre aux changements de langue (re-mount).
+let promo = null;
+const PROMO_DISMISSED = 'promo-dismissed';
+const promoDismissed = (id) => { try { return localStorage.getItem(PROMO_DISMISSED) === id; } catch { return false; } };
+
+function renderPromo() {
+  const existing = document.querySelector('#promo-banner');
+  if (!promo || promoDismissed(promo.id)) { existing?.remove(); return; }
+  const t = promo[lang];
+  const banner = existing || document.createElement('aside');
+  banner.id = 'promo-banner';
+  banner.className = 'promo-banner';
+  banner.setAttribute('aria-label', lang === 'en' ? 'Special offer' : 'Offre du moment');
+  banner.innerHTML = `<div class="promo-inner">
+      <p class="promo-text"><span class="promo-spark" aria-hidden="true"></span>${escapeHtml(t.text)}</p>
+      ${promo.showButton ? `<button type="button" class="promo-cta">${escapeHtml(t.cta)} ${icon('arrow', 14)}</button>` : ''}
+    </div>
+    <button type="button" class="promo-close" aria-label="${lang === 'en' ? 'Close' : 'Fermer'}">${icon('close', 14)}</button>`;
+  banner.querySelector('.promo-cta')?.addEventListener('click', () => document.querySelector('#reserve')?.click());
+  banner.querySelector('.promo-close').addEventListener('click', () => {
+    try { localStorage.setItem(PROMO_DISMISSED, promo.id); } catch { /* navigation privée */ }
+    banner.classList.remove('show');
+    setTimeout(() => banner.remove(), 400);
+  });
+  if (!existing) {
+    document.body.prepend(banner);
+    requestAnimationFrame(() => requestAnimationFrame(() => banner.classList.add('show')));
+  }
+}
+const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
+fetch('/api/promo')
+  .then((response) => (response.ok ? response.json() : null))
+  .then((data) => { promo = data?.promo || null; renderPromo(); })
+  .catch(() => {});
 
 // La page arrive déjà rendue (HTML généré au build) : on la rend interactive tout de suite,
 // puis on applique les textes modifiés depuis l'admin s'il y en a de plus récents.
