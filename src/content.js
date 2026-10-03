@@ -5,9 +5,9 @@
 // ---------------------------------------------------------------------------
 export const content = {
   fr: {
-    meta: { title: 'La Maison Normande — Danestal', description: 'La Maison Normande — une maison de famille à Danestal, au cœur du pays d’Auge.' },
+    meta: { title: 'Villa Normande — Danestal', description: 'Villa Normande — une maison de famille à Danestal, au cœur du pays d’Auge.' },
     nav: { cadre: 'Le cadre', equipements: 'Équipements', chambres: 'Chambres', plan: 'Plan', avis: 'Avis', faq: 'FAQ' },
-    brandAria: 'La Maison Normande, accueil',
+    brandAria: 'Villa Normande, accueil',
     headerCta: 'Je réserve',
     menuAria: 'Ouvrir le menu',
     langToggleLabel: 'EN',
@@ -15,7 +15,7 @@ export const content = {
     hero: {
       eyebrow: 'Danestal, Pays d’Auge',
       titleLine1: 'La Normandie,', titleEm: 'en famille.',
-      imageAlt: 'La Maison Normande, maison à colombages au cœur du jardin',
+      imageAlt: 'Villa Normande, maison à colombages au cœur du jardin',
       intro: 'Une maison à colombages, un jardin qui s’étire jusqu’au ruisseau et assez de place pour être ensemble.',
       discover: 'Découvrir la maison',
       travelers: '08 voyageurs max.',
@@ -59,7 +59,7 @@ export const content = {
     spacesSection: {
       eyebrow: 'La maison, pièce par pièce', h2: 'Des espaces pour<br><em>vivre longtemps.</em>',
       prevAria: 'Précédent', nextAria: 'Suivant', imageAria: 'Agrandir la photo', seeAllPhotos: 'Voir toutes les photos',
-      imageAltSuffix: (title) => `${title} de La Maison Normande`,
+      imageAltSuffix: (title) => `${title} de la Villa Normande`,
       galleryCloseAria: 'Fermer la galerie', galleryPrevAria: 'Photo précédente', galleryNextAria: 'Photo suivante'
     },
     spaces: [
@@ -125,23 +125,23 @@ export const content = {
       eyebrow: 'Danestal, Pays d’Auge', h2: 'Et si votre prochain<br>souvenir commençait <em>ici ?</em>',
       imageAlt: 'Vue aérienne de la maison et de ses alentours', button: 'Je réserve', note: 'Réponse rapide via WhatsApp'
     },
-    footer: { tagline: 'Une maison de famille, à Danestal.', linkHouse: 'La maison', linkFaq: 'Questions fréquentes', linkContact: 'Contact', copyright: '© 2026 La Maison Normande', bottomNote: 'Réservation directe & sécurisée' },
+    footer: { tagline: 'Une maison de famille, à Danestal.', linkHouse: 'La maison', linkFaq: 'Questions fréquentes', linkContact: 'Contact', copyright: '© 2026 Villa Normande', bottomNote: 'Réservation directe & sécurisée' },
     reserveModal: {
       title: 'Je réserve', intro: 'Un court message pré-rempli s’ouvrira dans WhatsApp — vous n’avez plus qu’à l’envoyer à Christophe.',
       name: 'Votre nom', namePlaceholder: 'Prénom et nom', arrival: 'Arrivée', departure: 'Départ', guests: 'Voyageurs',
       message: 'Message (facultatif)', messagePlaceholder: 'Une précision à ajouter ?', submit: 'Envoyer sur WhatsApp'
     },
     toast: { conflict: 'Séjour impossible : une nuit déjà réservée se trouve dans cette période.' },
-    whatsapp: (name, arrival, departure, guestCount) => `Bonjour Christophe, je souhaite réserver La Maison Normande du ${arrival} au ${departure} pour ${guestCount} voyageur${guestCount > 1 ? 's' : ''}. Mon nom : ${name}.`,
+    whatsapp: (name, arrival, departure, guestCount) => `Bonjour Christophe, je souhaite réserver la Villa Normande du ${arrival} au ${departure} pour ${guestCount} voyageur${guestCount > 1 ? 's' : ''}. Mon nom : ${name}.`,
     days: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
     monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
     formatShort: (day, monthAbbr) => `${day} ${monthAbbr}.`,
     formatFull: (day, month, year) => `${day} ${month} ${year}`
   },
   en: {
-    meta: { title: 'La Maison Normande — Danestal, Normandy', description: 'La Maison Normande — a family house in Danestal, in the heart of the Pays d’Auge, Normandy.' },
+    meta: { title: 'Villa Normande — Danestal, Normandy', description: 'Villa Normande — a family house in Danestal, in the heart of the Pays d’Auge, Normandy.' },
     nav: { cadre: 'The House', equipements: 'Amenities', chambres: 'Rooms', plan: 'Floor Plan', avis: 'Reviews', faq: 'FAQ' },
-    brandAria: 'La Maison Normande, home',
+    brandAria: 'Villa Normande, home',
     headerCta: 'Book now',
     menuAria: 'Open menu',
     langToggleLabel: 'FR',
@@ -149,7 +149,7 @@ export const content = {
     hero: {
       eyebrow: 'Danestal, Normandy',
       titleLine1: 'Normandy,', titleEm: 'as a family.',
-      imageAlt: 'La Maison Normande, a half-timbered house at the heart of the garden',
+      imageAlt: 'Villa Normande, a half-timbered house at the heart of the garden',
       intro: 'A half-timbered farmhouse, a garden that stretches down to the stream, and room enough for everyone.',
       discover: 'Discover the house',
       travelers: 'Up to 8 guests',
@@ -193,7 +193,7 @@ export const content = {
     spacesSection: {
       eyebrow: 'The house, room by room', h2: 'Spaces made to<br><em>settle into.</em>',
       prevAria: 'Previous', nextAria: 'Next', imageAria: 'Enlarge photo', seeAllPhotos: 'See all photos',
-      imageAltSuffix: (title) => `${title} at La Maison Normande`,
+      imageAltSuffix: (title) => `${title} at Villa Normande`,
       galleryCloseAria: 'Close gallery', galleryPrevAria: 'Previous photo', galleryNextAria: 'Next photo'
     },
     spaces: [
@@ -259,14 +259,14 @@ export const content = {
       eyebrow: 'Danestal, Normandy', h2: 'What if your next<br>memory started <em>here?</em>',
       imageAlt: 'Aerial view of the house and surrounding countryside', button: 'Book now', note: 'Quick reply via WhatsApp'
     },
-    footer: { tagline: 'A family home, in Danestal.', linkHouse: 'The house', linkFaq: 'FAQ', linkContact: 'Contact', copyright: '© 2026 La Maison Normande', bottomNote: 'Direct & secure booking' },
+    footer: { tagline: 'A family home, in Danestal.', linkHouse: 'The house', linkFaq: 'FAQ', linkContact: 'Contact', copyright: '© 2026 Villa Normande', bottomNote: 'Direct & secure booking' },
     reserveModal: {
       title: 'Book now', intro: 'A short pre-filled message will open in WhatsApp — all you need to do is send it to Christophe.',
       name: 'Your name', namePlaceholder: 'First and last name', arrival: 'Check-in', departure: 'Check-out', guests: 'Guests',
       message: 'Message (optional)', messagePlaceholder: 'Anything else to add?', submit: 'Send via WhatsApp'
     },
     toast: { conflict: 'Stay not available: a night already booked falls within this period.' },
-    whatsapp: (name, arrival, departure, guestCount) => `Hello Christophe, I would like to book La Maison Normande from ${arrival} to ${departure} for ${guestCount} guest${guestCount > 1 ? 's' : ''}. My name: ${name}.`,
+    whatsapp: (name, arrival, departure, guestCount) => `Hello Christophe, I would like to book Villa Normande from ${arrival} to ${departure} for ${guestCount} guest${guestCount > 1 ? 's' : ''}. My name: ${name}.`,
     days: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
     monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     formatShort: (day, monthAbbr) => `${monthAbbr} ${day}`,

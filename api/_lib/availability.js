@@ -67,7 +67,7 @@ async function fetchIcal(source) {
   // En local uniquement, on accepte un fichier .ics téléchargé pour tester.
   if (!isDeployed() && source.startsWith('/')) return readFile(source, 'utf8');
   if (!isAirbnbUrl(source)) throw new Error('URL iCal Airbnb invalide');
-  const response = await fetch(source, { headers: { 'User-Agent': 'LaMaisonNormande-Sync/1.0' }, signal: AbortSignal.timeout(8000) });
+  const response = await fetch(source, { headers: { 'User-Agent': 'VillaNormande-Sync/1.0' }, signal: AbortSignal.timeout(8000) });
   // Une redirection ne doit pas sortir des domaines Airbnb.
   if (response.url && !isAirbnbHost(new URL(response.url).hostname)) throw new Error('Redirection hors d’Airbnb refusée');
   if (!response.ok) throw new Error(`Airbnb a répondu ${response.status}`);

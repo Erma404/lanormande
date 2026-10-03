@@ -49,7 +49,7 @@ function shell(content) {
       <aside class="auth-visual">
         <img src="/images/admin-alentours.jpg" alt="" />
         <div class="auth-visual-copy">
-          <a class="brand" href="/"><span class="brand-mark"><i></i><i></i></span><span>La Maison<br><em>Normande</em></span></a>
+          <a class="brand" href="/"><span class="brand-mark"><i></i><i></i></span><span>Villa<br><em>Normande</em></span></a>
           <p>Espace propriétaires</p>
         </div>
       </aside>
@@ -182,7 +182,7 @@ function renderDashboard() {
   root.innerHTML = `
     <div class="dash">
       <header class="dash-header">
-        <a class="brand" href="/" target="_blank" rel="noopener"><span class="brand-mark"><i></i><i></i></span><span>La Maison<br><em>Normande</em></span></a>
+        <a class="brand" href="/" target="_blank" rel="noopener"><span class="brand-mark"><i></i><i></i></span><span>Villa<br><em>Normande</em></span></a>
         <nav class="dash-tabs" aria-label="Sections">
           ${tabs.map(([id, label]) => `<button data-tab="${id}" class="${id === state.tab ? 'active' : ''}" ${id === state.tab ? 'aria-current="page"' : ''}>${label}</button>`).join('')}
         </nav>

@@ -14,10 +14,10 @@ export default route(['GET'], async (req, res) => {
     `DTSTAMP:${stamp()}`,
     `DTSTART;VALUE=DATE:${compact(block.start)}`,
     `DTEND;VALUE=DATE:${compact(block.end)}`,
-    'SUMMARY:Réservé (site La Maison Normande)',
+    'SUMMARY:Réservé (site Villa Normande)',
     'END:VEVENT'
   ].join('\r\n'));
-  const body = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//La Maison Normande//Calendrier//FR', 'CALSCALE:GREGORIAN', ...events, 'END:VCALENDAR', ''].join('\r\n');
+  const body = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Villa Normande//Calendrier//FR', 'CALSCALE:GREGORIAN', ...events, 'END:VCALENDAR', ''].join('\r\n');
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/calendar; charset=utf-8');
   res.setHeader('Cache-Control', 'public, s-maxage=300');
