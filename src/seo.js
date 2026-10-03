@@ -4,7 +4,7 @@ import { srcset } from './images.js';
 
 const PATHS = { fr: '/', en: '/en' };
 const LOCALES = { fr: 'fr_FR', en: 'en_GB' };
-const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
+const OG_IMAGE = `${SITE_URL}/og-villa-normande.jpg`;
 
 const text = (html) => String(html).replace(/<br\s*\/?>/g, ' ').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
 const attr = (value) => text(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
@@ -76,7 +76,7 @@ export function headTags(lang, t) {
     `<meta property="og:image" content="${OG_IMAGE}" />`,
     '<meta property="og:image:width" content="1200" />',
     '<meta property="og:image:height" content="630" />',
-    `<meta property="og:image:alt" content="${attr(t.finalCta.imageAlt)}" />`,
+    `<meta property="og:image:alt" content="${attr(t.hero.imageAlt)}" />`,
     '<meta name="twitter:card" content="summary_large_image" />',
     `<meta name="twitter:title" content="${attr(t.meta.title)}" />`,
     `<meta name="twitter:description" content="${attr(t.meta.description)}" />`,

@@ -298,7 +298,10 @@ export function guideHead(lang) {
     `<meta property="og:url" content="${url}" />`,
     `<meta property="og:title" content="${esc(g.meta.title)}" />`,
     `<meta property="og:description" content="${esc(g.meta.description)}" />`,
-    `<meta property="og:image" content="${SITE_URL}/og-image.jpg" />`,
+    `<meta property="og:image" content="${SITE_URL}/og-villa-normande.jpg" />`,
+    '<meta property="og:image:width" content="1200" />',
+    '<meta property="og:image:height" content="630" />',
+    `<meta name="twitter:image" content="${SITE_URL}/og-villa-normande.jpg" />`,
     `<link rel="preload" as="image" href="/images/les-alentours.jpeg" imagesrcset="${srcset('/images/les-alentours.jpeg')}" imagesizes="100vw" fetchpriority="high" />`,
     '<meta name="twitter:card" content="summary_large_image" />',
     jsonLd(breadcrumb), jsonLd(article), jsonLd(faq)
