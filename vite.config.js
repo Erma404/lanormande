@@ -6,7 +6,7 @@ import { content } from './src/content.js';
 import { applyOverrides } from './src/content-overrides.js';
 import { renderPage } from './src/page.js';
 import { headTags } from './src/seo.js';
-import { SITE_URL } from './src/site.js';
+import { VERCEL_URL } from './src/site.js';
 
 const root = fileURLToPath(new URL('.', import.meta.url));
 
@@ -45,7 +45,7 @@ function prerender() {
       if (!isBuild) return;
       // Intègre au build les textes modifiés depuis l'admin (site en ligne), si disponibles.
       try {
-        const response = await fetch(`${SITE_URL}/api/content`, { signal: AbortSignal.timeout(5000) });
+        const response = await fetch(`${VERCEL_URL}/api/content`, { signal: AbortSignal.timeout(5000) });
         if (response.ok) applyOverrides(content, await response.json());
       } catch { /* build hors ligne : textes par défaut */ }
     },
