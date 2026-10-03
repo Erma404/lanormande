@@ -66,6 +66,10 @@
     {
       "source": "/calendar.ics",
       "destination": "/api/calendar"
+    },
+    {
+      "source": "/api/auth/:action",
+      "destination": "/api/auth?action=:action"
     }
   ]
 }

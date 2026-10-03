@@ -19,7 +19,9 @@ function localApi() {
         let path = req.url.split('?')[0];
         if (path === '/calendar.ics') path = '/api/calendar';
         if (!path.startsWith('/api/') || path.includes('/_') || path.includes('..')) return next();
-        const file = resolve(root, `.${path}.js`);
+        // /api/auth/<action> est servi par api/auth.js, comme la réécriture de vercel.json.
+        let file = resolve(root, `.${path}.js`);
+        if (!existsSync(file)) file = resolve(root, `.${path.slice(0, path.lastIndexOf('/'))}.js`);
         if (!existsSync(file)) return next();
         try {
           const { default: handler } = await server.ssrLoadModule(file);
