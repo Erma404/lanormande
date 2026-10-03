@@ -1,6 +1,7 @@
 // Gabarit HTML de la page d'accueil : fonction pure, utilisée par le navigateur
 // et au moment du build pour générer le HTML complet (SEO, affichage immédiat).
 import { footerBottom } from './footer.js';
+import { imgAttrs, sized } from './images.js';
 
 export const icon = (name, size = 18) => {
   const paths = {
@@ -46,7 +47,7 @@ export const renderPage = (t, s) => `
 
   <main>
     <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-image image-placeholder"><img src="/images/la-maison.jpeg" alt="${t.hero.imageAlt}" fetchpriority="high" decoding="async" /></div>
+      <div class="hero-image image-placeholder"><img ${imgAttrs('/images/la-maison.jpeg', '100vw')} alt="${t.hero.imageAlt}" fetchpriority="high" decoding="async" /></div>
       <div class="hero-wash"></div>
       <div class="hero-copy shell">
         <h1 id="hero-title"><span class="eyebrow light"><span></span>${t.hero.eyebrow}</span> ${t.hero.titleLine1}<br><em>${t.hero.titleEm}</em></h1>
@@ -72,8 +73,8 @@ export const renderPage = (t, s) => `
 
     <section class="intro section shell" id="cadre">
       <div class="intro-collage" aria-label="Aperçus de la maison">
-        <figure class="intro-photo one image-placeholder"><img src="/images/piece-de-vie.jpeg" alt="${t.cadre.photoOneAlt}" loading="lazy" /><figcaption>${t.cadre.photoOneCaption}</figcaption></figure>
-        <figure class="intro-photo two image-placeholder"><img src="/images/jardin-table.avif" alt="${t.cadre.photoTwoAlt}" loading="lazy" /><figcaption>${t.cadre.photoTwoCaption}</figcaption></figure>
+        <figure class="intro-photo one image-placeholder"><img ${imgAttrs('/images/piece-de-vie.jpeg', '(max-width: 720px) 75vw, 40vw')} alt="${t.cadre.photoOneAlt}" loading="lazy" /><figcaption>${t.cadre.photoOneCaption}</figcaption></figure>
+        <figure class="intro-photo two image-placeholder"><img ${imgAttrs('/images/jardin-table.avif', '(max-width: 720px) 50vw, 25vw')} alt="${t.cadre.photoTwoAlt}" loading="lazy" /><figcaption>${t.cadre.photoTwoCaption}</figcaption></figure>
         <div class="review-stamp"><strong>${t.cadre.overallRating}<small>/5</small></strong><span>${icon('star', 13)} ${t.cadre.reviewsVerified}</span></div>
       </div>
       <div class="intro-copy">
@@ -103,7 +104,7 @@ export const renderPage = (t, s) => `
     <section class="spaces section" id="chambres"><div class="shell">
       <div class="section-top"><div><p class="eyebrow"><span></span>${t.spacesSection.eyebrow}</p><h2>${t.spacesSection.h2}</h2></div><div class="carousel-controls"><button class="carousel-prev" aria-label="${t.spacesSection.prevAria}">←</button><span><b id="slide-index">01</b> <i></i> ${String(t.spaces.length).padStart(2,'0')}</span><button class="carousel-next" aria-label="${t.spacesSection.nextAria}">→</button></div></div>
       <div class="space-stage">
-        <div class="space-image image-placeholder" id="space-image" role="button" tabindex="0" aria-label="${t.spacesSection.imageAria}"><img src="${t.spaces[0][2]}" alt="${t.spacesSection.imageAltSuffix(t.spaces[0][0])}" loading="lazy" /></div>
+        <div class="space-image image-placeholder" id="space-image" role="button" tabindex="0" aria-label="${t.spacesSection.imageAria}"><img ${imgAttrs(t.spaces[0][2], '(max-width: 720px) 100vw, 60vw')} alt="${t.spacesSection.imageAltSuffix(t.spaces[0][0])}" loading="lazy" /></div>
         <article class="space-caption"><p class="eyebrow"><span></span><span id="space-count">01 — ${String(t.spaces.length).padStart(2, '0')}</span></p><h3 id="space-title">${t.spaces[0][0]}</h3><p id="space-text">${t.spaces[0][1]}</p><button class="text-link" id="open-gallery">${t.spacesSection.seeAllPhotos} ${icon('arrow', 17)}</button></article>
       </div>
       <div class="space-thumbnails" id="space-thumbnails"></div>
@@ -121,7 +122,7 @@ export const renderPage = (t, s) => `
 
     <section class="host section"><div class="shell host-grid">
       <div class="host-portrait-wrap">
-        <div class="host-portrait image-placeholder"><img src="/images/christophe.jpg" alt="${t.host.portraitAlt}" loading="lazy" /></div>
+        <div class="host-portrait image-placeholder"><img ${imgAttrs('/images/christophe.jpg', '300px')} alt="${t.host.portraitAlt}" loading="lazy" /></div>
         <div class="host-card">
           <strong>${t.host.name}</strong>
           <div class="host-fact">${icon('globe', 16)}<span>${t.host.languages}</span></div>
@@ -142,7 +143,7 @@ export const renderPage = (t, s) => `
       <div class="shell">
         <div class="section-top"><div><p class="eyebrow"><span></span>${t.nearbySection.eyebrow}</p><h2>${t.nearbySection.h2}</h2></div><a class="text-link nearby-guide-link" href="${t.nearbySection.guideUrl}">${t.nearbySection.cta} ${icon('arrow', 17)}</a></div>
         <div class="nearby-pin-body">
-          <div class="nearby-pin-image" id="nearby-pin-image">${t.nearbyItems.map(([, , , img], i) => `<div class="nearby-pin-slide ${i === 0 ? 'active' : ''}" data-index="${i}" style="background-image:url('${img}')"></div>`).join('')}</div>
+          <div class="nearby-pin-image" id="nearby-pin-image">${t.nearbyItems.map(([, , , img], i) => `<div class="nearby-pin-slide ${i === 0 ? 'active' : ''}" data-index="${i}" style="background-image:url('${sized(img, 960)}')"></div>`).join('')}</div>
           <div class="nearby-pin-list" id="nearby-pin-list">${t.nearbyItems.map(([title, time, text], i) => `<article class="${i === 0 ? 'active' : ''}" data-index="${i}" role="button" tabindex="0" aria-label="${title}"><span class="nearby-no">0${i + 1}</span><div><h3>${title}</h3><p>${text}</p></div><span>${time}</span></article>`).join('')}</div>
         </div>
         <div class="nearby-pin-progress" id="nearby-pin-progress">${t.nearbyItems.map((_, i) => `<i class="${i === 0 ? 'active' : ''}"></i>`).join('')}</div>
@@ -163,7 +164,7 @@ export const renderPage = (t, s) => `
 
     <section class="faq section" id="faq"><div class="shell faq-grid"><div><p class="eyebrow"><span></span>${t.faqSection.eyebrow}</p><h2>${t.faqSection.h2}</h2><p class="faq-intro">${t.faqSection.intro}</p><a class="outline-button small" href="mailto:contact@villanormande.com">${t.faqSection.contact} ${icon('arrow', 16)}</a></div><div class="accordion">${t.faq.map(([q, a], i) => `<details ${i === 0 ? 'open' : ''}><summary>${q} <span>${icon('plus',18)}</span></summary><p>${a}</p></details>`).join('')}</div></div></section>
 
-    <section class="final-cta"><div class="final-image image-placeholder"><img src="/images/les-alentours.jpeg" alt="${t.finalCta.imageAlt}" loading="lazy" /></div><div class="final-wash"></div><div class="shell final-copy"><p class="eyebrow light"><span></span>${t.finalCta.eyebrow}</p><h2>${t.finalCta.h2}</h2><button class="reserve-button booking-trigger">${t.finalCta.button}</button><p class="final-note">${t.finalCta.note}</p></div></section>
+    <section class="final-cta"><div class="final-image image-placeholder"><img ${imgAttrs('/images/les-alentours.jpeg', '100vw')} alt="${t.finalCta.imageAlt}" loading="lazy" /></div><div class="final-wash"></div><div class="shell final-copy"><p class="eyebrow light"><span></span>${t.finalCta.eyebrow}</p><h2>${t.finalCta.h2}</h2><button class="reserve-button booking-trigger">${t.finalCta.button}</button><p class="final-note">${t.finalCta.note}</p></div></section>
   </main>
   <footer><div class="shell footer-row"><a class="brand footer-brand" href="#top"><span class="brand-mark"><i></i><i></i></span><span>Villa<br><em>Normande</em></span></a><p>${t.footer.tagline}</p><div><a href="#cadre">${t.footer.linkHouse}</a><a href="#faq">${t.footer.linkFaq}</a><a href="${t.nearbySection.guideUrl.split('#')[0]}">${t.footer.linkGuide}</a><a href="mailto:contact@villanormande.com">${t.footer.linkContact}</a></div></div>${footerBottom(t.lang, t.footer.bottomNote)}</footer>
   <div class="toast" role="status" aria-live="polite"></div>

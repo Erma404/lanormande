@@ -1,3 +1,4 @@
+@import '../fonts.css';
 :root { --ink: #201b17; --muted: #665c52; --cream: #f7f1e8; --paper: #fffdf9; --line: #e8dccb; --forest: #27372a; --clay: #b96f4d; --danger: #a4402a; --sans: 'Manrope', system-ui, sans-serif; }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--cream); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.5; letter-spacing: -.01em; -webkit-font-smoothing: antialiased; }

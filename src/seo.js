@@ -1,5 +1,6 @@
 // Balises <head> générées au build pour chaque langue : SEO, aperçus de partage, données structurées.
 import { SITE_URL } from './site.js';
+import { srcset } from './images.js';
 
 const PATHS = { fr: '/', en: '/en' };
 const LOCALES = { fr: 'fr_FR', en: 'en_GB' };
@@ -80,7 +81,7 @@ export function headTags(lang, t) {
     `<meta name="twitter:title" content="${attr(t.meta.title)}" />`,
     `<meta name="twitter:description" content="${attr(t.meta.description)}" />`,
     `<meta name="twitter:image" content="${OG_IMAGE}" />`,
-    '<link rel="preload" as="image" href="/images/la-maison.jpeg" fetchpriority="high" />',
+    `<link rel="preload" as="image" href="/images/la-maison.jpeg" imagesrcset="${srcset('/images/la-maison.jpeg')}" imagesizes="100vw" fetchpriority="high" />`,
     jsonLd(lodging),
     jsonLd(faq)
   ].join('\n    ');

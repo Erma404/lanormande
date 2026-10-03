@@ -26,7 +26,24 @@
     <xhtml:link rel="alternate" hreflang="fr" href="https://villanormande.com/normandie-pays-d-auge" />
     <xhtml:link rel="alternate" hreflang="en" href="https://villanormande.com/en/normandy-guide" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://villanormande.com/normandie-pays-d-auge" />
-    <image:image><image:loc>https://villanormande.com/images/les-alentours.jpeg</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/plage-cabourg.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/deauville.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/route-du-cidre.jpg</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/randonnee-pays-dauge.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/houlgate.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/honfleur.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/beuvron.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/pont-l-eveque.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/lisieux.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/pegasus-bridge.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/memorial-caen.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/juno-beach.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/arromanches.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/bayeux.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/cimetiere-americain.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/pointe-du-hoc.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/etretat.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/mont-saint-michel.webp</image:loc></image:image>
     <lastmod>2026-10-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -36,6 +53,24 @@
     <xhtml:link rel="alternate" hreflang="fr" href="https://villanormande.com/normandie-pays-d-auge" />
     <xhtml:link rel="alternate" hreflang="en" href="https://villanormande.com/en/normandy-guide" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://villanormande.com/normandie-pays-d-auge" />
+    <image:image><image:loc>https://villanormande.com/images/plage-cabourg.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/deauville.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/route-du-cidre.jpg</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/randonnee-pays-dauge.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/houlgate.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/honfleur.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/beuvron.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/pont-l-eveque.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/lisieux.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/pegasus-bridge.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/memorial-caen.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/juno-beach.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/arromanches.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/bayeux.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/cimetiere-americain.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/pointe-du-hoc.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/etretat.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/guide/mont-saint-michel.webp</image:loc></image:image>
     <lastmod>2026-10-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

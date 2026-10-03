@@ -1,6 +1,7 @@
 import { content } from './content.js';
 import { applyOverrides } from './content-overrides.js';
 import { icon, renderPage } from './page.js';
+import { imgAttrs, sized, srcset } from './images.js';
 import { SITE_URL } from './site.js';
 import './cookie-notice.js';
 
@@ -309,9 +310,9 @@ function mount() {
   const galleryModal = $('#gallery-modal');
   function renderSpace() {
     const [title, text, image] = t.spaces[activeSpace];
-    $('#space-image').innerHTML = `<img src="${image}" alt="${t.spacesSection.imageAltSuffix(title)}" loading="lazy" />`; $('#space-title').textContent = title; $('#space-text').textContent = text;
+    $('#space-image').innerHTML = `<img ${imgAttrs(image, '(max-width: 720px) 100vw, 60vw')} alt="${t.spacesSection.imageAltSuffix(title)}" loading="lazy" />`; $('#space-title').textContent = title; $('#space-text').textContent = text;
     $('#space-count').textContent = `${String(activeSpace + 1).padStart(2,'0')} — ${spacesTotal}`; $('#slide-index').textContent = String(activeSpace + 1).padStart(2,'0');
-    $('#space-thumbnails').innerHTML = t.spaces.map(([title,,image], i) => `<button class="space-thumb ${i===activeSpace?'active':''}" data-space="${i}" aria-label="${title}"><img src="${image}" alt="" /><span>${String(i+1).padStart(2,'0')}</span></button>`).join('');
+    $('#space-thumbnails').innerHTML = t.spaces.map(([title,,image], i) => `<button class="space-thumb ${i===activeSpace?'active':''}" data-space="${i}" aria-label="${title}"><img src="${sized(image, 200)}" alt="" loading="lazy" /><span>${String(i+1).padStart(2,'0')}</span></button>`).join('');
     $$('.space-thumb').forEach(button => button.addEventListener('click', () => { activeSpace = Number(button.dataset.space); renderSpace(); if (!galleryModal.hidden) renderGallery(); }));
     if (galleryModal && !galleryModal.hidden) renderGallery();
   }
@@ -322,7 +323,7 @@ function mount() {
   // ---- photo gallery ---------------------------------------------------------
   function renderGallery() {
     const [title, , image] = t.spaces[activeSpace];
-    $('#gallery-image').src = image; $('#gallery-image').alt = t.spacesSection.imageAltSuffix(title);
+    $('#gallery-image').srcset = srcset(image); $('#gallery-image').sizes = '90vw'; $('#gallery-image').src = image; $('#gallery-image').alt = t.spacesSection.imageAltSuffix(title);
     $('#gallery-title').textContent = title;
     $('#gallery-count').textContent = `${String(activeSpace + 1).padStart(2,'0')} / ${spacesTotal}`;
   }

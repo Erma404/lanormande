@@ -3,6 +3,7 @@
 // répondre directement aux questions (AEO). Temps de trajet indicatifs, en voiture, depuis Danestal.
 import { SITE_URL } from './site.js';
 import { siteFooter } from './footer.js';
+import { imgAttrs, sized, srcset } from './images.js';
 
 export const GUIDE_PATHS = { fr: '/normandie-pays-d-auge', en: '/en/normandy-guide' };
 const HOME = { fr: '/', en: '/en' };
@@ -256,7 +257,7 @@ function mapPlaces(lang) {
   return g.sections.flatMap((section) => section.places.map(([name, time, text], index) => {
     const key = SECTION_PHOTOS[section.id]?.[index];
     if (!key || !COORDS[key]) return null;
-    return { key, name, time, text, category: section.id, bestFor: BEST_FOR[lang][key], photo: PHOTOS[key]?.src || '', coords: COORDS[key] };
+    return { key, name, time, text, category: section.id, bestFor: BEST_FOR[lang][key], photo: PHOTOS[key] ? sized(PHOTOS[key].src, 480) : '', coords: COORDS[key] };
   })).filter(Boolean);
 }
 
@@ -298,6 +299,7 @@ export function guideHead(lang) {
     `<meta property="og:title" content="${esc(g.meta.title)}" />`,
     `<meta property="og:description" content="${esc(g.meta.description)}" />`,
     `<meta property="og:image" content="${SITE_URL}/og-image.jpg" />`,
+    `<link rel="preload" as="image" href="/images/les-alentours.jpeg" imagesrcset="${srcset('/images/les-alentours.jpeg')}" imagesizes="100vw" fetchpriority="high" />`,
     '<meta name="twitter:card" content="summary_large_image" />',
     jsonLd(breadcrumb), jsonLd(article), jsonLd(faq)
   ].join('\n    ');
@@ -309,7 +311,7 @@ export function renderGuide(lang) {
   const home = HOME[lang];
   const creditLabel = 'Photo';
   const places = mapPlaces(lang);
-  const figure = (photo, name) => photo ? `<figure class="guide-photo"><img src="${photo.src}" alt="${esc(name)}, ${lang === 'fr' ? 'Normandie' : 'Normandy'}" width="1200" height="800" loading="lazy" decoding="async" />${photo.credit
+  const figure = (photo, name) => photo ? `<figure class="guide-photo"><img ${imgAttrs(photo.src, '(max-width: 860px) 92vw, 440px')} alt="${esc(name)}, ${lang === 'fr' ? 'Normandie' : 'Normandy'}" width="1200" height="800" loading="lazy" decoding="async" />${photo.credit
       ? `<figcaption><a href="${photo.url}" target="_blank" rel="noopener license">${creditLabel} : ${esc(photo.credit)}, ${esc(photo.license)}</a></figcaption>` : ''}</figure>` : '';
   const placeCards = (section) => section.places.map(([name, time, text], index) => `
           <article class="guide-place">${figure(photoOf(section.id, index), name)}<div class="guide-place-body"><div class="guide-place-head"><h3>${esc(name)}</h3><span class="guide-time">${esc(time)}</span></div><p>${esc(text)}</p></div></article>`).join('');
@@ -323,7 +325,8 @@ export function renderGuide(lang) {
     </nav>
   </header>
   <main class="guide">
-    <section class="guide-hero" style="--image:url('/images/les-alentours.jpeg')">
+    <section class="guide-hero">
+      <img class="guide-hero-img" ${imgAttrs('/images/les-alentours.jpeg', '100vw')} alt="" fetchpriority="high" decoding="async" />
       <div class="guide-hero-wash"></div>
       <div class="shell guide-hero-copy">
         <nav class="guide-breadcrumb" aria-label="Fil d’Ariane"><a href="${home}">Villa Normande</a> <span aria-hidden="true">/</span> <span>${esc(g.nav.breadcrumb)}</span></nav>
