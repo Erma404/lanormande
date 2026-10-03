@@ -61,7 +61,7 @@ export function renderAvailability(container, { escape }) {
 
         <section class="panel">
           <h2>Site → calendrier Airbnb</h2>
-          <p class="muted">Pour que les dates bloquées ici soient aussi bloquées sur Airbnb, importez ce lien une fois dans Airbnb : <strong>Associer des calendriers</strong> → <strong>Importer un calendrier</strong>, nom « Site La Maison Normande ».</p>
+          <p class="muted">Pour que les dates bloquées ici soient aussi bloquées sur Airbnb, importez ce lien une fois dans Airbnb : <strong>Associer des calendriers</strong> → <strong>Importer un calendrier</strong>, nom « Site Villa Normande ».</p>
           <div class="copy-row"><input type="text" readonly value="${escape(exportUrl)}" id="export-url" /><button type="button" class="secondary small" id="copy-export">Copier</button></div>
           <p class="muted small-text">Airbnb relit ce calendrier environ toutes les 2 à 3 heures.</p>
         </section>
