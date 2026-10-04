@@ -573,3 +573,76 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   .pricing-price { font-size: 18px; }
 }
 @media (prefers-reduced-motion: reduce) { .pricing-card { animation: none; } }
+
+/* Récapitulatif du prix dans la fenêtre de réservation (main.js, src/pricing.js). */
+.rf-estimate { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 11px 14px; border-radius: 8px; background: color-mix(in oklch, var(--clay) 9%, var(--paper)); border: 1px solid color-mix(in oklch, var(--clay) 22%, transparent); }
+.rf-estimate[hidden] { display: none; }
+.rf-estimate-stay { display: grid; gap: 1px; min-width: 0; }
+.rf-estimate-stay strong { font-size: 14px; }
+.rf-estimate-stay span { font-size: 12px; color: var(--muted); }
+.rf-estimate-total { display: grid; justify-items: end; gap: 1px; text-align: right; }
+.rf-estimate-total span { font-size: 11px; font-weight: 600; color: var(--muted); }
+.rf-estimate-total strong { font-size: 20px; font-weight: 800; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+@media (max-height: 760px) { .rf-estimate { padding: 8px 12px; } .rf-estimate-total strong { font-size: 18px; } }
+/* Très petits écrans (iPhone SE, barres du navigateur affichées) : la fenêtre doit tenir sans défiler. */
+@media (max-height: 620px) { .reserve-form-intro { display: none; } }
+
+/* Champs Arrivée / Départ du formulaire : ouvrent le calendrier des disponibilités. */
+.reserve-card { position: relative; }
+.rf-date-field { display: grid; gap: 4px; min-width: 0; font-size: 12px; font-weight: 600; color: var(--ink); }
+.rf-date { width: 100%; padding: 9px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); color: var(--muted); font: inherit; font-size: 14px; font-weight: 400; text-align: left; cursor: pointer; transition: border-color .2s; }
+.rf-date:hover { border-color: var(--ink); }
+.rf-date.filled { color: var(--ink); font-weight: 600; }
+.rf-date:focus-visible { outline: 2px solid var(--clay); outline-offset: 1px; }
+@media (max-height: 760px) { .rf-date-field { font-size: 11.5px; gap: 3px; } .rf-date { padding-top: 7px; padding-bottom: 7px; } }
+@media (max-width: 720px) { .rf-date { font-size: 16px; padding: 8px 10px; } }
+
+/* Calendrier des disponibilités (à la manière d'Airbnb) : recouvre la fenêtre de réservation. */
+/* Pendant le choix des dates, le calendrier remplace le formulaire (même fenêtre, sa propre hauteur). */
+.reserve-card.picking .modal-head, .reserve-card.picking .reserve-form { display: none; }
+.rf-picker { display: flex; flex-direction: column; gap: 14px; padding: 22px 24px 18px; background: var(--paper); animation: rf-picker-in .2s ease-out; }
+.rf-picker[hidden] { display: none; }
+@keyframes rf-picker-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.rf-picker-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; }
+.rf-picker-head strong { display: block; font-size: 20px; font-weight: 700; letter-spacing: -.04em; }
+.rf-picker-head p { margin: 4px 0 0; max-width: 26ch; font-size: 13px; line-height: 1.4; color: var(--muted); }
+.rf-picker-fields { flex: 0 0 auto; display: grid; grid-template-columns: repeat(2, minmax(0, 120px)); border: 1px solid var(--line); border-radius: 10px; }
+.rf-pf { display: grid; gap: 2px; padding: 8px 12px; border-radius: 10px; }
+.rf-pf + .rf-pf { border-left: 1px solid var(--line); }
+.rf-pf span { font-size: 10px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+.rf-pf strong { font-size: 13px !important; font-weight: 500 !important; letter-spacing: 0 !important; color: var(--muted); white-space: nowrap; }
+.rf-pf.filled strong { color: var(--ink); font-weight: 700 !important; }
+.rf-pf.active { position: relative; z-index: 1; box-shadow: 0 0 0 2px var(--ink); background: #fff; }
+.rf-picker-body { position: relative; }
+.rf-picker-months { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+.rf-picker-nav { position: absolute; top: -4px; z-index: 1; width: 30px; height: 30px; display: grid; place-items: center; border: 0; border-radius: 50%; background: transparent; color: var(--ink); font-size: 22px; line-height: 1; cursor: pointer; }
+.rf-picker-nav:hover:not(:disabled) { background: var(--cream); }
+.rf-picker-nav:disabled { color: var(--line); cursor: default; }
+.rf-picker-nav.prev { left: -6px; }
+.rf-picker-nav.next { right: -6px; }
+.rf-month-title { margin: 0 0 10px; text-align: center; font-size: 14px; font-weight: 700; }
+.rf-weekdays, .rf-days { display: grid; grid-template-columns: repeat(7, 1fr); }
+.rf-weekdays span { padding-bottom: 6px; text-align: center; font-size: 11px; color: var(--muted); }
+.rf-day { aspect-ratio: 1; max-height: 38px; display: grid; place-items: center; border: 0; border-radius: 50%; background: none; color: var(--ink); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+.rf-day:hover:not(:disabled) { box-shadow: inset 0 0 0 1.5px var(--ink); }
+.rf-day:disabled { cursor: default; color: color-mix(in oklch, var(--ink) 30%, transparent); font-weight: 500; }
+.rf-day.booked { text-decoration: line-through; }
+.rf-day.in-range { border-radius: 0; background: color-mix(in oklch, var(--clay) 12%, transparent); }
+.rf-day.edge { background: var(--dark); color: #fff; }
+.rf-picker-loading { margin: 40px 0; text-align: center; color: var(--muted); font-size: 14px; }
+.rf-picker-foot { display: flex; align-items: center; justify-content: flex-end; gap: 18px; margin-top: auto; }
+.rf-picker-clear { border: 0; background: none; color: var(--ink); font: inherit; font-size: 13px; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.rf-picker-done { padding: 11px 20px; border: 0; border-radius: 8px; background: var(--dark); color: #fff; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; }
+.rf-picker-done:hover { background: var(--clay); }
+@media (max-width: 600px) {
+  .rf-picker { padding: 18px 16px 14px; }
+  .rf-picker-head { flex-direction: column; gap: 12px; }
+  .rf-picker-fields { width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rf-pf strong { overflow: hidden; text-overflow: ellipsis; }
+  .rf-picker-months { grid-template-columns: 1fr; }
+  .rf-picker-months .rf-month:nth-child(2) { display: none; }
+}
+@media (max-height: 620px) { .rf-day { max-height: 34px; } .rf-picker { gap: 10px; } .rf-picker-head p { display: none; } }
+@media (prefers-reduced-motion: reduce) { .rf-picker { animation: none; } }
+/* Les fiches cachées du plan dépassaient de quelques pixels sur petit écran (défilement horizontal). */
+.floor-plan { overflow-x: clip; }

@@ -2,6 +2,7 @@ import { content } from './content.js';
 import { applyOverrides } from './content-overrides.js';
 import { icon, renderPage } from './page.js';
 import { imgAttrs, sized, srcset } from './images.js';
+import { estimateStay } from './pricing.js';
 import { SITE_URL } from './site.js';
 import './cookie-notice.js';
 
@@ -227,8 +228,126 @@ function mount() {
   // ---- reservation modal: the request is saved on the site, WhatsApp stays as an alternative
   const WHATSAPP_NUMBER = '33603830585'; // Christophe
   const reserveModal = $('#reserve-modal');
+  // Récapitulatif du prix, comme à la fin d'un achat de billet : apparaît dès que les dates sont valides.
+  const updateEstimate = () => {
+    const box = $('#rf-estimate');
+    const result = estimateStay($('#rf-arrival').value, $('#rf-departure').value);
+    if (!result) { box.hidden = true; return; }
+    const e = t.reserveModal.estimate;
+    const money = (n) => new Intl.NumberFormat(e.locale, { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
+    $('#rf-est-nights').textContent = e.night(result.nights);
+    if (result.total === null) {
+      $('#rf-est-detail').textContent = e.oneNight;
+      $('#rf-est-total').textContent = '—';
+    } else {
+      const season = result.seasons.length > 1 ? e.seasons.both : e.seasons[result.seasons[0]];
+      const exact = result.perNight * result.nights === result.total;
+      $('#rf-est-detail').textContent = `${season} · ${exact ? '' : e.approx}${money(result.perNight)} / ${e.perNight}`;
+      $('#rf-est-total').textContent = money(result.total);
+    }
+    box.hidden = false;
+  };
+  // ---- calendrier de la fenêtre de réservation (comme Airbnb) -------------------
+  // Mêmes disponibilités que le calendrier du haut (Airbnb + blocages admin) : les nuits prises
+  // sont barrées ; une fois l'arrivée choisie, impossible de choisir un départ qui traverse une
+  // nuit occupée. Le jour où une réservation commence reste possible comme jour de départ.
+  const pk = t.reserveModal.picker;
+  const picker = $('#rf-picker');
+  let pick = [];
+  let pickYear = today.getFullYear();
+  let pickMonth = today.getMonth();
+  const setDates = (arrival, departure) => {
+    $('#rf-arrival').value = arrival || '';
+    $('#rf-departure').value = departure || '';
+    $('#rf-arrival-btn').textContent = arrival ? formatShort(arrival) : pk.choose;
+    $('#rf-departure-btn').textContent = departure ? formatShort(departure) : pk.choose;
+    $('#rf-arrival-btn').classList.toggle('filled', Boolean(arrival));
+    $('#rf-departure-btn').classList.toggle('filled', Boolean(departure));
+    updateEstimate();
+  };
+  const monthHtml = (year, month) => {
+    const firstWeekday = (new Date(year, month, 1).getDay() + 6) % 7;
+    const totalDays = new Date(year, month + 1, 0).getDate();
+    const cells = Array(firstWeekday).fill(null).concat(Array.from({ length: totalDays }, (_, i) => i + 1));
+    while (cells.length % 7 !== 0) cells.push(null);
+    const days = cells.map(day => {
+      if (!day) return '<span></span>';
+      const iso = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      const isPast = new Date(year, month, day) < today;
+      const isBooked = !isPast && isNightBlocked(iso);
+      const choosingDeparture = pick.length === 1;
+      const isValidDeparture = choosingDeparture && iso > pick[0] && !rangeCrossesBookedDate(pick[0], iso);
+      // Arrivée choisie : les jours au-delà de la prochaine nuit occupée sont grisés (comme Airbnb).
+      const beyondBooking = choosingDeparture && iso > pick[0] && !isValidDeparture;
+      const disabled = isPast || (isBooked && !isValidDeparture) || beyondBooking;
+      const isEdge = pick.includes(iso);
+      const inRange = pick.length === 2 && iso > pick[0] && iso < pick[1];
+      const cls = ['rf-day', isBooked && !isValidDeparture ? 'booked' : '', isPast ? 'past' : '', isEdge ? 'edge' : '', inRange ? 'in-range' : '',
+        pick.length === 2 && iso === pick[0] ? 'start' : '', pick.length === 2 && iso === pick[1] ? 'end' : ''].filter(Boolean).join(' ');
+      return `<button type="button" class="${cls}" data-date="${iso}" ${disabled ? 'disabled' : ''} ${isBooked && !isValidDeparture ? `title="${pk.booked}"` : ''}>${day}</button>`;
+    }).join('');
+    return `<div class="rf-month"><p class="rf-month-title">${t.monthNames[month]} ${year}</p><div class="rf-weekdays">${t.days.map(d => `<span>${d}</span>`).join('')}</div><div class="rf-days">${days}</div></div>`;
+  };
+  const renderPicker = () => {
+    const second = pickMonth === 11 ? [pickYear + 1, 0] : [pickYear, pickMonth + 1];
+    $('#rf-picker-prev').disabled = pickYear === today.getFullYear() && pickMonth === today.getMonth();
+    $('#rf-picker-months').innerHTML = availabilityLoaded
+      ? monthHtml(pickYear, pickMonth) + monthHtml(...second)
+      : `<p class="rf-picker-loading">${pk.loading}</p>`;
+    // En-tête : cases Arrivée / Départ (celle en cours de saisie est entourée) et récapitulatif.
+    $('#rf-pf-arrival-val').textContent = pick[0] ? formatShort(pick[0]) : pk.choose;
+    $('#rf-pf-departure-val').textContent = pick[1] ? formatShort(pick[1]) : pk.choose;
+    $('#rf-pf-arrival').classList.toggle('active', pick.length !== 1);
+    $('#rf-pf-departure').classList.toggle('active', pick.length === 1);
+    $('#rf-pf-arrival').classList.toggle('filled', Boolean(pick[0]));
+    $('#rf-pf-departure').classList.toggle('filled', Boolean(pick[1]));
+    const result = pick.length === 2 ? estimateStay(pick[0], pick[1]) : null;
+    const e = t.reserveModal.estimate;
+    $('#rf-picker-hint').textContent = result
+      ? `${e.night(result.nights)} · ${result.total === null ? e.oneNight : new Intl.NumberFormat(e.locale, { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(result.total)}`
+      : pick.length === 1 ? pk.departure : pk.subtitle;
+    $$('#rf-picker-months .rf-day:not([disabled])').forEach(button => button.addEventListener('click', () => {
+      const iso = button.dataset.date;
+      if (pick.length !== 1 || iso <= pick[0]) pick = [iso];
+      else pick = [pick[0], iso];
+      renderPicker();
+    }));
+  };
+  const openPicker = (field) => {
+    const arrival = $('#rf-arrival').value;
+    const departure = $('#rf-departure').value;
+    pick = arrival && departure ? (field === 'departure' ? [arrival] : [arrival, departure]) : arrival ? [arrival] : [];
+    const base = arrival ? new Date(`${arrival}T00:00:00`) : today;
+    pickYear = base.getFullYear();
+    pickMonth = base.getMonth();
+    picker.hidden = false;
+    picker.closest('.reserve-card').classList.add('picking');
+    picker.closest('.reserve-card').scrollTop = 0;
+    renderPicker();
+    $('#rf-picker-done').focus();
+  };
+  const closePicker = (apply) => {
+    if (apply && pick.length === 2) {
+      setDates(pick[0], pick[1]);
+      // Le calendrier du haut de page reprend les mêmes dates.
+      selected = [...pick];
+      $('#arrival-value').textContent = formatShort(pick[0]);
+      $('#departure-value').textContent = formatShort(pick[1]);
+      refreshCalendar();
+    }
+    picker.hidden = true;
+    picker.closest('.reserve-card').classList.remove('picking');
+  };
+  $$('[data-picker]').forEach(button => button.addEventListener('click', () => openPicker(button.dataset.picker)));
+  $('#rf-picker-done').addEventListener('click', () => closePicker(true));
+  $('#rf-picker-clear').addEventListener('click', () => { pick = []; renderPicker(); });
+  $('#rf-picker-prev').addEventListener('click', () => { pickMonth--; if (pickMonth < 0) { pickMonth = 11; pickYear--; } renderPicker(); });
+  $('#rf-picker-next').addEventListener('click', () => { pickMonth++; if (pickMonth > 11) { pickMonth = 0; pickYear++; } renderPicker(); });
+
   const openReserveModal = () => {
-    if (selected.length === 2) { $('#rf-arrival').value = selected[0]; $('#rf-departure').value = selected[1]; }
+    if (selected.length === 2) setDates(selected[0], selected[1]); else setDates('', '');
+    picker.hidden = true;
+    picker.closest('.reserve-card').classList.remove('picking');
     $('#rf-guests').value = guests.adults + guests.children;
     $('#reserve-form').hidden = false;
     $('#reserve-success').hidden = true;
@@ -268,7 +387,8 @@ function mount() {
   $('#reserve').addEventListener('click', openReserveModal);
   $('#reserve-modal-close').addEventListener('click', closeReserveModal);
   reserveModal.addEventListener('click', (event) => { if (event.target === reserveModal) closeReserveModal(); });
-  document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !reserveModal.hidden) closeReserveModal(); }, { signal });
+  // Échap ferme d'abord le calendrier, puis la fenêtre.
+  document.addEventListener('keydown', (event) => { if (event.key !== 'Escape' || reserveModal.hidden) return; if (!picker.hidden) closePicker(false); else closeReserveModal(); }, { signal });
 
   const readReserveForm = () => ({
     name: $('#rf-name').value.trim(),
@@ -311,6 +431,7 @@ function mount() {
     button.innerHTML = label;
     if (error) return setReserveError(t.reserveModal.errors[error] || t.reserveModal.errors.server_error);
     $('#reserve-form').reset();
+    setDates('', '');
     $('#reserve-form').hidden = true;
     $('#reserve-success').hidden = false;
     $('#reserve-success-close').focus();
