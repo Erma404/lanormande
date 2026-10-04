@@ -7,7 +7,7 @@ export const content = {
   fr: {
     lang: 'fr',
     meta: { title: 'Maison à louer pour 8 près de Deauville · Villa Normande', description: 'Maison à colombages pour 8 à Danestal, au cœur du pays d’Auge : 4 chambres, jacuzzi, cheminée, jardin de 8 000 m², plages à 18 min. Réservez en direct.' },
-    nav: { cadre: 'Le cadre', equipements: 'Équipements', chambres: 'Chambres', plan: 'Plan', avis: 'Avis', faq: 'FAQ' },
+    nav: { cadre: 'Le cadre', equipements: 'Équipements', chambres: 'Chambres', plan: 'Plan', avis: 'Avis', tarifs: 'Tarifs', faq: 'FAQ' },
     brandAria: 'Villa Normande, accueil',
     headerCta: 'Je réserve',
     menuAria: 'Ouvrir le menu',
@@ -27,7 +27,7 @@ export const content = {
       prevAria: 'Mois précédent', nextAria: 'Mois suivant',
       arrival: 'Arrivée', departure: 'Départ', select: 'Sélectionner',
       travelers: 'Voyageurs', adults: 'Adultes', adultsSub: '13 ans et plus', children: 'Enfants', childrenSub: '2 à 12 ans',
-      reserve: 'Réserver', fromPrice: 'à partir de 325 € / nuit', note: 'Vous ne serez pas débité·e maintenant.',
+      reserve: 'Réserver', fromPrice: 'à partir de 185 € / nuit', note: 'Vous ne serez pas débité·e maintenant.',
       adultWord: (n) => `adulte${n > 1 ? 's' : ''}`, childWord: (n) => `enfant${n > 1 ? 's' : ''}`
     },
     cadre: {
@@ -115,6 +115,19 @@ export const content = {
       ['SR', 'Sophie R.', 'Juin 2026', 'Un accueil chaleureux du début à la fin. La maison est encore plus belle qu’en photo, et si bien équipée.'],
       ['TB', 'Thomas B.', 'Septembre 2025', 'L’extérieur est un vrai bonheur pour les enfants comme pour les adultes. On s’est sentis chez nous immédiatement.']
     ],
+    pricing: {
+      eyebrow: 'Tarifs', h2: 'Plus vous restez,<br><em>moins vous payez.</em>',
+      intro: 'Le prix comprend la maison entière pour 8 voyageurs, le linge de maison et le ménage de fin de séjour. Réservation en direct, sans frais de plateforme.',
+      current: 'Saison actuelle', perNight: 'nuit', approx: '≈ ',
+      seasons: [
+        { id: 'basse', name: 'Basse saison', months: 'Janvier, février, mars, octobre et novembre', monthNumbers: [1, 2, 3, 10, 11],
+          rows: [['Week-end · 2 nuits', '500 €', '250 €'], ['Week-end · 3 nuits', '700 €', '233 €'], ['4 à 6 nuits', '', '220 €'], ['Semaine · 7 nuits', '1 400 €', '200 €'], ['Plus de 7 nuits', '', '185 €']] },
+        { id: 'haute', name: 'Haute saison', months: 'D’avril à septembre et en décembre', monthNumbers: [4, 5, 6, 7, 8, 9, 12],
+          rows: [['Week-end · 2 nuits', '600 €', '300 €'], ['Week-end · 3 nuits', '800 €', '267 €'], ['4 à 6 nuits', '', '250 €'], ['Semaine · 7 nuits', '1 680 €', '240 €'], ['Plus de 7 nuits', '', '225 €']] }
+      ],
+      included: ['Maison entière, jusqu’à 8 voyageurs', 'Linge de maison fourni', 'Ménage de fin de séjour inclus', 'Rien n’est débité à la demande'],
+      cta: 'Vérifier mes dates', note: 'Nous vous confirmons le prix exact de votre séjour sous 48 h.'
+    },
     faqSection: { eyebrow: 'Bon à savoir', h2: 'Tout ce qu’il faut<br>pour vous <em>projeter.</em>', intro: 'Une question avant de réserver ? Vous pouvez aussi écrire directement à Christophe.', contact: 'Contacter Christophe' },
     faq: [
       ['Quels sont les horaires d’arrivée et de départ ?', 'Les arrivées se font à partir de 16h et les départs avant 11h. Une arrivée autonome peut être organisée sur demande.'],
@@ -159,7 +172,7 @@ export const content = {
   en: {
     lang: 'en',
     meta: { title: 'Normandy holiday home for 8 near Deauville · Villa Normande', description: 'Half-timbered house for 8 in Danestal, Pays d’Auge: 4 bedrooms, hot tub, fireplace, 8,000 m² garden, beaches 18 min away. Book direct with the host.' },
-    nav: { cadre: 'The House', equipements: 'Amenities', chambres: 'Rooms', plan: 'Floor Plan', avis: 'Reviews', faq: 'FAQ' },
+    nav: { cadre: 'The House', equipements: 'Amenities', chambres: 'Rooms', plan: 'Floor Plan', avis: 'Reviews', tarifs: 'Rates', faq: 'FAQ' },
     brandAria: 'Villa Normande, home',
     headerCta: 'Book now',
     menuAria: 'Open menu',
@@ -179,7 +192,7 @@ export const content = {
       prevAria: 'Previous month', nextAria: 'Next month',
       arrival: 'Check-in', departure: 'Check-out', select: 'Select',
       travelers: 'Guests', adults: 'Adults', adultsSub: 'Ages 13+', children: 'Children', childrenSub: 'Ages 2–12',
-      reserve: 'Book', fromPrice: 'from €325 / night', note: 'You won’t be charged yet.',
+      reserve: 'Book', fromPrice: 'from €185 / night', note: 'You won’t be charged yet.',
       adultWord: (n) => `adult${n > 1 ? 's' : ''}`, childWord: (n) => n > 1 ? 'children' : 'child'
     },
     cadre: {
@@ -267,6 +280,19 @@ export const content = {
       ['SR', 'Sophie R.', 'June 2026', 'A warm welcome from start to finish. The house is even more beautiful in person, and so well equipped.'],
       ['TB', 'Thomas B.', 'September 2025', 'The grounds are a real joy for kids and adults alike. We felt right at home from the moment we arrived.']
     ],
+    pricing: {
+      eyebrow: 'Rates', h2: 'The longer you stay,<br><em>the less you pay.</em>',
+      intro: 'The price covers the whole house for 8 guests, bed linen and end-of-stay cleaning. Book direct, with no platform fees.',
+      current: 'Current season', perNight: 'night', approx: '≈ ',
+      seasons: [
+        { id: 'basse', name: 'Low season', months: 'January, February, March, October and November', monthNumbers: [1, 2, 3, 10, 11],
+          rows: [['Weekend · 2 nights', '€500', '€250'], ['Weekend · 3 nights', '€700', '€233'], ['4 to 6 nights', '', '€220'], ['Week · 7 nights', '€1,400', '€200'], ['More than 7 nights', '', '€185']] },
+        { id: 'haute', name: 'High season', months: 'April to September and December', monthNumbers: [4, 5, 6, 7, 8, 9, 12],
+          rows: [['Weekend · 2 nights', '€600', '€300'], ['Weekend · 3 nights', '€800', '€267'], ['4 to 6 nights', '', '€250'], ['Week · 7 nights', '€1,680', '€240'], ['More than 7 nights', '', '€225']] }
+      ],
+      included: ['The whole house, up to 8 guests', 'Bed linen provided', 'End-of-stay cleaning included', 'Nothing is charged when you ask'],
+      cta: 'Check my dates', note: 'We confirm the exact price of your stay within 48 hours.'
+    },
     faqSection: { eyebrow: 'Good to know', h2: 'Everything you need<br>to <em>picture it.</em>', intro: 'A question before booking? You can also write directly to Christophe.', contact: 'Contact Christophe' },
     faq: [
       ['What are the check-in and check-out times?', 'Check-in is from 4pm and check-out before 11am. Self check-in can be arranged on request.'],

@@ -524,3 +524,52 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   #chambres .section-top { flex-direction: column; align-items: flex-start; gap: 20px; }
   #chambres .carousel-controls { margin-top: 0; }
 }
+
+/* Tarifs : sélecteur de saison (une carte à la fois, ouverte sur la saison en cours — main.js),
+   points inclus et bouton à côté. Lecture en ligne : durée et prix/nuit à gauche, total à droite. */
+.reviews.section { padding-bottom: clamp(48px, 6vw, 72px); }
+.pricing.section { padding-top: clamp(24px, 3vw, 40px); }
+.pricing-head { max-width: 640px; }
+.pricing-intro { max-width: 40ch; margin: 0 0 -8px; color: var(--muted); font-size: 15px; line-height: 1.6; }
+.pricing-body { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: clamp(28px, 5vw, 64px); align-items: center; margin-top: 36px; }
+.pricing-toggle { display: inline-flex; gap: 4px; padding: 4px; margin-bottom: 14px; border-radius: 999px; background: var(--paper); border: 1px solid var(--line); }
+.pricing-toggle button { position: relative; padding: 9px 18px; border: 0; border-radius: 999px; background: transparent; color: var(--muted); font-size: 13px; font-weight: 700; cursor: pointer; transition: background .25s ease, color .25s ease; }
+.pricing-toggle button:hover { color: var(--ink); }
+.pricing-toggle button.active { background: var(--dark); color: #fff; }
+/* Petit point terracotta sur l'onglet de la saison en cours. */
+.pricing-toggle button.is-current::after { content: ''; display: inline-block; width: 6px; height: 6px; margin-left: 8px; border-radius: 50%; background: var(--clay); vertical-align: 2px; }
+.pricing-card { position: relative; padding: 28px 30px 12px; border-radius: 14px; background: var(--dark); color: #fff; animation: pricing-in .35s ease; }
+.pricing-card[hidden] { display: none; }
+@keyframes pricing-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.pricing-card header { padding-bottom: 18px; border-bottom: 1px solid rgba(255,255,255,.14); }
+.pricing-card h3 { margin: 0; font-family: var(--sans); font-size: 26px; font-weight: 700; letter-spacing: -.05em; line-height: 1.1; }
+.pricing-months { margin: 6px 0 0; font-size: 13px; color: rgba(255,255,255,.62); }
+/* Gélule « Saison actuelle », visible seulement sur la carte de la saison en cours. */
+.pricing-now { display: none; position: absolute; top: 26px; right: 28px; margin: 0; padding: 5px 11px; border-radius: 999px; background: var(--clay); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: .02em; }
+.pricing-card.current .pricing-now { display: inline-block; }
+.pricing-rows { margin: 0; padding: 0; list-style: none; }
+.pricing-rows li { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,.14); }
+.pricing-rows li:last-child { border-bottom: 0; }
+.pricing-label { display: grid; gap: 2px; }
+.pricing-label strong { font-size: 15px; font-weight: 600; letter-spacing: -.01em; }
+.pricing-label small { font-size: 12px; color: rgba(255,255,255,.62); }
+.pricing-price { flex: 0 0 auto; font-size: 20px; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pricing-price small { font-size: 13px; font-weight: 500; color: rgba(255,255,255,.62); letter-spacing: 0; }
+.pricing-side { display: grid; gap: 28px; }
+.pricing-included { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; font-size: 15px; }
+.pricing-included li { display: flex; align-items: center; gap: 10px; }
+.pricing-included svg { flex: 0 0 auto; color: var(--clay); }
+.pricing-action { display: grid; justify-items: start; gap: 10px; }
+.pricing .pricing-cta { width: auto; margin: 0; display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 6px; font-size: 14px; }
+.pricing-note { margin: 0; max-width: 32ch; font-size: 12px; line-height: 1.45; color: var(--muted); }
+@media (max-width: 860px) {
+  .pricing-body { grid-template-columns: 1fr; margin-top: 26px; }
+}
+@media (max-width: 720px) {
+  .pricing-toggle { display: flex; }
+  .pricing-toggle button { flex: 1; padding: 9px 10px; }
+  .pricing-card { padding: 22px 20px 8px; }
+  .pricing-now { top: 20px; right: 18px; }
+  .pricing-price { font-size: 18px; }
+}
+@media (prefers-reduced-motion: reduce) { .pricing-card { animation: none; } }

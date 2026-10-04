@@ -16,7 +16,7 @@ export const guide = {
     },
     nav: { home: 'La maison', book: 'Je réserve', lang: 'EN', langAria: 'English version', breadcrumb: 'Guide du pays d’Auge' },
     eyebrow: 'Guide de voyage · Calvados, Normandie',
-    h1: 'Que faire dans le pays d’Auge et en Normandie ?',
+    h1: 'Venez passer quelques jours dans le', h1Em: 'Pays d’Auge',
     intro: 'Plages de la côte Fleurie, villages à colombages, route du cidre, plages du Débarquement : depuis la Villa Normande, à Danestal, l’essentiel de la Normandie se rejoint en moins d’une heure et demie. Voici nos idées de sorties, classées par envie, avec les temps de trajet en voiture.',
     where: {
       h2: 'Où se trouve Danestal ?',
@@ -105,7 +105,7 @@ export const guide = {
     },
     nav: { home: 'The house', book: 'Book now', lang: 'FR', langAria: 'Version française', breadcrumb: 'Pays d’Auge guide' },
     eyebrow: 'Travel guide · Calvados, Normandy',
-    h1: 'What to do in the Pays d’Auge and Normandy?',
+    h1: 'Come and spend a few days in the', h1Em: 'Pays d’Auge',
     intro: 'Côte Fleurie beaches, half-timbered villages, the Cider Route, the D-Day beaches: from Villa Normande in Danestal, the best of Normandy is less than an hour and a half away. Here are our outing ideas, grouped by mood, with driving times.',
     where: {
       h2: 'Where is Danestal?',
@@ -274,7 +274,7 @@ export function guideHead(lang) {
     { '@type': 'ListItem', position: 1, name: 'Villa Normande', item: SITE_URL + HOME[lang] },
     { '@type': 'ListItem', position: 2, name: g.nav.breadcrumb, item: url }
   ] };
-  const article = { '@context': 'https://schema.org', '@type': 'Article', headline: g.h1, description: g.meta.description, inLanguage: lang,
+  const article = { '@context': 'https://schema.org', '@type': 'Article', headline: `${g.h1} ${g.h1Em}`, description: g.meta.description, inLanguage: lang,
     url, image, dateModified: '2026-10-03', author: { '@type': 'Person', name: 'Christophe', url: SITE_URL + HOME[lang] },
     publisher: { '@id': `${SITE_URL}/#maison` },
     about: { '@type': 'Place', name: 'Pays d’Auge', containedInPlace: { '@type': 'AdministrativeArea', name: 'Calvados, Normandie' } },
@@ -334,7 +334,7 @@ export function renderGuide(lang) {
       <div class="shell guide-hero-copy">
         <nav class="guide-breadcrumb" aria-label="Fil d’Ariane"><a href="${home}">Villa Normande</a> <span aria-hidden="true">/</span> <span>${esc(g.nav.breadcrumb)}</span></nav>
         <p class="eyebrow light"><span></span>${esc(g.eyebrow)}</p>
-        <h1>${esc(g.h1)}</h1>
+        <h1>${esc(g.h1)} <em>${esc(g.h1Em)}</em></h1>
         <p class="guide-intro">${esc(g.intro)}</p>
         <p class="guide-updated">${esc(g.updated)}</p>
       </div>

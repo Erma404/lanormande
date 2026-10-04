@@ -38,7 +38,7 @@ export const renderPage = (t, s) => `
   <header class="site-header" id="top">
     <a class="brand" href="#top" aria-label="${t.brandAria}"><span class="brand-mark"><i></i><i></i></span><span>Villa<br><em>Normande</em></span></a>
     <nav class="nav-links" aria-label="Navigation principale">
-      <a href="#cadre">${t.nav.cadre}</a><a href="#equipements">${t.nav.equipements}</a><a href="#chambres">${t.nav.chambres}</a><a href="#plan">${t.nav.plan}</a><a href="#avis">${t.nav.avis}</a><a href="#faq">${t.nav.faq}</a>
+      <a href="#cadre">${t.nav.cadre}</a><a href="#equipements">${t.nav.equipements}</a><a href="#chambres">${t.nav.chambres}</a><a href="#plan">${t.nav.plan}</a><a href="#avis">${t.nav.avis}</a><a href="#tarifs">${t.nav.tarifs}</a><a href="#faq">${t.nav.faq}</a>
     </nav>
     <button class="header-cta booking-trigger">${t.headerCta} <span>${icon('arrow', 15)}</span></button>
     <button class="lang-toggle" id="lang-toggle" aria-label="${t.langToggleAria}">${t.langToggleLabel}</button>
@@ -161,6 +161,28 @@ export const renderPage = (t, s) => `
         <div class="review-cards" id="review-cards">${t.reviews.concat(t.reviews).map(([initials, name, date, text], i) => `<article class="${i % t.reviews.length === 1 ? 'highlight' : ''}" aria-hidden="${i >= t.reviews.length ? 'true' : 'false'}"><div class="review-top"><span class="initials">${initials}</span><div><b>${name}</b><small>${date}</small></div><span class="stars">★★★★★</span></div><p>“${text}”</p></article>`).join('')}</div>
       </div>
     </section>
+
+    <section class="pricing section" id="tarifs"><div class="shell">
+      <div class="pricing-head"><p class="eyebrow"><span></span>${t.pricing.eyebrow}</p><h2>${t.pricing.h2}</h2></div>
+      <div class="pricing-body">
+        <div class="pricing-panel">
+          <div class="pricing-toggle" role="tablist" aria-label="${t.pricing.eyebrow}">${t.pricing.seasons.map((season, i) => `<button type="button" role="tab" id="tab-${season.id}" aria-controls="season-${season.id}" aria-selected="${i === 0}" data-season="${season.id}" class="${i === 0 ? 'active' : ''}">${season.name}</button>`).join('')}</div>
+          ${t.pricing.seasons.map((season, i) => `
+          <article class="pricing-card" id="season-${season.id}" role="tabpanel" aria-labelledby="tab-${season.id}" data-months="${season.monthNumbers.join(',')}" ${i === 0 ? '' : 'hidden'}>
+            <header><p class="pricing-now">${t.pricing.current}</p><h3>${season.name}</h3><p class="pricing-months">${season.months}</p></header>
+            <ul class="pricing-rows">${season.rows.map(([label, total, night], j) => `
+              <li><span class="pricing-label"><strong>${label}</strong>${total ? `<small>${j === 1 ? t.pricing.approx : ''}${night} / ${t.pricing.perNight}</small>` : ''}</span>
+                <span class="pricing-price">${total || `${night}<small> / ${t.pricing.perNight}</small>`}</span></li>`).join('')}
+            </ul>
+          </article>`).join('')}
+        </div>
+        <div class="pricing-side">
+          <p class="pricing-intro">${t.pricing.intro}</p>
+          <ul class="pricing-included">${t.pricing.included.map((item) => `<li>${icon('check', 15)}<span>${item}</span></li>`).join('')}</ul>
+          <div class="pricing-action"><button class="reserve-button booking-trigger pricing-cta">${t.pricing.cta} ${icon('arrow', 16)}</button><p class="pricing-note">${t.pricing.note}</p></div>
+        </div>
+      </div>
+    </div></section>
 
     <section class="faq section" id="faq"><div class="shell faq-grid"><div><p class="eyebrow"><span></span>${t.faqSection.eyebrow}</p><h2>${t.faqSection.h2}</h2><p class="faq-intro">${t.faqSection.intro}</p><a class="outline-button small" href="mailto:contact@villanormande.com">${t.faqSection.contact} ${icon('arrow', 16)}</a></div><div class="accordion">${t.faq.map(([q, a], i) => `<details ${i === 0 ? 'open' : ''}><summary>${q} <span>${icon('plus',18)}</span></summary><p>${a}</p></details>`).join('')}</div></div></section>
 

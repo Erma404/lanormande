@@ -246,6 +246,23 @@ function mount() {
   const setReserveError = (message) => { $('#rf-error').textContent = message; $('#rf-error').hidden = !message; };
   const closeReserveModal = () => { reserveModal.hidden = true; document.body.style.overflow = ''; };
   $$('.booking-trigger').forEach(button => button.addEventListener('click', (event) => { event.preventDefault(); openReserveModal(); }));
+  // Tarifs : sélecteur de saison, ouvert sur la saison en cours (gélule « Saison actuelle »).
+  const month = new Date().getMonth() + 1;
+  const showSeason = (id) => {
+    $$('.pricing-toggle [data-season]').forEach(tab => { const on = tab.dataset.season === id; tab.classList.toggle('active', on); tab.setAttribute('aria-selected', String(on)); });
+    $$('.pricing-card').forEach(card => { card.hidden = card.id !== `season-${id}`; });
+  };
+  let currentSeason = null;
+  $$('.pricing-card').forEach(card => {
+    const isCurrent = card.dataset.months.split(',').map(Number).includes(month);
+    card.classList.toggle('current', isCurrent);
+    if (isCurrent) currentSeason = card.id.replace('season-', '');
+  });
+  $$('.pricing-toggle [data-season]').forEach(tab => {
+    tab.classList.toggle('is-current', tab.dataset.season === currentSeason);
+    tab.addEventListener('click', () => showSeason(tab.dataset.season));
+  });
+  if (currentSeason) showSeason(currentSeason);
   // Arrivée depuis le guide (lien « /#reserver ») : on ouvre la réservation tout de suite.
   if (location.hash === '#reserver') { history.replaceState(null, '', location.pathname + location.search); openReserveModal(); }
   $('#reserve').addEventListener('click', openReserveModal);
