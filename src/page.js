@@ -169,7 +169,7 @@ export const renderPage = (t, s) => `
           <div class="pricing-toggle" role="tablist" aria-label="${t.pricing.eyebrow}">${t.pricing.seasons.map((season, i) => `<button type="button" role="tab" id="tab-${season.id}" aria-controls="season-${season.id}" aria-selected="${i === 0}" data-season="${season.id}" class="${i === 0 ? 'active' : ''}">${season.name}</button>`).join('')}</div>
           ${t.pricing.seasons.map((season, i) => `
           <article class="pricing-card" id="season-${season.id}" role="tabpanel" aria-labelledby="tab-${season.id}" data-months="${season.monthNumbers.join(',')}" ${i === 0 ? '' : 'hidden'}>
-            <header><p class="pricing-now">${t.pricing.current}</p><h3>${season.name}</h3><p class="pricing-months">${season.months}</p></header>
+            <header><p class="pricing-now">${t.pricing.current}</p><h3>${season.name}</h3></header>
             <ul class="pricing-rows">${season.rows.map(([label, total, night], j) => `
               <li><span class="pricing-label"><strong>${label}</strong>${total ? `<small>${j === 1 ? t.pricing.approx : ''}${night} / ${t.pricing.perNight}</small>` : ''}</span>
                 <span class="pricing-price">${total || `${night}<small> / ${t.pricing.perNight}</small>`}</span></li>`).join('')}
