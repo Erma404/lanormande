@@ -152,3 +152,7 @@
 .legal p { margin: 0 0 12px; }
 .legal ul { margin: 0 0 12px; padding-left: 20px; }
 .legal a { color: var(--clay); text-decoration: underline; text-underline-offset: 3px; }
+
+/* Nom du lieu = lien d'itinéraire (ouvre l'application de cartes), souligné discrètement. */
+.guide-place-link { color: inherit; text-decoration: underline; text-decoration-color: color-mix(in oklch, var(--clay) 55%, transparent); text-decoration-thickness: 1.5px; text-underline-offset: 4px; transition: color .2s, text-decoration-color .2s; }
+.guide-place-link:hover { color: var(--clay); text-decoration-color: currentColor; }

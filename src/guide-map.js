@@ -39,7 +39,7 @@ async function init(data) {
   data.places.forEach((place, index) => {
     const marker = L.marker(place.coords, { icon: pin('map-pin', String(index + 1)), title: place.name, keyboard: true })
       .bindPopup(`<div class="map-popup">${place.photo ? `<img src="${place.photo}" alt="" width="240" height="160" loading="lazy" />` : ''}
-        <div class="map-popup-body"><div class="map-popup-head"><strong>${escapeHtml(place.name)}</strong><span>${escapeHtml(place.time)}</span></div>
+        <div class="map-popup-body"><div class="map-popup-head"><strong>${place.directions ? `<a class="guide-place-link" href="${place.directions}" target="_blank" rel="noopener">${escapeHtml(place.name)}</a>` : escapeHtml(place.name)}</strong><span>${escapeHtml(place.time)}</span></div>
         <p>${escapeHtml(place.text)}</p></div></div>`, { maxWidth: 260, minWidth: 240 });
     marker.on('click', () => select(place.key, { fly: false }));
     marker.addTo(map);

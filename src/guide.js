@@ -251,13 +251,26 @@ const BEST_FOR = {
     bayeux: 'Tapestry, old town', 'cimetiere-americain': 'Remembrance, Omaha Beach', 'pointe-du-hoc': 'Rangers’ cliffs', etretat: 'Cliffs', 'mont-saint-michel': 'Day trip' }
 };
 
+// Itinéraire depuis Danestal : le nom du lieu est un lien qui ouvre l'application de cartes
+// du téléphone (Google Maps sur Android et iPhone, le site sur ordinateur).
+const DESTINATIONS = {
+  cabourg: 'Plage de Cabourg, Cabourg', houlgate: 'Plage de Houlgate, Houlgate', deauville: 'Promenade des Planches, Deauville', honfleur: 'Vieux Bassin, Honfleur',
+  'route-du-cidre': 'Cambremer, Calvados', beuvron: 'Beuvron-en-Auge', 'pont-l-eveque': 'Pont-l’Évêque, Calvados', lisieux: 'Basilique Sainte-Thérèse, Lisieux',
+  'pegasus-bridge': 'Pegasus Bridge, Bénouville', 'memorial-caen': 'Mémorial de Caen, Caen', 'juno-beach': 'Centre Juno Beach, Courseulles-sur-Mer',
+  arromanches: 'Arromanches-les-Bains', bayeux: 'Cathédrale Notre-Dame de Bayeux, Bayeux', 'cimetiere-americain': 'Cimetière américain de Normandie, Colleville-sur-Mer',
+  'pointe-du-hoc': 'Pointe du Hoc, Cricqueville-en-Bessin', etretat: 'Falaise d’Aval, Étretat', 'mont-saint-michel': 'Le Mont-Saint-Michel'
+};
+const directionsUrl = (key) => DESTINATIONS[key]
+  ? `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent('Danestal, 14430, France')}&destination=${encodeURIComponent(DESTINATIONS[key])}&travelmode=driving`
+  : '';
+
 // Lieux de la carte, dans l'ordre du guide (les balades sur place sont rattachées à la maison).
 function mapPlaces(lang) {
   const g = guide[lang];
   return g.sections.flatMap((section) => section.places.map(([name, time, text], index) => {
     const key = SECTION_PHOTOS[section.id]?.[index];
     if (!key || !COORDS[key]) return null;
-    return { key, name, time, text, category: section.id, bestFor: BEST_FOR[lang][key], photo: PHOTOS[key] ? sized(PHOTOS[key].src, 480) : '', coords: COORDS[key] };
+    return { key, name, time, text, category: section.id, bestFor: BEST_FOR[lang][key], photo: PHOTOS[key] ? sized(PHOTOS[key].src, 480) : '', coords: COORDS[key], directions: directionsUrl(key) };
   })).filter(Boolean);
 }
 
@@ -292,6 +305,8 @@ export function guideHead(lang) {
     `<link rel="alternate" hreflang="en" href="${SITE_URL}${GUIDE_PATHS.en}" />`,
     `<link rel="alternate" hreflang="x-default" href="${SITE_URL}${GUIDE_PATHS.fr}" />`,
     '<meta name="robots" content="index, follow, max-image-preview:large" />',
+    // Les itinéraires sont des liens explicites : pas de détection automatique de l'iPhone en plus.
+    '<meta name="format-detection" content="telephone=no, address=no, email=no" />',
     '<meta property="og:type" content="article" />',
     '<meta property="og:site_name" content="Villa Normande" />',
     `<meta property="og:locale" content="${lang === 'fr' ? 'fr_FR' : 'en_GB'}" />`,
@@ -317,7 +332,7 @@ export function renderGuide(lang) {
   const figure = (photo, name) => photo ? `<figure class="guide-photo"><img ${imgAttrs(photo.src, '(max-width: 860px) 92vw, 440px')} alt="${esc(name)}, ${lang === 'fr' ? 'Normandie' : 'Normandy'}" width="1200" height="800" loading="lazy" decoding="async" />${photo.credit
       ? `<figcaption><a href="${photo.url}" target="_blank" rel="noopener license">${creditLabel} : ${esc(photo.credit)}, ${esc(photo.license)}</a></figcaption>` : ''}</figure>` : '';
   const placeCards = (section) => section.places.map(([name, time, text], index) => `
-          <article class="guide-place">${figure(photoOf(section.id, index), name)}<div class="guide-place-body"><div class="guide-place-head"><h3>${esc(name)}</h3><span class="guide-time">${esc(time)}</span></div><p>${esc(text)}</p></div></article>`).join('');
+          <article class="guide-place">${figure(photoOf(section.id, index), name)}<div class="guide-place-body"><div class="guide-place-head"><h3>${(() => { const url = directionsUrl(SECTION_PHOTOS[section.id]?.[index]); return url ? `<a class="guide-place-link" href="${url}" target="_blank" rel="noopener">${esc(name)}</a>` : esc(name); })()}</h3><span class="guide-time">${esc(time)}</span></div><p>${esc(text)}</p></div></article>`).join('');
   return `
   <header class="site-header guide-header">
     <a class="brand" href="${home}" aria-label="Villa Normande"><span class="brand-mark"><i></i><i></i></span><span>Villa<br><em>Normande</em></span></a>
