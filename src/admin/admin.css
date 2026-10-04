@@ -241,3 +241,7 @@ textarea:focus { outline: none; border-color: var(--forest); box-shadow: 0 0 0 3
 .promo-save { position: sticky; bottom: 0; display: flex; align-items: center; gap: 14px; padding: 14px 0; background: linear-gradient(transparent, var(--cream) 30%); }
 .saved-note { color: var(--forest); font-size: 14px; font-weight: 600; }
 @media (max-width: 860px) { .promo-dates { grid-template-columns: 1fr; } .promo-switch-row { flex-direction: column; } }
+
+/* Total estimé d'une demande (même calcul que le récapitulatif vu par le voyageur). */
+.request-total { margin-left: auto; padding: 4px 12px; border-radius: 999px; background: #fbf1e9; color: #7a4a2f !important; font-size: 13px !important; }
+.request-total b { margin-left: 4px; font-size: 16px; font-weight: 800; color: var(--clay); }

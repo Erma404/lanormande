@@ -3,6 +3,7 @@
 const dateFormat = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
 const receivedFormat = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
 const formatDate = (iso) => dateFormat.format(new Date(`${iso}T00:00:00`));
+const euros = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
 const nights = (start, end) => Math.round((new Date(`${end}T00:00:00`) - new Date(`${start}T00:00:00`)) / 86400000);
 const plural = (count, word) => `${count} ${word}${count > 1 ? 's' : ''}`;
 
@@ -101,7 +102,7 @@ export function renderRequests(container, { escape, onCount }) {
           </div>
           <span class="request-status">${statusLabels[request.status]}</span>
         </header>
-        <p class="request-stay"><strong>${formatDate(request.arrival)} → ${formatDate(request.departure)}</strong><span>${plural(count, 'nuit')} · ${plural(request.guests, 'voyageur')}</span></p>
+        <p class="request-stay"><strong>${formatDate(request.arrival)} → ${formatDate(request.departure)}</strong><span>${plural(count, 'nuit')} · ${plural(request.guests, 'voyageur')}</span>${request.estimate ? `<span class="request-total">Total estimé <b>${request.estimate.total ? euros.format(request.estimate.total) : 'sur demande'}</b></span>` : ''}</p>
         ${request.conflict ? '<p class="status error">Ces dates sont déjà prises (autre demande acceptée, Airbnb ou blocage manuel).</p>' : ''}
         ${past && request.status === 'new' ? '<p class="status warn">Ce séjour est déjà passé.</p>' : ''}
         ${request.status === 'accepted' ? '<p class="status ok">Dates bloquées sur le site et dans le calendrier exporté vers Airbnb.</p>' : ''}

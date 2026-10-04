@@ -1,5 +1,6 @@
 import { isDeployed } from './http.js';
 import { SITE_URL } from '../../src/site.js';
+import { estimateStay } from '../../src/pricing.js';
 
 // Mode local : sans Resend et hors Vercel, le code n'est pas envoyé mais affiché.
 export const isLocalMailMode = () => !process.env.RESEND_API_KEY && !isDeployed();
@@ -72,7 +73,8 @@ function stayCard(labels, values) {
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#141616;border-radius:10px;margin:0 0 26px">
     <tr><td colspan="2" style="padding:16px 16px 4px;font-family:${FONT};font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#bcbcbc">${labels.title}</td></tr>
     <tr><td colspan="2" style="padding:8px 16px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid rgba(255,255,255,.16);border-radius:6px"><tr>${cell(labels.arrival, values.arrival, false)}${cell(labels.departure, values.departure, true)}</tr></table></td></tr>
-    <tr><td style="padding:14px 16px 16px;font-family:${FONT};font-size:13px;color:#d2d4d3">${labels.guests}</td><td align="right" style="padding:14px 16px 16px;font-family:${FONT};font-size:13px;font-weight:700;color:#ffffff">${escapeHtml(values.guests)}</td></tr>
+    <tr><td style="padding:14px 16px ${values.total ? 4 : 16}px;font-family:${FONT};font-size:13px;color:#d2d4d3">${labels.guests}</td><td align="right" style="padding:14px 16px ${values.total ? 4 : 16}px;font-family:${FONT};font-size:13px;font-weight:700;color:#ffffff">${escapeHtml(values.guests)}</td></tr>
+    ${values.total ? `<tr><td style="padding:10px 16px 16px;font-family:${FONT};font-size:13px;color:#d2d4d3">${labels.total}<br><span style="font-size:11px;color:#a5a5a5">${escapeHtml(values.totalDetail)}</span></td><td align="right" style="padding:10px 16px 16px;font-family:${FONT};font-size:22px;font-weight:800;color:#e9a483">${escapeHtml(values.total)}</td></tr>` : ''}
   </table>`;
 }
 
@@ -117,18 +119,24 @@ export async function sendRequestNotification(request) {
   }
 
   const adminUrl = `${SITE_URL}/admin`;
+  // Total estimé selon la grille tarifaire : le montant affiché au voyageur au moment de sa demande.
+  const estimate = estimateStay(request.arrival, request.departure);
+  const euros = (n) => new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
+  const nightsText = estimate ? `${estimate.nights} nuit${estimate.nights > 1 ? 's' : ''}` : '';
+  const totalText = estimate?.total ? euros(estimate.total) : estimate ? 'sur demande' : '';
+  const totalDetail = estimate?.total ? `${nightsText} · ${estimate.seasons.length > 1 ? 'basse et haute saison' : `${estimate.seasons[0]} saison`}` : nightsText;
   const rows = [['Email', request.email], ['Téléphone', request.phone || '—'], ['Langue', request.lang === 'en' ? 'Anglais' : 'Français'], ['Message', request.message || '—']];
   await deliver({
     to: recipients,
     reply_to: request.email,
     subject: `Nouvelle demande de réservation — ${request.name}`,
-    text: `Nouvelle demande de réservation sur le site.\n\n${summary}\n${rows.map(([label, value]) => `${label} : ${value}`).join('\n')}\n\nLe voyageur a reçu un accusé de réception annonçant une réponse sous 48 h maximum.\nPour l'accepter ou la refuser : ${adminUrl}\nRépondre à cet email écrit directement au voyageur.`,
+    text: `Nouvelle demande de réservation sur le site.\n\n${summary}\nTotal estimé : ${totalText} (${totalDetail})\n${rows.map(([label, value]) => `${label} : ${value}`).join('\n')}\n\nLe voyageur a reçu un accusé de réception annonçant une réponse sous 48 h maximum.\nPour l'accepter ou la refuser : ${adminUrl}\nRépondre à cet email écrit directement au voyageur.`,
     html: layout({
       preheader: summary,
       eyebrow: 'Nouvelle demande',
       body: `${h1(`${escapeHtml(request.name)} souhaite réserver`)}
         ${pill('À traiter sous 48 h maximum')}
-        ${stayCard({ title: 'Séjour demandé', arrival: 'Arrivée', departure: 'Départ', guests: 'Voyageurs' }, { arrival: frDate(request.arrival), departure: frDate(request.departure), guests: `${request.guests} voyageur${request.guests > 1 ? 's' : ''}` })}
+        ${stayCard({ title: 'Séjour demandé', arrival: 'Arrivée', departure: 'Départ', guests: 'Voyageurs', total: 'Total estimé' }, { arrival: frDate(request.arrival), departure: frDate(request.departure), guests: `${request.guests} voyageur${request.guests > 1 ? 's' : ''}`, total: totalText, totalDetail })}
         ${detailRows(rows)}
         ${button(adminUrl, 'Accepter ou refuser')}
         ${small('Le voyageur a reçu un accusé de réception annonçant une réponse sous 48 h maximum. Répondre à cet email lui écrit directement.')}`
