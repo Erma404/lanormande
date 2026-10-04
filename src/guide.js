@@ -17,7 +17,7 @@ export const guide = {
     nav: { home: 'La maison', book: 'Je réserve', lang: 'EN', langAria: 'English version', breadcrumb: 'Guide du pays d’Auge' },
     eyebrow: 'Guide de voyage · Calvados, Normandie',
     h1: 'Venez passer quelques jours dans le', h1Em: 'Pays d’Auge',
-    intro: 'Plages de la côte Fleurie, villages à colombages, route du cidre, plages du Débarquement : depuis la Villa Normande, à Danestal, l’essentiel de la Normandie se rejoint en moins d’une heure et demie. Voici nos idées de sorties, classées par envie, avec les temps de trajet en voiture.',
+    intro: 'Plages, villages à colombages, route du cidre, plages du Débarquement : l’essentiel de la Normandie à moins d’1 h 30 de la maison.',
     where: {
       h2: 'Où se trouve Danestal ?',
       text: 'Danestal est un village du pays d’Auge, dans le Calvados, entre Pont-l’Évêque et Dozulé. Il se trouve à environ 18 minutes des plages de Cabourg, 25 minutes de Deauville, 40 minutes de Caen et 2 h 15 de Paris. C’est un point de départ idéal pour visiter la côte Fleurie, la campagne normande et les plages du Débarquement.'
@@ -106,7 +106,7 @@ export const guide = {
     nav: { home: 'The house', book: 'Book now', lang: 'FR', langAria: 'Version française', breadcrumb: 'Pays d’Auge guide' },
     eyebrow: 'Travel guide · Calvados, Normandy',
     h1: 'Come and spend a few days in the', h1Em: 'Pays d’Auge',
-    intro: 'Côte Fleurie beaches, half-timbered villages, the Cider Route, the D-Day beaches: from Villa Normande in Danestal, the best of Normandy is less than an hour and a half away. Here are our outing ideas, grouped by mood, with driving times.',
+    intro: 'Beaches, half-timbered villages, the Cider Route, the D-Day beaches: the best of Normandy within 1 h 30 of the house.',
     where: {
       h2: 'Where is Danestal?',
       text: 'Danestal is a village in the Pays d’Auge, in the Calvados department of Normandy, between Pont-l’Évêque and Dozulé. It is about 18 minutes from the beaches of Cabourg, 25 minutes from Deauville, 40 minutes from Caen and 2 h 15 from Paris: an ideal base for the Côte Fleurie, the Normandy countryside and the D-Day beaches.'
