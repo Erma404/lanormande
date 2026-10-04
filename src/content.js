@@ -7,7 +7,7 @@ export const content = {
   fr: {
     lang: 'fr',
     meta: { title: 'Maison à louer pour 8 près de Deauville · Villa Normande', description: 'Maison à colombages pour 8 à Danestal, au cœur du pays d’Auge : 4 chambres, jacuzzi, cheminée, jardin de 8 000 m², plages à 18 min. Réservez en direct.' },
-    nav: { cadre: 'Le cadre', equipements: 'Équipements', chambres: 'Chambres', plan: 'Plan', avis: 'Avis', tarifs: 'Tarifs', faq: 'FAQ' },
+    nav: { cadre: 'Le cadre', equipements: 'Équipements', chambres: 'Chambres', plan: 'Plan', avis: 'Avis', tarifs: 'Tarifs', faq: 'FAQ', guide: 'Guide' },
     brandAria: 'Villa Normande, accueil',
     headerCta: 'Je réserve',
     menuAria: 'Ouvrir le menu',
@@ -174,7 +174,7 @@ export const content = {
   en: {
     lang: 'en',
     meta: { title: 'Normandy holiday home for 8 near Deauville · Villa Normande', description: 'Half-timbered house for 8 in Danestal, Pays d’Auge: 4 bedrooms, hot tub, fireplace, 8,000 m² garden, beaches 18 min away. Book direct with the host.' },
-    nav: { cadre: 'The House', equipements: 'Amenities', chambres: 'Rooms', plan: 'Floor Plan', avis: 'Reviews', tarifs: 'Rates', faq: 'FAQ' },
+    nav: { cadre: 'The House', equipements: 'Amenities', chambres: 'Rooms', plan: 'Floor Plan', avis: 'Reviews', tarifs: 'Rates', faq: 'FAQ', guide: 'Guide' },
     brandAria: 'Villa Normande, home',
     headerCta: 'Book now',
     menuAria: 'Open menu',
