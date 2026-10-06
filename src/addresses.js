@@ -22,9 +22,9 @@ const text = {
     intro: 'Pain du matin, tables du soir, marchés et cidre : nos adresses préférées, la plupart à moins de 20 minutes de la maison.',
     host: { name: 'Christophe', role: 'Votre hôte', quote: 'Une question ou une envie particulière ? Écrivez-moi sur WhatsApp, je vous oriente avec plaisir.' },
     all: 'Tout',
-    groups: { boulangeries: 'Boulangeries', restaurants: 'Restaurants', marches: 'Marchés et producteurs', courses: 'Courses' },
+    groups: { boulangeries: 'Boulangeries et pâtisseries', restaurants: 'Restaurants', marches: 'Marchés et producteurs', courses: 'Courses' },
     leads: {
-      boulangeries: 'Pour le petit-déjeuner et le goûter.',
+      boulangeries: 'Pour le petit-déjeuner, le goûter et les gourmands.',
       restaurants: 'Du déjeuner sans façon au dîner d’exception, à la campagne ou face à la mer.',
       marches: 'Fromages, cidre, calvados et produits frais, en direct.',
       courses: 'Pour remplir le frigo en arrivant.'
@@ -50,7 +50,7 @@ const text = {
     intro: 'Morning bread, dinner tables, markets and cider: our favourite places, most of them within 20 minutes of the house.',
     host: { name: 'Christophe', role: 'Your host', quote: 'A question or something special in mind? Message me on WhatsApp and I’ll gladly point you in the right direction.' },
     all: 'All',
-    groups: { boulangeries: 'Bakeries', restaurants: 'Restaurants', marches: 'Markets and producers', courses: 'Groceries' },
+    groups: { boulangeries: 'Bakeries and patisseries', restaurants: 'Restaurants', marches: 'Markets and producers', courses: 'Groceries' },
     leads: {
       boulangeries: 'For breakfast and afternoon treats.',
       restaurants: 'From a relaxed lunch to a special dinner, in the countryside or by the sea.',
@@ -78,6 +78,9 @@ const PLACES = [
   { key: 'epi-d-or', group: 'boulangeries', schema: 'Bakery', town: 'Pont-l’Évêque', time: '15 min', coords: [49.2868, 0.1867], dest: 'L’Épi d’Or, 1 place Jean Bureau, Pont-l’Évêque',
     fr: { name: 'L’Épi d’Or', kind: 'Boulangerie-pâtisserie', tip: 'Réputée pour ses pâtisseries et ses croissants. À combiner avec une balade dans Pont-l’Évêque.', info: '1 place Jean Bureau' },
     en: { name: 'L’Épi d’Or', kind: 'Bakery and patisserie', tip: 'Known for its pastries and croissants. Pair it with a stroll around Pont-l’Évêque.', info: '1 place Jean Bureau' } },
+  { key: 'dupont-the', group: 'boulangeries', schema: 'Bakery', town: 'Cabourg', time: '19 min', coords: [49.2917, -0.116], dest: 'Dupont avec un Thé, 6 avenue de la Mer, Cabourg',
+    fr: { name: 'Dupont avec un Thé', kind: 'Pâtisserie et salon de thé', tip: 'Une institution de la côte depuis plus de 110 ans : brioche feuilletée, madeleines, macarons craquelés et gâteaux maison, à emporter ou sur place.', info: '6 avenue de la Mer · aussi à Dives-sur-Mer, Deauville et Trouville' },
+    en: { name: 'Dupont avec un Thé', kind: 'Patisserie and tea room', tip: 'A coastal institution for over 110 years: flaky brioche, madeleines, crackled macarons and house cakes, to take away or enjoy on site.', info: '6 avenue de la Mer · also in Dives-sur-Mer, Deauville and Trouville' } },
 
   { key: 'cafe-des-arts', group: 'restaurants', schema: 'Restaurant', town: 'Beaumont-en-Auge', time: '9 min', coords: [49.2789, 0.1093], dest: 'Le Café des Arts, place de Verdun, Beaumont-en-Auge',
     fr: { name: 'Le Café des Arts', kind: 'Café-restaurant', tip: 'Terrasse couverte avec vue sur la vallée de la Touques, et la mer par temps clair. Le camembert rôti au calvados est un classique.', info: 'Place de Verdun · 02 31 64 81 70' },
@@ -158,6 +161,7 @@ const PHOTOS = {
   'colomb-auge': { src: '/images/adresses/colomb-auge.webp', credit: "Renhour48", license: "CC0", url: "https://commons.wikimedia.org/wiki/File:Beuvron-en-Auge_-_Vue_D.jpg" },
   'marche-dozule': { src: '/images/adresses/marche-dozule.webp', credit: 'Jours-de-marché.fr', license: '', url: 'https://www.jours-de-marche.fr/producteur-local/14430-dozule/' },
   'marche-dives': { src: '/images/adresses/marche-dives.webp', credit: 'Éric Larrayadieu, office de tourisme', license: '', url: 'https://www.normandie-cabourg-paysdauge-tourisme.fr/a-faire/culture/guillaume-le-conquerant/les-halles-medievales/' },
+  'dupont-the': { src: '/images/adresses/dupont-the.webp', credit: "Benoît Prieur", license: "CC0", url: "https://commons.wikimedia.org/wiki/File:Bouillet_Corner_Rillieux_-_p%C3%A2tisseries_(janvier_2020).jpg" },
   'christian-drouin': { src: '/images/adresses/christian-drouin.webp', credit: 'Terre d’Auge Tourisme', license: '', url: 'https://www.terredauge-tourisme.fr/fr/preparer/a-voir-a-faire/cidre-a-la-ferme-distilleries/calvados-christian-drouin-sas' },
   'graindorge': { src: '/images/adresses/graindorge.webp', credit: "Derbrauni", license: "CC BY 4.0", url: "https://commons.wikimedia.org/wiki/File:E._Graindorge_Fromagerie.jpg" },
   'dupont': { src: '/images/adresses/dupont.webp', credit: 'Terre d’Auge Tourisme', license: '', url: 'https://www.terredauge-tourisme.fr/fr/preparer/a-voir-a-faire/cidre-a-la-ferme-distilleries/domaine-dupont' },

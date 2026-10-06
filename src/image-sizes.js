@@ -507,5 +507,14 @@ export const IMAGE_SIZES = {
   ],
   "ratio": 1.5,
   "width": 750
+ },
+ "/images/adresses/dupont-the.webp": {
+  "stem": "adresses-dupont-the",
+  "widths": [
+   480,
+   960
+  ],
+  "ratio": 1.5,
+  "width": 969
  }
 };
