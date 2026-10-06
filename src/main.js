@@ -12,7 +12,7 @@ import { WHATSAPP_NUMBER } from './whatsapp-widget.js';
 // via content[lang].roomNames[cls] and content[lang].floorPlan.guestsWord().
 const floorData = {
   ground: [
-    ['01', 'entry', 'sm', '/images/maison-exterieur-jardin.avif', '8 m²', null],
+    ['01', 'entry', 'sm', '/images/la-maison.jpeg', '8 m²', null], // façade de la maison
     ['02', 'living', 'lg', '/images/piece-de-vie.jpeg', '38 m²', 8],
     ['03', 'kitchen', 'wd', '/images/cuisine-1.avif', '18 m²', 6],
     ['04', 'dining', 'wd', '/images/piece-de-vie.jpeg', '20 m²', 10],
@@ -495,7 +495,7 @@ function mount() {
       <span class="room-dot" aria-hidden="true"></span>
       <span class="room-label"><b aria-hidden="true">${n}</b><strong>${name}</strong></span>
       <div class="room-card" aria-hidden="true">
-        <div class="room-card-image image-placeholder"><img src="${img}" alt="" loading="lazy" /></div>
+        <div class="room-card-image image-placeholder"><img src="${sized(img, 480)}" alt="" loading="lazy" /></div>
         <div class="room-card-body"><strong>${name}</strong><div class="room-card-meta"><span>${icon('ruler', 13)} ${area}</span><span>${icon('users', 13)} ${capacity}</span></div></div>
       </div>
     </div>`;
