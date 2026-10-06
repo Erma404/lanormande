@@ -264,10 +264,6 @@ const DESTINATIONS = {
   arromanches: 'Arromanches-les-Bains', bayeux: 'Cathédrale Notre-Dame de Bayeux, Bayeux', 'cimetiere-americain': 'Cimetière américain de Normandie, Colleville-sur-Mer',
   'pointe-du-hoc': 'Pointe du Hoc, Cricqueville-en-Bessin', etretat: 'Falaise d’Aval, Étretat', 'mont-saint-michel': 'Le Mont-Saint-Michel'
 };
-// Site officiel, quand le programme change d'une saison à l'autre (dates de courses…).
-const WEBSITES = { 'hippodrome-cabourg': 'https://www.hippodrome-cabourg.com/' };
-const websiteLabel = { fr: 'Programme et dates des courses', en: 'Race programme and dates' };
-
 const directionsUrl = (key) => DESTINATIONS[key]
   ? `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent('Danestal, 14430, France')}&destination=${encodeURIComponent(DESTINATIONS[key])}&travelmode=driving`
   : '';
@@ -340,7 +336,7 @@ export function renderGuide(lang) {
   const figure = (photo, name) => photo ? `<figure class="guide-photo"><img ${imgAttrs(photo.src, '(max-width: 860px) 92vw, 440px')} alt="${esc(name)}, ${lang === 'fr' ? 'Normandie' : 'Normandy'}" width="1200" height="800" loading="lazy" decoding="async" />${photo.credit
       ? `<figcaption><a href="${photo.url}" target="_blank" rel="noopener license">${creditLabel} : ${esc(photo.credit)}, ${esc(photo.license)}</a></figcaption>` : ''}</figure>` : '';
   const placeCards = (section) => section.places.map(([name, time, text], index) => `
-          <article class="guide-place">${figure(photoOf(section.id, index), name)}<div class="guide-place-body"><div class="guide-place-head"><h3>${(() => { const url = directionsUrl(SECTION_PHOTOS[section.id]?.[index]); return url ? `<a class="guide-place-link" href="${url}" target="_blank" rel="noopener">${esc(name)}</a>` : esc(name); })()}</h3><span class="guide-time">${esc(time)}</span></div><p>${esc(text)}</p>${(() => { const site = WEBSITES[SECTION_PHOTOS[section.id]?.[index]]; return site ? `<a class="guide-place-site" href="${site}" target="_blank" rel="noopener">${websiteLabel[lang]} ${arrow}</a>` : ''; })()}</div></article>`).join('');
+          <article class="guide-place">${figure(photoOf(section.id, index), name)}<div class="guide-place-body"><div class="guide-place-head"><h3>${(() => { const url = directionsUrl(SECTION_PHOTOS[section.id]?.[index]); return url ? `<a class="guide-place-link" href="${url}" target="_blank" rel="noopener">${esc(name)}</a>` : esc(name); })()}</h3><span class="guide-time">${esc(time)}</span></div><p>${esc(text)}</p></div></article>`).join('');
   return `
   <header class="site-header guide-header">
     <a class="brand" href="${home}" aria-label="Villa Normande"><span class="brand-mark"><i></i><i></i></span><span>Villa<br><em>Normande</em></span></a>
