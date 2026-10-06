@@ -667,3 +667,15 @@ body[style*="overflow: hidden"] .wa-bubble { opacity: 0; pointer-events: none; }
   .cookie-notice-open .wa-bubble { bottom: 150px; }
 }
 @media (prefers-reduced-motion: reduce) { .wa-bubble { transition: none; } }
+
+/* Hero sur téléphone : moins haute que l'écran, texte posé en bas sur un dégradé sombre pour rester
+   lisible sur la façade claire. La mention « Maison à louer pour 8… » est masquée visuellement
+   mais reste dans le titre (H1) lu par Google. */
+@media (max-width: 720px) {
+  .hero { display: flex; flex-direction: column; justify-content: flex-end; height: min(560px, calc(100svh - 62px)); min-height: 460px; }
+  .hero-wash { background: linear-gradient(0deg, rgba(22,14,8,.9) 0%, rgba(22,14,8,.7) 38%, rgba(22,14,8,.25) 70%, rgba(22,14,8,.05) 100%); }
+  .hero-copy { margin: auto auto 0; padding-top: 0; padding-bottom: 30px; }
+  .hero h1 > .eyebrow { position: absolute; width: 1px; height: 1px; margin: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .hero h1, .hero-intro, .hero .text-link { text-shadow: 0 1px 14px rgba(0, 0, 0, .4); }
+  .hero-intro { font-size: 16px; margin: 14px 0 18px; color: #fff; }
+}
