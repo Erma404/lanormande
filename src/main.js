@@ -2,10 +2,10 @@ import { content } from './content.js';
 import { applyOverrides } from './content-overrides.js';
 import { icon, renderPage } from './page.js';
 import { imgAttrs, sized, srcset } from './images.js';
-import { estimateStay } from './pricing.js';
+import { availability, isNightBlocked, onAvailability, rangeCrossesBookedDate } from './availability.js';
+import { setupReserveModal } from './reserve-modal.js';
 import { SITE_URL } from './site.js';
 import './cookie-notice.js';
-import { WHATSAPP_NUMBER } from './whatsapp-widget.js';
 
 // Floor-plan room data: language-independent (image, class, grid size, area,
 // capacity number). Only the room name and "N guests" wording are translated,
@@ -50,35 +50,12 @@ let viewYear = today.getFullYear();
 let viewMonth = today.getMonth();
 let selected = [];
 
-// Nuits indisponibles (Airbnb + blocages admin), plages [arrivée, départ) au format ISO.
-let blockedRanges = [];
-let availabilityLoaded = false;
 let refreshCalendar = () => {};
-const isoOf = (date) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-const isNightBlocked = (iso) => blockedRanges.some(([start, end]) => iso >= start && iso < end);
-function rangeCrossesBookedDate(startIso, endIso) {
-  const cursor = new Date(startIso + 'T00:00:00');
-  const end = new Date(endIso + 'T00:00:00');
-  while (cursor < end) {
-    if (isNightBlocked(isoOf(cursor))) return true;
-    cursor.setDate(cursor.getDate() + 1);
-  }
-  return false;
-}
-// Tant que les disponibilités ne sont pas chargées, le calendrier affiche un squelette et
-// n'accepte pas de clic (on ne laisse pas choisir une date peut-être déjà prise).
-const finishAvailability = () => { if (!availabilityLoaded) { availabilityLoaded = true; refreshCalendar(); } };
-setTimeout(finishAvailability, 5000);
-fetch('/api/availability')
-  .then((response) => (response.ok ? response.json() : null))
-  .then((data) => {
-    if (data?.blocked) {
-      blockedRanges = data.blocked;
-      if (selected.length && (isNightBlocked(selected[0]) || (selected[1] && rangeCrossesBookedDate(selected[0], selected[1])))) selected = [];
-    }
-    finishAvailability();
-  })
-  .catch(finishAvailability);
+// Disponibilités arrivées : on oublie un séjour choisi entre-temps s'il tombe sur une nuit prise.
+onAvailability(() => {
+  if (selected.length && (isNightBlocked(selected[0]) || (selected[1] && rangeCrossesBookedDate(selected[0], selected[1])))) selected = [];
+  refreshCalendar();
+});
 let guests = { adults: 2, children: 0 };
 let activeSpace = 0;
 let activeFloor = 'ground';
@@ -93,12 +70,6 @@ const formatShort = (iso) => {
   const t = content[lang];
   const [, m, d] = iso.split('-').map(Number);
   return t.formatShort(d, t.monthNames[m - 1].slice(0, 3));
-};
-const formatFull = (iso) => {
-  if (!iso) return '—';
-  const t = content[lang];
-  const [y, m, d] = iso.split('-').map(Number);
-  return t.formatFull(d, t.monthNames[m - 1], y);
 };
 
 let mountController = null;
@@ -166,8 +137,8 @@ function mount() {
     $('#cal-prev').disabled = viewYear === today.getFullYear() && viewMonth === today.getMonth();
 
     const grid = $('#calendar-grid');
-    grid.classList.toggle('loading', !availabilityLoaded);
-    grid.setAttribute('aria-busy', String(!availabilityLoaded));
+    grid.classList.toggle('loading', !availability.loaded);
+    grid.setAttribute('aria-busy', String(!availability.loaded));
     grid.innerHTML = cells.map(day => {
       if (!day) return '<span></span>';
       const cellDate = new Date(viewYear, viewMonth, day);
@@ -183,7 +154,7 @@ function mount() {
     }).join('');
 
     $$('.calendar-day:not([disabled])').forEach(day => day.addEventListener('click', () => {
-      if (!availabilityLoaded) return;
+      if (!availability.loaded) return;
       const iso = day.dataset.date;
       if (selected.length === 2) selected = [];
       selected.push(iso);
@@ -226,144 +197,19 @@ function mount() {
     $('#guest-summary').textContent = guestSummaryText();
   }));
 
-  // ---- reservation modal: the request is saved on the site, WhatsApp stays as an alternative
-  const reserveModal = $('#reserve-modal');
-  // Récapitulatif du prix, comme à la fin d'un achat de billet : apparaît dès que les dates sont valides.
-  const updateEstimate = () => {
-    const box = $('#rf-estimate');
-    const result = estimateStay($('#rf-arrival').value, $('#rf-departure').value);
-    if (!result) { box.hidden = true; return; }
-    const e = t.reserveModal.estimate;
-    const money = (n) => new Intl.NumberFormat(e.locale, { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
-    $('#rf-est-nights').textContent = e.night(result.nights);
-    if (result.total === null) {
-      $('#rf-est-detail').textContent = e.oneNight;
-      $('#rf-est-total').textContent = '—';
-    } else {
-      const season = result.seasons.length > 1 ? e.seasons.both : e.seasons[result.seasons[0]];
-      const exact = result.perNight * result.nights === result.total;
-      $('#rf-est-detail').textContent = `${season} · ${exact ? '' : e.approx}${money(result.perNight)} / ${e.perNight}`;
-      $('#rf-est-total').textContent = money(result.total);
-    }
-    box.hidden = false;
-  };
-  // ---- calendrier de la fenêtre de réservation (comme Airbnb) -------------------
-  // Mêmes disponibilités que le calendrier du haut (Airbnb + blocages admin) : les nuits prises
-  // sont barrées ; une fois l'arrivée choisie, impossible de choisir un départ qui traverse une
-  // nuit occupée. Le jour où une réservation commence reste possible comme jour de départ.
-  const pk = t.reserveModal.picker;
-  const picker = $('#rf-picker');
-  let pick = [];
-  let pickYear = today.getFullYear();
-  let pickMonth = today.getMonth();
-  const setDates = (arrival, departure) => {
-    $('#rf-arrival').value = arrival || '';
-    $('#rf-departure').value = departure || '';
-    $('#rf-arrival-btn').textContent = arrival ? formatShort(arrival) : pk.choose;
-    $('#rf-departure-btn').textContent = departure ? formatShort(departure) : pk.choose;
-    $('#rf-arrival-btn').classList.toggle('filled', Boolean(arrival));
-    $('#rf-departure-btn').classList.toggle('filled', Boolean(departure));
-    updateEstimate();
-  };
-  const monthHtml = (year, month) => {
-    const firstWeekday = (new Date(year, month, 1).getDay() + 6) % 7;
-    const totalDays = new Date(year, month + 1, 0).getDate();
-    const cells = Array(firstWeekday).fill(null).concat(Array.from({ length: totalDays }, (_, i) => i + 1));
-    while (cells.length % 7 !== 0) cells.push(null);
-    const days = cells.map(day => {
-      if (!day) return '<span></span>';
-      const iso = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-      const isPast = new Date(year, month, day) < today;
-      const isBooked = !isPast && isNightBlocked(iso);
-      const choosingDeparture = pick.length === 1;
-      const isValidDeparture = choosingDeparture && iso > pick[0] && !rangeCrossesBookedDate(pick[0], iso);
-      // Arrivée choisie : les jours au-delà de la prochaine nuit occupée sont grisés (comme Airbnb).
-      const beyondBooking = choosingDeparture && iso > pick[0] && !isValidDeparture;
-      const disabled = isPast || (isBooked && !isValidDeparture) || beyondBooking;
-      const isEdge = pick.includes(iso);
-      const inRange = pick.length === 2 && iso > pick[0] && iso < pick[1];
-      const cls = ['rf-day', isBooked && !isValidDeparture ? 'booked' : '', isPast ? 'past' : '', isEdge ? 'edge' : '', inRange ? 'in-range' : '',
-        pick.length === 2 && iso === pick[0] ? 'start' : '', pick.length === 2 && iso === pick[1] ? 'end' : ''].filter(Boolean).join(' ');
-      return `<button type="button" class="${cls}" data-date="${iso}" ${disabled ? 'disabled' : ''} ${isBooked && !isValidDeparture ? `title="${pk.booked}"` : ''}>${day}</button>`;
-    }).join('');
-    return `<div class="rf-month"><p class="rf-month-title">${t.monthNames[month]} ${year}</p><div class="rf-weekdays">${t.days.map(d => `<span>${d}</span>`).join('')}</div><div class="rf-days">${days}</div></div>`;
-  };
-  const renderPicker = () => {
-    const second = pickMonth === 11 ? [pickYear + 1, 0] : [pickYear, pickMonth + 1];
-    $('#rf-picker-prev').disabled = pickYear === today.getFullYear() && pickMonth === today.getMonth();
-    $('#rf-picker-months').innerHTML = availabilityLoaded
-      ? monthHtml(pickYear, pickMonth) + monthHtml(...second)
-      : `<p class="rf-picker-loading">${pk.loading}</p>`;
-    // En-tête : cases Arrivée / Départ (celle en cours de saisie est entourée) et récapitulatif.
-    $('#rf-pf-arrival-val').textContent = pick[0] ? formatShort(pick[0]) : pk.choose;
-    $('#rf-pf-departure-val').textContent = pick[1] ? formatShort(pick[1]) : pk.choose;
-    $('#rf-pf-arrival').classList.toggle('active', pick.length !== 1);
-    $('#rf-pf-departure').classList.toggle('active', pick.length === 1);
-    $('#rf-pf-arrival').classList.toggle('filled', Boolean(pick[0]));
-    $('#rf-pf-departure').classList.toggle('filled', Boolean(pick[1]));
-    const result = pick.length === 2 ? estimateStay(pick[0], pick[1]) : null;
-    const e = t.reserveModal.estimate;
-    $('#rf-picker-hint').textContent = result
-      ? `${e.night(result.nights)} · ${result.total === null ? e.oneNight : new Intl.NumberFormat(e.locale, { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(result.total)}`
-      : pick.length === 1 ? pk.departure : pk.subtitle;
-    $$('#rf-picker-months .rf-day:not([disabled])').forEach(button => button.addEventListener('click', () => {
-      const iso = button.dataset.date;
-      if (pick.length !== 1 || iso <= pick[0]) pick = [iso];
-      else pick = [pick[0], iso];
-      renderPicker();
-    }));
-  };
-  const openPicker = (field) => {
-    const arrival = $('#rf-arrival').value;
-    const departure = $('#rf-departure').value;
-    pick = arrival && departure ? (field === 'departure' ? [arrival] : [arrival, departure]) : arrival ? [arrival] : [];
-    const base = arrival ? new Date(`${arrival}T00:00:00`) : today;
-    pickYear = base.getFullYear();
-    pickMonth = base.getMonth();
-    picker.hidden = false;
-    picker.closest('.reserve-card').classList.add('picking');
-    picker.closest('.reserve-card').scrollTop = 0;
-    renderPicker();
-    $('#rf-picker-done').focus();
-  };
-  const closePicker = (apply) => {
-    if (apply && pick.length === 2) {
-      setDates(pick[0], pick[1]);
-      // Le calendrier du haut de page reprend les mêmes dates.
-      selected = [...pick];
-      $('#arrival-value').textContent = formatShort(pick[0]);
-      $('#departure-value').textContent = formatShort(pick[1]);
+  // ---- fenêtre de réservation (module partagé avec le guide) -------------------
+  const reserve = setupReserveModal({
+    t, lang, signal,
+    getInitial: () => ({ dates: selected.length === 2 ? selected : null, guests: guests.adults + guests.children }),
+    // Le calendrier du haut de page reprend les dates choisies dans la fenêtre.
+    onPick: (dates) => {
+      selected = dates;
+      $('#arrival-value').textContent = formatShort(dates[0]);
+      $('#departure-value').textContent = formatShort(dates[1]);
       refreshCalendar();
     }
-    picker.hidden = true;
-    picker.closest('.reserve-card').classList.remove('picking');
-  };
-  $$('[data-picker]').forEach(button => button.addEventListener('click', () => openPicker(button.dataset.picker)));
-  $('#rf-picker-done').addEventListener('click', () => closePicker(true));
-  $('#rf-picker-clear').addEventListener('click', () => { pick = []; renderPicker(); });
-  $('#rf-picker-prev').addEventListener('click', () => { pickMonth--; if (pickMonth < 0) { pickMonth = 11; pickYear--; } renderPicker(); });
-  $('#rf-picker-next').addEventListener('click', () => { pickMonth++; if (pickMonth > 11) { pickMonth = 0; pickYear++; } renderPicker(); });
-
-  const openReserveModal = () => {
-    if (selected.length === 2) setDates(selected[0], selected[1]); else setDates('', '');
-    picker.hidden = true;
-    picker.closest('.reserve-card').classList.remove('picking');
-    $('#rf-guests').value = guests.adults + guests.children;
-    $('#reserve-form').hidden = false;
-    $('#reserve-success').hidden = true;
-    setReserveError('');
-    reserveModal.hidden = false;
-    document.body.style.overflow = 'hidden';
-    $('#rf-name').focus();
-  };
-  // The message field starts small so the pop-in fits short screens, then grows with the text.
-  $('#rf-message').addEventListener('input', (event) => {
-    const field = event.target;
-    field.style.height = '';
-    field.style.height = `${Math.min(field.scrollHeight + 2, 140)}px`;
   });
-  const setReserveError = (message) => { $('#rf-error').textContent = message; $('#rf-error').hidden = !message; };
-  const closeReserveModal = () => { reserveModal.hidden = true; document.body.style.overflow = ''; };
+  const openReserveModal = reserve.open;
   $$('.booking-trigger').forEach(button => button.addEventListener('click', (event) => { event.preventDefault(); openReserveModal(); }));
   // Tarifs : sélecteur de saison, ouvert sur la saison en cours (gélule « Saison actuelle »).
   const month = new Date().getMonth() + 1;
@@ -382,68 +228,9 @@ function mount() {
     tab.addEventListener('click', () => showSeason(tab.dataset.season));
   });
   if (currentSeason) showSeason(currentSeason);
-  // Arrivée depuis le guide (lien « /#reserver ») : on ouvre la réservation tout de suite.
+  // Arrivée par un lien « /#reserver » (guide si son script n'a pas pu charger, liens partagés) : on ouvre la réservation tout de suite.
   if (location.hash === '#reserver') { history.replaceState(null, '', location.pathname + location.search); openReserveModal(); }
   $('#reserve').addEventListener('click', openReserveModal);
-  $('#reserve-modal-close').addEventListener('click', closeReserveModal);
-  reserveModal.addEventListener('click', (event) => { if (event.target === reserveModal) closeReserveModal(); });
-  // Échap ferme d'abord le calendrier, puis la fenêtre.
-  document.addEventListener('keydown', (event) => { if (event.key !== 'Escape' || reserveModal.hidden) return; if (!picker.hidden) closePicker(false); else closeReserveModal(); }, { signal });
-
-  const readReserveForm = () => ({
-    name: $('#rf-name').value.trim(),
-    email: $('#rf-email').value.trim(),
-    phone: $('#rf-phone').value.trim(),
-    arrival: $('#rf-arrival').value,
-    departure: $('#rf-departure').value,
-    guests: Number($('#rf-guests').value),
-    message: $('#rf-message').value.trim(),
-    website: $('#rf-website').value,
-    lang
-  });
-  // Contrôles faits avant l'envoi ; le serveur refait les mêmes.
-  const reserveFormError = (data) => {
-    const errors = t.reserveModal.errors;
-    if (data.name.length < 2) return errors.invalid_name;
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(data.email)) return errors.invalid_email;
-    if (!data.arrival || !data.departure || data.departure <= data.arrival || data.arrival < isoOf(today)) return errors.invalid_range;
-    if (rangeCrossesBookedDate(data.arrival, data.departure)) return t.toast.conflict;
-    if (!Number.isInteger(data.guests) || data.guests < 1 || data.guests > 8) return errors.invalid_guests;
-    return '';
-  };
-
-  $('#reserve-form').addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const data = readReserveForm();
-    const problem = reserveFormError(data);
-    if (problem) return setReserveError(problem);
-    setReserveError('');
-    const button = event.submitter || $('#reserve-form .reserve-button');
-    const label = button.innerHTML;
-    button.disabled = true;
-    button.textContent = t.reserveModal.sending;
-    let error = '';
-    try {
-      const response = await fetch('/api/requests', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-      if (!response.ok) error = (await response.json().catch(() => ({}))).error || 'server_error';
-    } catch { error = 'network'; }
-    button.disabled = false;
-    button.innerHTML = label;
-    if (error) return setReserveError(t.reserveModal.errors[error] || t.reserveModal.errors.server_error);
-    $('#reserve-form').reset();
-    setDates('', '');
-    $('#reserve-form').hidden = true;
-    $('#reserve-success').hidden = false;
-    $('#reserve-success-close').focus();
-  });
-  $('#reserve-success-close').addEventListener('click', closeReserveModal);
-
-  $('#rf-whatsapp').addEventListener('click', () => {
-    const data = readReserveForm();
-    let message = t.whatsapp(data.name || '—', formatFull(data.arrival), formatFull(data.departure), data.guests || 1);
-    if (data.message) message += ` ${data.message}`;
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
-  });
 
   // ---- spaces carousel ------------------------------------------------------
   const spacesTotal = String(t.spaces.length).padStart(2,'0');
