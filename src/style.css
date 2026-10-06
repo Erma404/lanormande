@@ -663,8 +663,9 @@ body[style*="overflow: hidden"] .wa-bubble { opacity: 0; pointer-events: none; }
   .wa-bubble { right: 14px; bottom: 14px; }
   .wa-bubble-label { display: none; }
   .wa-bubble-icon { width: 52px; height: 52px; }
-  /* Bannière cookies affichée en bas : la bulle passe au-dessus. */
-  .cookie-notice-open .wa-bubble { bottom: 150px; }
+  /* Bannière cookies affichée en bas : la bulle attend qu'elle soit fermée, puis apparaît en douceur
+     (sur ordinateur, bannière à gauche et bulle à droite ne se gênent pas). */
+  .cookie-notice-open .wa-bubble { opacity: 0; transform: translateY(14px) scale(.96); pointer-events: none; }
 }
 @media (prefers-reduced-motion: reduce) { .wa-bubble { transition: none; } }
 
