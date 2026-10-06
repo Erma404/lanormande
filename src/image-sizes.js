@@ -515,6 +515,6 @@ export const IMAGE_SIZES = {
    960
   ],
   "ratio": 1.5,
-  "width": 969
+  "width": 1200
  }
 };
