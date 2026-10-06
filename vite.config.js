@@ -8,6 +8,7 @@ import { renderPage } from './src/page.js';
 import { headTags } from './src/seo.js';
 import { guideHead, renderGuide } from './src/guide.js';
 import { legalHead, renderLegal } from './src/legal.js';
+import { addressesHead, renderAddresses } from './src/addresses.js';
 import { VERCEL_URL } from './src/site.js';
 
 const root = fileURLToPath(new URL('.', import.meta.url));
@@ -58,6 +59,10 @@ function prerender() {
       handler(html, ctx) {
         const legal = html.match(/<!--legal:(\w+)-->/);
         if (legal) return html.replace(`<!--legal-seo:${legal[1]}-->`, legalHead(legal[1])).replace(legal[0], renderLegal(legal[1]));
+        if (html.includes('<!--addresses-->')) {
+          const addressesLang = ctx.path.startsWith('/en') ? 'en' : 'fr';
+          return html.replace('<!--addresses-seo-->', addressesHead(addressesLang)).replace('<!--addresses-->', renderAddresses(addressesLang));
+        }
         if (html.includes('<!--guide-->')) {
           const guideLang = ctx.path.startsWith('/en') ? 'en' : 'fr';
           return html.replace('<!--guide-seo-->', guideHead(guideLang)).replace('<!--guide-->', renderGuide(guideLang));
@@ -85,6 +90,8 @@ export default defineConfig(({ mode }) => {
           notFound: resolve(root, '404.html'),
           guideFr: resolve(root, 'normandie-pays-d-auge.html'),
           guideEn: resolve(root, 'en/normandy-guide.html'),
+          addressesFr: resolve(root, 'bonnes-adresses.html'),
+          addressesEn: resolve(root, 'en/local-favourites.html'),
           mentions: resolve(root, 'mentions-legales.html'),
           privacy: resolve(root, 'politique-de-confidentialite.html')
         }

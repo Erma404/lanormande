@@ -24,6 +24,7 @@ export const renderPage = (t, s) => `
       <div class="hero-image image-placeholder"><img ${imgAttrs('/images/la-maison.jpeg', '100vw')} alt="${t.hero.imageAlt}" fetchpriority="high" decoding="async" /></div>
       <div class="hero-wash"></div>
       <div class="hero-copy shell">
+        <a class="hero-rating" href="#avis">${icon('star', 15)}<span><strong>${t.cadre.overallRating} / 5</strong> · ${t.cadre.reviewsVerified}</span></a>
         <h1 id="hero-title"><span class="eyebrow light"><span></span>${t.hero.eyebrow}</span> ${t.hero.titleLine1}<br><em>${t.hero.titleEm}</em></h1>
         <p class="hero-intro">${t.hero.intro}</p>
         <a href="#cadre" class="text-link light-link">${t.hero.discover} ${icon('arrow', 17)}</a>

@@ -156,3 +156,52 @@
 /* Nom du lieu = lien d'itinéraire (ouvre l'application de cartes), souligné discrètement. */
 .guide-place-link { color: inherit; text-decoration: underline; text-decoration-color: color-mix(in oklch, var(--clay) 55%, transparent); text-decoration-thickness: 1.5px; text-underline-offset: 4px; transition: color .2s, text-decoration-color .2s; }
 .guide-place-link:hover { color: var(--clay); text-decoration-color: currentColor; }
+
+/* Bonnes adresses (/bonnes-adresses) : page ouverte depuis le QR code de la maison, pensée d'abord pour le téléphone. */
+.addr-hero { min-height: 380px; }
+.addr-hero .guide-hero-img { object-position: center 60%; }
+.addr-body { display: grid; gap: 28px; padding: 40px 0 96px; }
+.addr-host { display: flex; align-items: center; gap: 16px; max-width: 720px; padding: 18px 20px; border-radius: 12px; background: var(--paper); border-left: 4px solid var(--clay); }
+.addr-host img { flex: 0 0 auto; width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
+.addr-host p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--muted); }
+.addr-host .addr-host-name { margin-bottom: 2px; font-size: 13px; color: var(--muted); }
+.addr-host strong { color: var(--ink); }
+.addr-filters { position: sticky; top: 74px; z-index: 5; margin: 0; padding: 10px 0; background: var(--cream); }
+.addr-map .map-canvas { height: 420px; }
+.addr-groups { display: grid; gap: 48px; }
+.addr-group[hidden], .addr-card[hidden] { display: none; }
+.addr-group { scroll-margin-top: 140px; }
+.addr-group h2 { margin: 0 0 6px; font-family: var(--sans); font-size: clamp(26px, 3vw, 36px); font-weight: 600; line-height: 1.05; letter-spacing: -.05em; }
+.addr-lead { margin: 0 0 18px; font-size: 16px; color: var(--muted); }
+.addr-list { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.addr-card { display: flex; flex-direction: column; gap: 12px; padding: 20px; border-radius: 12px; background: var(--paper); border: 1px solid var(--line); transition: border-color .2s, box-shadow .2s; }
+.addr-card.active { border-color: var(--clay); box-shadow: 0 0 0 1px var(--clay); }
+.addr-card-head { display: flex; align-items: flex-start; gap: 12px; }
+.addr-card-head .map-item-no { margin-top: 2px; }
+.addr-card.active .map-item-no { background: var(--dark); }
+.addr-card-title { flex: 1; min-width: 0; }
+.addr-card h3 { margin: 0; font-family: var(--sans); font-size: 19px; font-weight: 700; letter-spacing: -.035em; line-height: 1.2; }
+.addr-card-title p { margin: 3px 0 0; font-size: 13px; color: var(--muted); }
+.addr-tip { margin: 0; font-size: 15px; line-height: 1.6; color: var(--ink); }
+.addr-info { margin: 0; font-size: 13px; font-weight: 600; color: var(--clay); }
+.addr-actions { display: flex; gap: 8px; margin-top: auto; padding-top: 4px; }
+.addr-btn { flex: 1; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 44px; padding: 0 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--cream); color: var(--ink); font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; transition: border-color .2s, background .2s, color .2s; }
+.addr-btn:hover { border-color: var(--clay); }
+.addr-btn-primary { border-color: var(--dark); background: var(--dark); color: #fff; }
+.addr-btn-primary:hover { border-color: var(--clay); background: var(--clay); }
+.addr-note { margin: 0; max-width: 68ch; font-size: 13px; line-height: 1.6; color: var(--muted); }
+.addr-note span { display: block; margin-top: 4px; }
+@media (max-width: 1080px) { .addr-filters { top: 66px; } }
+@media (max-width: 720px) {
+  .addr-hero { min-height: 340px; }
+  .guide-nav .addr-nav-guide { display: none; }
+  .addr-body { gap: 22px; padding: 22px 0 72px; }
+  .addr-filters { top: 62px; margin: 0 -16px; padding: 10px 16px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; border-bottom: 1px solid var(--line); }
+  .addr-filters::-webkit-scrollbar { display: none; }
+  .addr-filters button { flex: 0 0 auto; }
+  .addr-map .map-canvas { height: 300px; }
+  .addr-list { grid-template-columns: 1fr; }
+  .addr-groups { gap: 40px; }
+}
+.guide-addresses-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; color: var(--clay); font-size: 15px; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+.guide-addresses-link:hover { color: var(--ink); }

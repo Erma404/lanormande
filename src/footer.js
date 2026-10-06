@@ -1,7 +1,7 @@
 // Bas de page commun (accueil, guide, pages légales) : liens légaux et crédit de réalisation.
 const LABELS = {
-  fr: { legal: 'Mentions légales', privacy: 'Confidentialité', madeBy: 'Réalisé par', contact: 'Contact', guide: 'Guide du pays d’Auge', guideHref: '/normandie-pays-d-auge' },
-  en: { legal: 'Legal notice', privacy: 'Privacy', madeBy: 'Made by', contact: 'Contact', guide: 'Pays d’Auge guide', guideHref: '/en/normandy-guide' }
+  fr: { legal: 'Mentions légales', privacy: 'Confidentialité', madeBy: 'Réalisé par', contact: 'Contact', guide: 'Guide du pays d’Auge', guideHref: '/normandie-pays-d-auge', addresses: 'Bonnes adresses', addressesHref: '/bonnes-adresses' },
+  en: { legal: 'Legal notice', privacy: 'Privacy', madeBy: 'Made by', contact: 'Contact', guide: 'Pays d’Auge guide', guideHref: '/en/normandy-guide', addresses: 'Local favourites', addressesHref: '/en/local-favourites' }
 };
 
 export function footerBottom(lang, note = '') {
@@ -14,5 +14,5 @@ export function footerBottom(lang, note = '') {
 
 export function siteFooter(lang, { home, faqHref, tagline, homeLabel, faqLabel }) {
   const l = LABELS[lang] || LABELS.fr;
-  return `<footer><div class="shell footer-row"><a class="brand footer-brand" href="${home}"><span class="brand-mark"><i></i><i></i></span><span>Villa<br><em>Normande</em></span></a><p>${tagline}</p><div><a href="${home}">${homeLabel}</a><a href="${faqHref}">${faqLabel}</a><a href="${l.guideHref}">${l.guide}</a><a href="mailto:contact@villanormande.com">${l.contact}</a></div></div>${footerBottom(lang, lang === 'fr' ? 'Danestal, Calvados, Normandie' : 'Danestal, Calvados, Normandy')}</footer>`;
+  return `<footer><div class="shell footer-row"><a class="brand footer-brand" href="${home}"><span class="brand-mark"><i></i><i></i></span><span>Villa<br><em>Normande</em></span></a><p>${tagline}</p><div><a href="${home}">${homeLabel}</a><a href="${faqHref}">${faqLabel}</a><a href="${l.guideHref}">${l.guide}</a><a href="${l.addressesHref}">${l.addresses}</a><a href="mailto:contact@villanormande.com">${l.contact}</a></div></div>${footerBottom(lang, lang === 'fr' ? 'Danestal, Calvados, Normandie' : 'Danestal, Calvados, Normandy')}</footer>`;
 }

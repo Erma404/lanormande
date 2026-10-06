@@ -1,4 +1,4 @@
-// Carte interactive du guide : liste et carte synchronisées, filtres par thème.
+// Carte interactive du guide et des bonnes adresses : liste et carte synchronisées, filtres par thème.
 // Leaflet n'est chargé que lorsque la section approche de l'écran.
 const container = document.getElementById('guide-map');
 const dataTag = document.getElementById('map-data');
@@ -84,6 +84,8 @@ async function init(data) {
       if (!show && map.hasLayer(marker)) marker.remove();
       items.get(place.key).hidden = !show;
     });
+    // Bonnes adresses : les rubriques sans adresse affichée disparaissent avec leur titre.
+    document.querySelectorAll('[data-group]').forEach((group) => { group.hidden = filter !== 'all' && group.dataset.group !== filter; });
     map.closePopup();
     frame();
   }));
