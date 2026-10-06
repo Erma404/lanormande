@@ -20,9 +20,11 @@ export function showCookieNotice() {
   notice.querySelector('button').addEventListener('click', () => {
     try { localStorage.setItem(KEY, '1'); } catch { /* navigation privée : réapparaîtra */ }
     notice.classList.remove('show');
+    document.body.classList.remove('cookie-notice-open');
     setTimeout(() => notice.remove(), 350);
   });
   document.body.append(notice);
+  document.body.classList.add('cookie-notice-open');
   requestAnimationFrame(() => requestAnimationFrame(() => notice.classList.add('show')));
 }
 

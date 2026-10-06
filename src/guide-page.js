@@ -1,4 +1,5 @@
 import './cookie-notice.js';
+import './whatsapp-widget.js';
 // Sommaire du guide : met en avant la rubrique en cours de lecture.
 const links = [...document.querySelectorAll('.guide-toc a[href^="#"]')];
 const sections = links.map((link) => document.getElementById(link.hash.slice(1))).filter(Boolean);

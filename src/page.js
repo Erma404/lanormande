@@ -155,7 +155,7 @@ export const renderPage = (t, s) => `
       <div class="shell reviews-stats">
         <div class="stat-block"><strong>${t.reviewsSection.count}</strong><span>${t.reviewsSection.countLabel}</span></div>
         <div class="stat-block"><strong>${t.reviewsSection.overallRating}</strong><span class="stars">★★★★★</span></div>
-        <div class="stat-bars">${t.ratingCategories.map(([label, score]) => `<div class="stat-bar-row"><span>${label}</span><span class="stat-bar"><i style="width:${Number(score.replace(',', '.')) / 5 * 100}%"></i></span><b>${score}</b></div>`).join('')}</div>
+        <div class="stat-bars">${t.ratingCategories.filter(([, score]) => String(score).trim()).map(([label, score]) => `<div class="stat-bar-row"><span>${label}</span><span class="stat-bar"><i style="width:${Number(score.replace(',', '.')) / 5 * 100}%"></i></span><b>${score}</b></div>`).join('')}</div>
       </div>
       <div class="review-scroll-wrap">
         <div class="review-cards" id="review-cards">${t.reviews.concat(t.reviews).map(([initials, name, date, text], i) => `<article class="${i % t.reviews.length === 1 ? 'highlight' : ''}" aria-hidden="${i >= t.reviews.length ? 'true' : 'false'}"><div class="review-top"><span class="initials">${initials}</span><div><b>${name}</b><small>${date}</small></div><span class="stars">★★★★★</span></div><p>“${text}”</p></article>`).join('')}</div>

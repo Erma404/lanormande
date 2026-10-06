@@ -13,7 +13,7 @@ const sections = [
     { path: 'booking.fromPrice', label: 'Prix affiché sur le bouton Réserver' },
     { path: 'headerCta', label: 'Bouton du menu' }
   ] },
-  { title: 'La maison', fields: fields('cadre', [['eyebrow', 'Petit titre'], ['h2', 'Titre'], ['p1', 'Paragraphe 1'], ['p2', 'Paragraphe 2'], ['photoOneCaption', 'Légende photo 1'], ['photoTwoCaption', 'Légende photo 2'], ['overallRating', 'Note moyenne'], ['reviewsVerified', 'Nombre d’avis']]) },
+  { title: 'La maison', fields: fields('cadre', [['eyebrow', 'Petit titre'], ['h2', 'Titre'], ['p1', 'Paragraphe 1'], ['p2', 'Paragraphe 2'], ['photoOneCaption', 'Légende photo 1'], ['photoTwoCaption', 'Légende photo 2']]) },
   { title: 'Équipements', fields: [
     ...fields('amenitiesSection', [['eyebrow', 'Petit titre'], ['h2', 'Titre']]),
     ...items('amenities', [[1, 'Libellé']], (_, i) => `Équipement ${i + 1}`)
@@ -30,6 +30,9 @@ const sections = [
   ] },
   { title: 'Avis', fields: [
     ...fields('reviewsSection', [['eyebrow', 'Petit titre'], ['h2', 'Titre'], ['count', 'Nombre d’avis'], ['overallRating', 'Note moyenne']]),
+    { path: 'cadre.overallRating', label: 'Note moyenne (badge sur la photo « La maison »)' },
+    { path: 'cadre.reviewsVerified', label: 'Nombre d’avis (badge sur la photo « La maison »)' },
+    ...items('ratingCategories', [[1, 'Note sur 5 (vide = masquée)']], (item) => item[0]),
     ...items('reviews', [[1, 'Nom'], [2, 'Date'], [3, 'Avis']], (item, i) => `Avis ${i + 1}`)
   ] },
   { title: 'Questions fréquentes', fields: [

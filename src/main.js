@@ -5,6 +5,7 @@ import { imgAttrs, sized, srcset } from './images.js';
 import { estimateStay } from './pricing.js';
 import { SITE_URL } from './site.js';
 import './cookie-notice.js';
+import { WHATSAPP_NUMBER } from './whatsapp-widget.js';
 
 // Floor-plan room data: language-independent (image, class, grid size, area,
 // capacity number). Only the room name and "N guests" wording are translated,
@@ -226,7 +227,6 @@ function mount() {
   }));
 
   // ---- reservation modal: the request is saved on the site, WhatsApp stays as an alternative
-  const WHATSAPP_NUMBER = '33603830585'; // Christophe
   const reserveModal = $('#reserve-modal');
   // Récapitulatif du prix, comme à la fin d'un achat de billet : apparaît dès que les dates sont valides.
   const updateEstimate = () => {

@@ -207,11 +207,11 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 .stat-block span { font-size: 13px; color: var(--muted); }
 .stat-block .stars { color: var(--clay); letter-spacing: 2px; font-size: 14px; }
 .stat-bars { flex: 0 1 360px; min-width: 260px; display: grid; gap: 10px; }
-.stat-bar-row { display: grid; grid-template-columns: 92px 1fr 34px; align-items: center; gap: 12px; font-size: 13px; }
+.stat-bar-row { display: grid; grid-template-columns: 112px 1fr 34px; align-items: center; gap: 12px; font-size: 13px; }
 .stat-bar { height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; }
 .stat-bar i { display: block; height: 100%; background: var(--ink); border-radius: 2px; }
 .stat-bar-row b { font-weight: 700; text-align: right; }
-@media (max-width: 720px) { .stat-block { padding-right: 20px; } .stat-bar-row { grid-template-columns: 84px 1fr 30px; gap: 10px; font-size: 12px; } }
+@media (max-width: 720px) { .stat-block { padding-right: 20px; } .stat-bar-row { grid-template-columns: 104px 1fr 30px; gap: 10px; font-size: 12px; } }
 .review-scroll-wrap { overflow: hidden; margin: 0 calc(-1 * max(24px, calc((100vw - 1160px) / 2))); padding: 0 max(24px, calc((100vw - 1160px) / 2)); -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 56px, #000 calc(100% - 56px), transparent 100%); mask-image: linear-gradient(90deg, transparent 0, #000 56px, #000 calc(100% - 56px), transparent 100%); }
 .review-cards { display: flex; align-items: stretch; gap: 14px; padding: 6px 0 22px; width: max-content; animation: reviews-marquee 38s linear infinite; }
 .review-scroll-wrap:hover .review-cards, .review-scroll-wrap:focus-within .review-cards { animation-play-state: paused; }
@@ -646,3 +646,24 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 @media (prefers-reduced-motion: reduce) { .rf-picker { animation: none; } }
 /* Les fiches cachées du plan dépassaient de quelques pixels sur petit écran (défilement horizontal). */
 .floor-plan { overflow-x: clip; }
+
+/* Bulle WhatsApp (src/whatsapp-widget.js) : en bas à droite, étiquette sur ordinateur. */
+.wa-bubble { position: fixed; z-index: 80; right: 20px; bottom: 20px; display: flex; align-items: center; gap: 10px; color: #fff; opacity: 0; transform: translateY(14px) scale(.96); pointer-events: none; transition: opacity .35s ease, transform .35s ease, bottom .3s ease; }
+.wa-bubble.show { opacity: 1; transform: none; pointer-events: auto; }
+.wa-bubble-icon { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: #25d366; box-shadow: 0 10px 26px rgba(20, 60, 35, .3); transition: transform .2s ease, background .2s ease; }
+.wa-bubble:hover .wa-bubble-icon { transform: scale(1.06); background: #1ebe5a; }
+/* L'étiquette n'apparaît qu'au survol : elle ne masque jamais le calendrier du haut de page. */
+.wa-bubble-label { padding: 8px 12px; border-radius: 999px; background: var(--dark); font-size: 13px; font-weight: 700; white-space: nowrap; box-shadow: 0 8px 20px rgba(0,0,0,.18); opacity: 0; transform: translateX(8px); pointer-events: none; transition: opacity .2s ease, transform .2s ease; }
+.wa-bubble:hover .wa-bubble-label, .wa-bubble:focus-visible .wa-bubble-label { opacity: 1; transform: none; }
+.wa-bubble:focus-visible { outline: none; }
+.wa-bubble:focus-visible .wa-bubble-icon { outline: 3px solid var(--clay); outline-offset: 3px; }
+/* La fenêtre de réservation ouverte (défilement bloqué) masque la bulle. */
+body[style*="overflow: hidden"] .wa-bubble { opacity: 0; pointer-events: none; }
+@media (max-width: 720px) {
+  .wa-bubble { right: 14px; bottom: 14px; }
+  .wa-bubble-label { display: none; }
+  .wa-bubble-icon { width: 52px; height: 52px; }
+  /* Bannière cookies affichée en bas : la bulle passe au-dessus. */
+  .cookie-notice-open .wa-bubble { bottom: 150px; }
+}
+@media (prefers-reduced-motion: reduce) { .wa-bubble { transition: none; } }

@@ -33,7 +33,7 @@ export const content = {
     cadre: {
       photoOneAlt: 'La pièce de vie de la maison', photoOneCaption: 'La pièce de vie, ouverte sur le jardin',
       photoTwoAlt: 'La terrasse et le jardin de la maison', photoTwoCaption: 'Le jardin, côté terrasse',
-      overallRating: '4,89', reviewsVerified: '264 avis vérifiés',
+      overallRating: '4,9', reviewsVerified: '267 avis sur Airbnb',
       eyebrow: 'Une maison qui rassemble',
       h2: 'Les bonheurs simples<br>ont leur <em>adresse.</em>',
       p1: 'Cette maison de famille à colombages est nichée à Danestal, entre les vergers du pays d’Auge et les plages de la Côte Fleurie. Ici, les journées commencent dans la rosée et finissent près du feu.',
@@ -105,15 +105,17 @@ export const content = {
     ],
     reviewsSection: {
       eyebrow: 'Des séjours qui restent', h2: 'Ils en parlent<br><em>mieux que nous.</em>',
-      count: '264', countLabel: 'Avis', overallRating: '4,89'
+      count: '267', countLabel: 'Avis sur Airbnb', overallRating: '4,9'
     },
-    ratingCategories: [['Propreté', '4,8'], ['Emplacement', '4,8'], ['Qualité-prix', '4,8']],
+    // Rubriques d'Airbnb ; une note vide est masquée sur le site (à renseigner dans l'admin).
+    ratingCategories: [['Propreté', '4,8'], ['Précision', ''], ['Communication', ''], ['Emplacement', '4,8'], ['Arrivée', ''], ['Qualité-prix', '4,8']],
+    // Avis réels publiés sur Airbnb (extraits fidèles, raccourcis si besoin).
     reviews: [
-      ['ML', 'Marie L.', 'Août 2026', 'Un havre de paix pour notre tribu. Le jardin est immense, la maison a une âme et Christophe est d’une attention rare.'],
-      ['JD', 'Julien D.', 'Juillet 2026', 'Nos enfants ont adopté le ruisseau, nous avons adopté les apéros sous les pommiers. On reviendra, c’est sûr.'],
-      ['AS', 'Anna S.', 'Mai 2026', 'La beauté des poutres, le feu de cheminée, le calme absolu. C’était exactement ce que nous cherchions.'],
-      ['SR', 'Sophie R.', 'Juin 2026', 'Un accueil chaleureux du début à la fin. La maison est encore plus belle qu’en photo, et si bien équipée.'],
-      ['TB', 'Thomas B.', 'Septembre 2025', 'L’extérieur est un vrai bonheur pour les enfants comme pour les adultes. On s’est sentis chez nous immédiatement.']
+      ['C', 'Chris', 'Septembre 2026', 'Une maison fabuleuse et de caractère, parfaitement située pour découvrir les nombreux attraits de la Normandie. Prendre le petit déjeuner sur la terrasse ensoleillée tout en profitant de la vue sur le magnifique parc a été un plaisir tout particulier.'],
+      ['FJ', 'Felicity Jane', 'Août 2026', 'Quelle maison merveilleuse ! La maison était extrêmement accueillante, et nous avons passé beaucoup de temps dans le magnifique jardin. Nos filles ont passé un moment formidable à explorer le terrain et tout semblait très sûr.'],
+      ['M', 'Mark', 'Mai 2026', 'Logement confortable proche de la côte et des plages du D-Day. La communication avec Christophe a été excellente. Le jardin était vraiment magnifique ! Nous avons fait des barbecues plusieurs soirées.'],
+      ['R', 'Reda', 'Mai 2026', 'Nous avons passé un séjour exceptionnel dans cette maison en Normandie. L’espace est immense, très confortable, niché dans un coin de verdure isolé, ultra calme. Les hôtes sont adorables, vraiment attentifs et bienveillants.'],
+      ['T', 'Thomas', 'Décembre 2025', 'Superbe séjour passé en hiver. Hôte très réactif et généreux en bois. Le petit panier garni est une attention sympathique. La literie est confortable et soignée. Je recommande chaudement ce logement.']
     ],
     pricing: {
       eyebrow: 'Tarifs', h2: 'Plus vous restez,<br><em>moins vous payez.</em>',
@@ -200,7 +202,7 @@ export const content = {
     cadre: {
       photoOneAlt: 'The living room of the house', photoOneCaption: 'The living room, open to the garden',
       photoTwoAlt: 'The terrace and garden of the house', photoTwoCaption: 'The garden, terrace side',
-      overallRating: '4.89', reviewsVerified: '264 verified reviews',
+      overallRating: '4.9', reviewsVerified: '267 Airbnb reviews',
       eyebrow: 'A house that brings people together',
       h2: 'Simple joys<br>have their <em>home.</em>',
       p1: 'This half-timbered family house is tucked away in Danestal, between the orchards of the Pays d’Auge and the beaches of the Côte Fleurie. Here, days begin in the morning dew and end by the fire.',
@@ -272,15 +274,16 @@ export const content = {
     ],
     reviewsSection: {
       eyebrow: 'Stays worth remembering', h2: 'They say it<br><em>better than we do.</em>',
-      count: '264', countLabel: 'Reviews', overallRating: '4.89'
+      count: '267', countLabel: 'Airbnb reviews', overallRating: '4.9'
     },
-    ratingCategories: [['Cleanliness', '4.8'], ['Location', '4.8'], ['Value', '4.8']],
+    ratingCategories: [['Cleanliness', '4.8'], ['Accuracy', ''], ['Communication', ''], ['Location', '4.8'], ['Check-in', ''], ['Value', '4.8']],
+    // Genuine reviews published on Airbnb (faithful excerpts, translated).
     reviews: [
-      ['ML', 'Marie L.', 'August 2026', 'A haven of peace for our whole tribe. The garden is huge, the house has real soul, and Christophe’s attentiveness is rare.'],
-      ['JD', 'Julien D.', 'July 2026', 'Our kids adopted the stream, we adopted evening drinks under the apple trees. We’ll definitely be back.'],
-      ['AS', 'Anna S.', 'May 2026', 'The beauty of the beams, the crackling fireplace, the absolute quiet. Exactly what we were looking for.'],
-      ['SR', 'Sophie R.', 'June 2026', 'A warm welcome from start to finish. The house is even more beautiful in person, and so well equipped.'],
-      ['TB', 'Thomas B.', 'September 2025', 'The grounds are a real joy for kids and adults alike. We felt right at home from the moment we arrived.']
+      ['C', 'Chris', 'September 2026', 'A fabulous house full of character, perfectly located to discover the many attractions of Normandy. Having breakfast on the sunny terrace while enjoying the view over the beautiful grounds was a particular pleasure.'],
+      ['FJ', 'Felicity Jane', 'August 2026', 'What a wonderful house! It was extremely welcoming, and we spent a lot of time in the beautiful garden. Our girls had a fantastic time exploring the grounds and everything felt very safe.'],
+      ['M', 'Mark', 'May 2026', 'Comfortable home close to the coast and the D-Day beaches. Communication with Christophe was excellent. The garden was truly beautiful! We had barbecues on several evenings.'],
+      ['R', 'Reda', 'May 2026', 'We had an exceptional stay in this house in Normandy. The space is huge and very comfortable, tucked away in a secluded green corner, very quiet. The hosts are lovely, truly attentive and kind.'],
+      ['T', 'Thomas', 'December 2025', 'A superb winter stay. A very responsive host, generous with firewood. The little welcome basket is a lovely touch. The beds are comfortable and well kept. I warmly recommend this place.']
     ],
     pricing: {
       eyebrow: 'Rates', h2: 'The longer you stay,<br><em>the less you pay.</em>',
