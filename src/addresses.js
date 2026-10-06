@@ -14,19 +14,20 @@ const text = {
   fr: {
     meta: {
       title: 'Bonnes adresses autour de Danestal : boulangeries, restaurants, marchés',
-      description: 'Les boulangeries, restaurants, marchés et producteurs que Christophe conseille à ses voyageurs, à moins de 20 minutes de Villa Normande, à Danestal (pays d’Auge).'
+      description: 'Les boulangeries, restaurants, marchés et producteurs que Christophe conseille à ses voyageurs autour de Villa Normande, à Danestal : pays d’Auge et côte Fleurie.'
     },
     nav: { home: 'La maison', guide: 'Guide', book: 'Je réserve', lang: 'EN', langAria: 'English version', breadcrumb: 'Bonnes adresses' },
     eyebrow: 'Autour de la maison · Pays d’Auge',
     h1: 'Les bonnes adresses de', h1Em: 'Christophe',
-    intro: 'Pain du matin, tables du soir, marchés et cidre : nos adresses préférées, toutes à moins de 20 minutes de la maison.',
+    intro: 'Pain du matin, tables du soir, marchés et cidre : nos adresses préférées, la plupart à moins de 20 minutes de la maison.',
     host: { name: 'Christophe', role: 'Votre hôte', quote: 'Une question ou une envie particulière ? Écrivez-moi sur WhatsApp, je vous oriente avec plaisir.' },
     all: 'Tout',
-    groups: { boulangeries: 'Boulangeries', restaurants: 'Restaurants', marches: 'Marchés et producteurs' },
+    groups: { boulangeries: 'Boulangeries', restaurants: 'Restaurants', marches: 'Marchés et producteurs', courses: 'Courses' },
     leads: {
       boulangeries: 'Pour le petit-déjeuner et le goûter.',
-      restaurants: 'Du déjeuner sans façon au dîner d’exception.',
-      marches: 'Fromages, cidre, calvados et produits frais, en direct.'
+      restaurants: 'Du déjeuner sans façon au dîner d’exception, à la campagne ou face à la mer.',
+      marches: 'Fromages, cidre, calvados et produits frais, en direct.',
+      courses: 'Pour remplir le frigo en arrivant.'
     },
     showOnMap: 'Sur la carte',
     directions: 'Itinéraire',
@@ -41,19 +42,20 @@ const text = {
   en: {
     meta: {
       title: 'Local favourites near Danestal: bakeries, restaurants, markets',
-      description: 'The bakeries, restaurants, markets and producers Christophe recommends to his guests, all within 20 minutes of Villa Normande in Danestal (Pays d’Auge, Normandy).'
+      description: 'The bakeries, restaurants, markets and producers Christophe recommends to his guests, around Villa Normande in Danestal: Pays d’Auge and the Côte Fleurie, Normandy.'
     },
     nav: { home: 'The house', guide: 'Guide', book: 'Book', lang: 'FR', langAria: 'Version française', breadcrumb: 'Local favourites' },
     eyebrow: 'Around the house · Pays d’Auge',
     h1: 'Christophe’s', h1Em: 'local favourites',
-    intro: 'Morning bread, dinner tables, markets and cider: our favourite places, all within 20 minutes of the house.',
+    intro: 'Morning bread, dinner tables, markets and cider: our favourite places, most of them within 20 minutes of the house.',
     host: { name: 'Christophe', role: 'Your host', quote: 'A question or something special in mind? Message me on WhatsApp and I’ll gladly point you in the right direction.' },
     all: 'All',
-    groups: { boulangeries: 'Bakeries', restaurants: 'Restaurants', marches: 'Markets and producers' },
+    groups: { boulangeries: 'Bakeries', restaurants: 'Restaurants', marches: 'Markets and producers', courses: 'Groceries' },
     leads: {
       boulangeries: 'For breakfast and afternoon treats.',
-      restaurants: 'From a relaxed lunch to a special dinner.',
-      marches: 'Cheese, cider, calvados and fresh produce, straight from the source.'
+      restaurants: 'From a relaxed lunch to a special dinner, in the countryside or by the sea.',
+      marches: 'Cheese, cider, calvados and fresh produce, straight from the source.',
+      courses: 'To stock the fridge when you arrive.'
     },
     showOnMap: 'On the map',
     directions: 'Directions',
@@ -99,6 +101,16 @@ const PLACES = [
     fr: { name: 'La Colomb’Auge', kind: 'Crêperie', tip: 'Galettes et crêpes après une balade dans le village. Une bonne adresse avec les enfants.', info: 'Beuvron-en-Auge' },
     en: { name: 'La Colomb’Auge', kind: 'Crêperie', tip: 'Galettes and crêpes after a wander round the village. A good choice with children.', info: 'Beuvron-en-Auge' } },
 
+  { key: 'royalty', group: 'restaurants', schema: 'Restaurant', town: 'Houlgate', time: '17 min', coords: [49.3043, -0.0748], dest: 'Le Royalty, rue des Bains, Houlgate',
+    fr: { name: 'Le Royalty', kind: 'Brasserie face à la mer', tip: 'La brasserie emblématique de Houlgate, face à la plage : moules marinières et plateaux de fruits de mer.', info: 'Bord de mer · rue des Bains' },
+    en: { name: 'Le Royalty', kind: 'Seafront brasserie', tip: 'Houlgate’s landmark brasserie, facing the beach: moules marinières and seafood platters.', info: 'Seafront · rue des Bains' } },
+  { key: 'baligan', group: 'restaurants', schema: 'Restaurant', town: 'Cabourg', time: '19 min', coords: [49.2906, -0.114], dest: 'Le Baligan, 8 avenue Alfred Piat, Cabourg',
+    fr: { name: 'Le Baligan', kind: 'Poissons et fruits de mer', tip: 'À deux pas de la plage : on choisit son poisson du jour dans le panier présenté à table, cuisiné à la demande.', info: '8 avenue Alfred-Piat · 02 31 24 10 92' },
+    en: { name: 'Le Baligan', kind: 'Fish and seafood', tip: 'A stone’s throw from the beach: pick your catch of the day from the basket brought to the table, cooked to order.', info: '8 avenue Alfred-Piat · +33 2 31 24 10 92' } },
+  { key: 'vapeurs', group: 'restaurants', schema: 'Restaurant', town: 'Trouville-sur-Mer', time: '21 min', coords: [49.3654, 0.0818], dest: 'Les Vapeurs, 160 boulevard Fernand Moureaux, Trouville-sur-Mer',
+    fr: { name: 'Les Vapeurs', kind: 'Brasserie de la mer', tip: 'Une institution depuis 1927, face au marché aux poissons : moules, crevettes grises et plateaux de fruits de mer.', info: 'Sur le port · service continu' },
+    en: { name: 'Les Vapeurs', kind: 'Seafood brasserie', tip: 'An institution since 1927, opposite the fish market: mussels, brown shrimp and seafood platters.', info: 'On the harbour · open all day' } },
+
   { key: 'marche-dozule', group: 'marches', schema: 'Place', town: 'Dozulé', time: '6 min', coords: [49.2309, -0.0452], dest: 'Dozulé, Calvados',
     fr: { name: 'Marché de Dozulé', kind: 'Marché', tip: 'Le marché le plus proche, pour faire le plein de produits frais en début de semaine.', info: 'Mardi matin' },
     en: { name: 'Dozulé market', kind: 'Market', tip: 'The nearest market, to stock up on fresh produce early in the week.', info: 'Tuesday morning' } },
@@ -107,16 +119,32 @@ const PLACES = [
     en: { name: 'Dives-sur-Mer market', kind: 'Covered market', tip: 'Under a 15th-century timber hall: cheese, bread, fish and charcuterie. One of the finest markets on the coast.', info: 'Saturday, 8 am – 1 pm' } },
   { key: 'christian-drouin', group: 'marches', schema: 'Winery', town: 'Coudray-Rabut', time: '16 min', coords: [49.3048, 0.1657], dest: 'Calvados Christian Drouin, 1895 route de Trouville, Coudray-Rabut',
     fr: { name: 'Calvados Christian Drouin', kind: 'Cidre et calvados', tip: 'Distillerie familiale près de Pont-l’Évêque : visite d’une heure et dégustation de cidre, pommeau et calvados.', info: '1895 route de Trouville' },
-    en: { name: 'Calvados Christian Drouin', kind: 'Cider and calvados', tip: 'A family distillery near Pont-l’Évêque: one-hour tour and tasting of cider, pommeau and calvados.', info: '1895 route de Trouville' } }
+    en: { name: 'Calvados Christian Drouin', kind: 'Cider and calvados', tip: 'A family distillery near Pont-l’Évêque: one-hour tour and tasting of cider, pommeau and calvados.', info: '1895 route de Trouville' } },
+  { key: 'annabelle', group: 'marches', schema: 'Store', town: 'Pont-l’Évêque', time: '14 min', coords: [49.2873, 0.1874], dest: 'La Fromagerie d’Annabelle, 11 rue Hamelin, Pont-l’Évêque',
+    fr: { name: 'La Fromagerie d’Annabelle', kind: 'Fromagerie', tip: 'Environ 150 fromages, dont un pont-l’évêque bien affiné, dans la ville qui lui a donné son nom.', info: '11 rue Hamelin · 02 31 65 54 37' },
+    en: { name: 'La Fromagerie d’Annabelle', kind: 'Cheese shop', tip: 'Around 150 cheeses, including a well-aged pont-l’évêque, in the town that gave it its name.', info: '11 rue Hamelin · +33 2 31 65 54 37' } },
+  { key: 'graindorge', group: 'marches', schema: 'TouristAttraction', town: 'Livarot', time: '40 min', coords: [49.001, 0.1521], dest: 'Le Village Fromager, Fromagerie Graindorge, 42 rue du Général Leclerc, Livarot',
+    fr: { name: 'Le Village Fromager Graindorge', kind: 'Visite de fromagerie', tip: 'On suit la fabrication du livarot et du pont-l’évêque derrière des vitres, puis dégustation gratuite. Le matin pour voir la production.', info: 'Fermé le dimanche hors été · visite gratuite' },
+    en: { name: 'Le Village Fromager Graindorge', kind: 'Cheese dairy tour', tip: 'Watch livarot and pont-l’évêque being made through glass galleries, then a free tasting. Go in the morning to see production.', info: 'Closed Sundays outside summer · free visit' } },
+  { key: 'dupont', group: 'marches', schema: 'Winery', town: 'Victot-Pontfol', time: '18 min', coords: [49.1747, 0.0077], dest: 'Domaine Dupont, La Vigannerie, Victot-Pontfol',
+    fr: { name: 'Domaine Dupont', kind: 'Cidre et calvados', tip: 'Domaine familial en bio, l’un des plus réputés du pays d’Auge : vergers, pressoir et chais, puis dégustation de cidre, pommeau et calvados.', info: 'Boutique du lundi au samedi, 10 h – 18 h · visites à 11 h et 15 h' },
+    en: { name: 'Domaine Dupont', kind: 'Cider and calvados', tip: 'An organic family estate, one of the best known in the Pays d’Auge: orchards, press and cellars, then a cider, pommeau and calvados tasting.', info: 'Shop Monday to Saturday, 10 am – 6 pm · tours at 11 am and 3 pm' } },
+  { key: 'pierre-huet', group: 'marches', schema: 'Winery', town: 'Cambremer', time: '22 min', coords: [49.148, 0.0465], dest: 'Calvados Pierre Huet, 5 avenue des Tilleuls, Cambremer',
+    fr: { name: 'Calvados Pierre Huet', kind: 'Cidre et calvados', tip: 'Producteurs depuis 1865 sur la route du cidre : vergers, fûts centenaires et dégustation, avec du jus de pomme pour les enfants.', info: 'Lundi au samedi, 9 h – 12 h 30 et 14 h – 18 h' },
+    en: { name: 'Calvados Pierre Huet', kind: 'Cider and calvados', tip: 'Producers since 1865 on the Cider Route: orchards, century-old casks and a tasting, with apple juice for the children.', info: 'Monday to Saturday, 9 am – 12.30 pm and 2 – 6 pm' } },
+
+  { key: 'super-u', group: 'courses', schema: 'GroceryStore', town: 'Dozulé', time: '6 min', coords: [49.2326, -0.0382], dest: 'Super U, 20 Grande Rue, Dozulé',
+    fr: { name: 'Super U Dozulé', kind: 'Supermarché', tip: 'Le supermarché le plus proche de la maison, pour les courses de la semaine.', info: 'Lundi au samedi dès 8 h 30 · dimanche matin' },
+    en: { name: 'Super U Dozulé', kind: 'Supermarket', tip: 'The nearest supermarket to the house, for the weekly shop.', info: 'Monday to Saturday from 8.30 am · Sunday morning' } }
 ];
-const GROUPS = ['boulangeries', 'restaurants', 'marches'];
+const GROUPS = ['boulangeries', 'restaurants', 'marches', 'courses'];
 // Photos : Wikimedia Commons (licences libres, crédit affiché sur la photo), en attendant celles de Christophe.
 // Exceptions demandées par l'utilisatrice (droits non vérifiés) : Café des Arts (Tripadvisor), Auberge de l'Abbaye (son site),
 // Auberge de la Touques (explore-calvados.com), Le Vaucelles (sa page Facebook),
 // Le Pavé d'Auge (son site), Hôtellerie Normande (Hotels.com),
 // marché de Dozulé (jours-de-marche.fr, photo d'illustration, pas Dozulé),
 // marché de Dives (office de tourisme Normandie Cabourg Pays d'Auge, photo Éric Larrayadieu),
-// Calvados Christian Drouin (Terre d'Auge Tourisme).
+// Calvados Christian Drouin (Terre d'Auge Tourisme), Le Royalty (Tripadvisor, plaque floutée).
 // Pour les commerces, c'est le plus souvent le village ou la rue qui est montré, pas l'établissement.
 const PHOTOS = {
   'maison-conan': { src: '/images/adresses/maison-conan.webp', credit: "Raysonho", license: "CC0", url: "https://commons.wikimedia.org/wiki/File:APileOfCroissants.jpg" },
@@ -130,7 +158,15 @@ const PHOTOS = {
   'colomb-auge': { src: '/images/adresses/colomb-auge.webp', credit: "Renhour48", license: "CC0", url: "https://commons.wikimedia.org/wiki/File:Beuvron-en-Auge_-_Vue_D.jpg" },
   'marche-dozule': { src: '/images/adresses/marche-dozule.webp', credit: 'Jours-de-marché.fr', license: '', url: 'https://www.jours-de-marche.fr/producteur-local/14430-dozule/' },
   'marche-dives': { src: '/images/adresses/marche-dives.webp', credit: 'Éric Larrayadieu, office de tourisme', license: '', url: 'https://www.normandie-cabourg-paysdauge-tourisme.fr/a-faire/culture/guillaume-le-conquerant/les-halles-medievales/' },
-  'christian-drouin': { src: '/images/adresses/christian-drouin.webp', credit: 'Terre d’Auge Tourisme', license: '', url: 'https://www.terredauge-tourisme.fr/fr/preparer/a-voir-a-faire/cidre-a-la-ferme-distilleries/calvados-christian-drouin-sas' }
+  'christian-drouin': { src: '/images/adresses/christian-drouin.webp', credit: 'Terre d’Auge Tourisme', license: '', url: 'https://www.terredauge-tourisme.fr/fr/preparer/a-voir-a-faire/cidre-a-la-ferme-distilleries/calvados-christian-drouin-sas' },
+  'graindorge': { src: '/images/adresses/graindorge.webp', credit: "Derbrauni", license: "CC BY 4.0", url: "https://commons.wikimedia.org/wiki/File:E._Graindorge_Fromagerie.jpg" },
+  'dupont': { src: '/images/adresses/dupont.webp', credit: 'Terre d’Auge Tourisme', license: '', url: 'https://www.terredauge-tourisme.fr/fr/preparer/a-voir-a-faire/cidre-a-la-ferme-distilleries/domaine-dupont' },
+  'annabelle': { src: '/images/adresses/annabelle.webp', credit: 'Terre d’Auge Tourisme', license: '', url: 'https://www.terredauge-tourisme.fr/fr/preparer/shopping-services/alimentation/la-fromagerie-d-annabelle' },
+  'vapeurs': { src: '/images/adresses/vapeurs.webp', credit: 'actu.fr', license: '', url: 'https://actu.fr/', position: 'center 20%' },
+  'super-u': { src: '/images/adresses/super-u.webp', credit: "Julie de Coop Atlantique", license: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Super_U_Cozes.jpg" },
+  royalty: { src: '/images/adresses/royalty.webp', credit: 'Tripadvisor', license: '', url: 'https://www.tripadvisor.fr/' },
+  baligan: { src: '/images/adresses/baligan.webp', credit: 'Le Baligan', license: '', url: 'https://lebaligan.fr/' },
+  'pierre-huet': { src: '/images/adresses/pierre-huet.webp', credit: 'Calvados Pierre Huet', license: '', url: 'https://www.calvados-huet.com/' }
 };
 
 
@@ -191,7 +227,7 @@ export function renderAddresses(lang) {
   const figure = (place) => {
     const photo = PHOTOS[place.key];
     if (!photo) return '';
-    return `<figure class="guide-photo addr-photo"><img ${imgAttrs(photo.src, '(max-width: 720px) 92vw, 560px')} alt="${esc(place[lang].name)}, ${esc(place.town)}" width="1200" height="800" loading="lazy" decoding="async" />${photo.credit
+    return `<figure class="guide-photo addr-photo"><img ${imgAttrs(photo.src, '(max-width: 720px) 92vw, 560px')} alt="${esc(place[lang].name)}, ${esc(place.town)}" width="1200" height="800"${photo.position ? ` style="object-position: ${photo.position}"` : ''} loading="lazy" decoding="async" />${photo.credit
       ? `<figcaption><a href="${photo.url}" target="_blank" rel="noopener license">Photo : ${esc(photo.credit)}${photo.license ? `, ${esc(photo.license)}` : ''}</a></figcaption>` : ''}</figure>`;
   };
   const card = (place) => {

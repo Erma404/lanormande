@@ -12,7 +12,7 @@ export const renderPage = (t, s) => `
   <header class="site-header" id="top">
     <a class="brand" href="#top" aria-label="${t.brandAria}"><span class="brand-mark"><i></i><i></i></span><span>Villa<br><em>Normande</em></span></a>
     <nav class="nav-links" aria-label="Navigation principale">
-      <a href="#cadre">${t.nav.cadre}</a><a href="#equipements">${t.nav.equipements}</a><a href="#chambres">${t.nav.chambres}</a><a href="#plan">${t.nav.plan}</a><a href="#avis">${t.nav.avis}</a><a href="#tarifs">${t.nav.tarifs}</a><a href="#faq">${t.nav.faq}</a><a href="${t.nearbySection.guideUrl.split('#')[0]}">${t.nav.guide}</a>
+      <a href="#cadre">${t.nav.cadre}</a><a href="#equipements">${t.nav.equipements}</a><a href="#plan">${t.nav.plan}</a><a href="#avis">${t.nav.avis}</a><a href="#tarifs">${t.nav.tarifs}</a><a href="#faq">${t.nav.faq}</a><a href="${t.nearbySection.guideUrl.split('#')[0]}">${t.nav.guide}</a><a href="${t.nav.addressesUrl}">${t.nav.addresses}</a>
     </nav>
     <button class="header-cta booking-trigger">${t.headerCta} <span>${icon('arrow', 15)}</span></button>
     <button class="lang-toggle" id="lang-toggle" aria-label="${t.langToggleAria}">${t.langToggleLabel}</button>

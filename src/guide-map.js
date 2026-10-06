@@ -14,8 +14,8 @@ if (container && dataTag) {
 
 const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const HOUSE_SVG = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M12 3 2.5 11h2.7v9h5.3v-6h3v6h5.3v-9h2.7z"/></svg>';
-// Étretat et le Mont-Saint-Michel sont loin : la vue d'ensemble ne les cadre que si on filtre sur les excursions.
-const FAR = new Set(['mont-saint-michel', 'etretat']);
+// Lieux éloignés (Étretat, Mont-Saint-Michel, fromagerie de Livarot) : la vue d'ensemble ne les cadre que si on filtre sur leur rubrique.
+const FAR = new Set(['mont-saint-michel', 'etretat', 'graindorge']);
 
 async function init(data) {
   const [{ default: L }] = await Promise.all([import('leaflet'), import('leaflet/dist/leaflet.css')]);

@@ -439,5 +439,73 @@ export const IMAGE_SIZES = {
   ],
   "ratio": 1.5,
   "width": 1200
+ },
+ "/images/adresses/graindorge.webp": {
+  "stem": "adresses-graindorge",
+  "widths": [
+   480
+  ],
+  "ratio": 1.5,
+  "width": 865
+ },
+ "/images/adresses/dupont.webp": {
+  "stem": "adresses-dupont",
+  "widths": [
+   480,
+   960
+  ],
+  "ratio": 1.5,
+  "width": 1200
+ },
+ "/images/adresses/annabelle.webp": {
+  "stem": "adresses-annabelle",
+  "widths": [
+   480
+  ],
+  "ratio": 1.5,
+  "width": 960
+ },
+ "/images/adresses/vapeurs.webp": {
+  "stem": "adresses-vapeurs",
+  "widths": [
+   480
+  ],
+  "ratio": 1.5,
+  "width": 960
+ },
+ "/images/adresses/super-u.webp": {
+  "stem": "adresses-super-u",
+  "widths": [
+   480,
+   960
+  ],
+  "ratio": 1.5,
+  "width": 1200
+ },
+ "/images/adresses/royalty.webp": {
+  "stem": "adresses-royalty",
+  "widths": [
+   480,
+   960
+  ],
+  "ratio": 1.5,
+  "width": 1200
+ },
+ "/images/adresses/baligan.webp": {
+  "stem": "adresses-baligan",
+  "widths": [
+   480,
+   960
+  ],
+  "ratio": 1.5,
+  "width": 1200
+ },
+ "/images/adresses/pierre-huet.webp": {
+  "stem": "adresses-pierre-huet",
+  "widths": [
+   480
+  ],
+  "ratio": 1.5,
+  "width": 750
  }
 };
