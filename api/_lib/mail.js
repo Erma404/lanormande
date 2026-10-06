@@ -110,7 +110,9 @@ export async function sendLoginCode(email, code) {
 
 // Prévient Christophe et les admins d'une nouvelle demande ; le détail reste consultable dans l'admin.
 export async function sendRequestNotification(request) {
-  const recipients = [...new Set([...adminEmails(), ...hostEmails()])];
+  // Destinataire : la boîte de la Villa (HOST_EMAIL, contact@) ; les admins (Christophe, Claire…) en copie.
+  const recipients = hostEmails();
+  const copies = adminEmails().filter((email) => !recipients.includes(email));
   const summary = `${request.name} — du ${frDate(request.arrival)} au ${frDate(request.departure)}, ${request.guests} voyageur${request.guests > 1 ? 's' : ''}`;
   if (!process.env.RESEND_API_KEY || !recipients.length) {
     if (isDeployed()) throw new Error('RESEND_API_KEY ou ADMIN_EMAILS non configuré');
@@ -128,6 +130,7 @@ export async function sendRequestNotification(request) {
   const rows = [['Email', request.email], ['Téléphone', request.phone || '—'], ['Langue', request.lang === 'en' ? 'Anglais' : 'Français'], ['Message', request.message || '—']];
   await deliver({
     to: recipients,
+    ...(copies.length ? { cc: copies } : {}),
     reply_to: request.email,
     subject: `Nouvelle demande de réservation — ${request.name}`,
     text: `Nouvelle demande de réservation sur le site.\n\n${summary}\nTotal estimé : ${totalText} (${totalDetail})\n${rows.map(([label, value]) => `${label} : ${value}`).join('\n')}\n\nLe voyageur a reçu un accusé de réception annonçant une réponse sous 48 h maximum.\nPour l'accepter ou la refuser : ${adminUrl}\nRépondre à cet email écrit directement au voyageur.`,
