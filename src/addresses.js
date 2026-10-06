@@ -110,6 +110,29 @@ const PLACES = [
     en: { name: 'Calvados Christian Drouin', kind: 'Cider and calvados', tip: 'A family distillery near Pont-l’Évêque: one-hour tour and tasting of cider, pommeau and calvados.', info: '1895 route de Trouville' } }
 ];
 const GROUPS = ['boulangeries', 'restaurants', 'marches'];
+// Photos : Wikimedia Commons (licences libres, crédit affiché sur la photo), en attendant celles de Christophe.
+// Exceptions demandées par l'utilisatrice (droits non vérifiés) : Café des Arts (Tripadvisor), Auberge de l'Abbaye (son site),
+// Auberge de la Touques (explore-calvados.com), Le Vaucelles (sa page Facebook),
+// Le Pavé d'Auge (son site), Hôtellerie Normande (Hotels.com),
+// marché de Dozulé (jours-de-marche.fr, photo d'illustration, pas Dozulé),
+// marché de Dives (office de tourisme Normandie Cabourg Pays d'Auge, photo Éric Larrayadieu),
+// Calvados Christian Drouin (Terre d'Auge Tourisme).
+// Pour les commerces, c'est le plus souvent le village ou la rue qui est montré, pas l'établissement.
+const PHOTOS = {
+  'maison-conan': { src: '/images/adresses/maison-conan.webp', credit: "Raysonho", license: "CC0", url: "https://commons.wikimedia.org/wiki/File:APileOfCroissants.jpg" },
+  'epi-d-or': { src: '/images/adresses/epi-d-or.webp', credit: "N i c o l a", license: "CC BY 2.0", url: "https://commons.wikimedia.org/wiki/File:Baguette_001.jpg" },
+  'cafe-des-arts': { src: '/images/adresses/cafe-des-arts.webp', credit: 'Tripadvisor', license: '', url: 'https://www.tripadvisor.fr/LocationPhotoDirectLink-g1932291-d2210493-i338619799-Le_Cafe_des_Arts-Beaumont_en_Auge_Calvados_Basse_Normandie_Normandy.html' },
+  'auberge-abbaye': { src: '/images/adresses/auberge-abbaye.webp', credit: 'Auberge de l’Abbaye', license: '', url: 'https://auberge-abbaye-beaumont.fr/' },
+  'auberge-touques': { src: '/images/adresses/auberge-touques.webp', credit: 'Calvados Attractivité', license: '', url: 'https://www.explore-calvados.com/restaurant/auberge-de-la-touques/' },
+  'vaucelles': { src: '/images/adresses/vaucelles.webp', credit: 'Restaurant Le Vaucelles', license: '', url: 'https://www.facebook.com/p/Restaurant-Le-vaucelles-100063538905128/' },
+  'hotellerie-normande': { src: '/images/adresses/hotellerie-normande.webp', credit: 'Hotels.com', license: '', url: 'https://fr.hotels.com/ho1346131552/hotellerie-normande-dozule-france/' },
+  'pave-d-auge': { src: '/images/adresses/pave-d-auge.webp', credit: 'Le Pavé d’Auge', license: '', url: 'https://www.pavedauge.com/' },
+  'colomb-auge': { src: '/images/adresses/colomb-auge.webp', credit: "Renhour48", license: "CC0", url: "https://commons.wikimedia.org/wiki/File:Beuvron-en-Auge_-_Vue_D.jpg" },
+  'marche-dozule': { src: '/images/adresses/marche-dozule.webp', credit: 'Jours-de-marché.fr', license: '', url: 'https://www.jours-de-marche.fr/producteur-local/14430-dozule/' },
+  'marche-dives': { src: '/images/adresses/marche-dives.webp', credit: 'Éric Larrayadieu, office de tourisme', license: '', url: 'https://www.normandie-cabourg-paysdauge-tourisme.fr/a-faire/culture/guillaume-le-conquerant/les-halles-medievales/' },
+  'christian-drouin': { src: '/images/adresses/christian-drouin.webp', credit: 'Terre d’Auge Tourisme', license: '', url: 'https://www.terredauge-tourisme.fr/fr/preparer/a-voir-a-faire/cidre-a-la-ferme-distilleries/calvados-christian-drouin-sas' }
+};
+
 
 const directionsUrl = (place) => `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent('Danestal, 14430, France')}&destination=${encodeURIComponent(place.dest)}&travelmode=driving`;
 const esc = (value) => String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -128,6 +151,7 @@ export function addressesHead(lang) {
   const list = { '@context': 'https://schema.org', '@type': 'ItemList', name: t.meta.title, inLanguage: lang, url,
     itemListElement: PLACES.map((place, index) => ({ '@type': 'ListItem', position: index + 1, item: {
       '@type': place.schema, name: place[lang].name, description: place[lang].tip,
+      ...(PHOTOS[place.key] ? { image: SITE_URL + PHOTOS[place.key].src } : {}),
       address: { '@type': 'PostalAddress', addressLocality: place.town, addressRegion: 'Calvados', addressCountry: 'FR' },
       geo: { '@type': 'GeoCoordinates', latitude: place.coords[0], longitude: place.coords[1] }
     } })) };
@@ -163,12 +187,18 @@ export function renderAddresses(lang) {
   const home = HOME[lang];
   // Numéros communs à la carte et aux fiches (guide-map.js numérote dans l'ordre des lieux).
   const mapPlaces = PLACES.map((place) => ({ key: place.key, name: place[lang].name, time: place.time, text: place[lang].tip,
-    category: place.group, photo: '', coords: place.coords, directions: directionsUrl(place) }));
+    category: place.group, photo: PHOTOS[place.key] ? sized(PHOTOS[place.key].src, 480) : '', coords: place.coords, directions: directionsUrl(place) }));
+  const figure = (place) => {
+    const photo = PHOTOS[place.key];
+    if (!photo) return '';
+    return `<figure class="guide-photo addr-photo"><img ${imgAttrs(photo.src, '(max-width: 720px) 92vw, 560px')} alt="${esc(place[lang].name)}, ${esc(place.town)}" width="1200" height="800" loading="lazy" decoding="async" />${photo.credit
+      ? `<figcaption><a href="${photo.url}" target="_blank" rel="noopener license">Photo : ${esc(photo.credit)}${photo.license ? `, ${esc(photo.license)}` : ''}</a></figcaption>` : ''}</figure>`;
+  };
   const card = (place) => {
     const p = place[lang];
     const no = PLACES.indexOf(place) + 1;
     return `
-          <li class="addr-card" data-key="${place.key}" data-category="${place.group}">
+          <li class="addr-card" data-key="${place.key}" data-category="${place.group}">${figure(place)}
             <div class="addr-card-head">
               <span class="map-item-no" aria-hidden="true">${no}</span>
               <div class="addr-card-title"><h3>${esc(p.name)}</h3><p>${esc(p.kind)} · ${esc(place.town)}</p></div>

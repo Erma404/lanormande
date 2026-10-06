@@ -94,6 +94,18 @@
     <xhtml:link rel="alternate" hreflang="fr" href="https://villanormande.com/bonnes-adresses" />
     <xhtml:link rel="alternate" hreflang="en" href="https://villanormande.com/en/local-favourites" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://villanormande.com/bonnes-adresses" />
+    <image:image><image:loc>https://villanormande.com/images/adresses/maison-conan.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/adresses/epi-d-or.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/adresses/cafe-des-arts.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/adresses/auberge-abbaye.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/adresses/auberge-touques.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/adresses/vaucelles.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/adresses/hotellerie-normande.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/adresses/colomb-auge.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/adresses/marche-dozule.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/adresses/marche-dives.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/adresses/pave-d-auge.webp</image:loc></image:image>
+    <image:image><image:loc>https://villanormande.com/images/adresses/christian-drouin.webp</image:loc></image:image>
     <lastmod>2026-10-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>

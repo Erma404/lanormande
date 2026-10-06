@@ -337,5 +337,107 @@ export const IMAGE_SIZES = {
   ],
   "ratio": 1.5,
   "width": 1200
+ },
+ "/images/adresses/maison-conan.webp": {
+  "stem": "adresses-maison-conan",
+  "widths": [
+   480,
+   960
+  ],
+  "ratio": 1.5,
+  "width": 1200
+ },
+ "/images/adresses/epi-d-or.webp": {
+  "stem": "adresses-epi-d-or",
+  "widths": [
+   480,
+   960
+  ],
+  "ratio": 1.5,
+  "width": 1200
+ },
+ "/images/adresses/cafe-des-arts.webp": {
+  "stem": "adresses-cafe-des-arts",
+  "widths": [
+   480,
+   960
+  ],
+  "ratio": 1.5,
+  "width": 1200
+ },
+ "/images/adresses/auberge-abbaye.webp": {
+  "stem": "adresses-auberge-abbaye",
+  "widths": [
+   480,
+   960
+  ],
+  "ratio": 1.5,
+  "width": 1200
+ },
+ "/images/adresses/auberge-touques.webp": {
+  "stem": "adresses-auberge-touques",
+  "widths": [
+   480
+  ],
+  "ratio": 1.5,
+  "width": 800
+ },
+ "/images/adresses/vaucelles.webp": {
+  "stem": "adresses-vaucelles",
+  "widths": [
+   480
+  ],
+  "ratio": 1.5,
+  "width": 960
+ },
+ "/images/adresses/hotellerie-normande.webp": {
+  "stem": "adresses-hotellerie-normande",
+  "widths": [
+   480,
+   960
+  ],
+  "ratio": 1.5,
+  "width": 1200
+ },
+ "/images/adresses/colomb-auge.webp": {
+  "stem": "adresses-colomb-auge",
+  "widths": [
+   480,
+   960
+  ],
+  "ratio": 1.5,
+  "width": 1200
+ },
+ "/images/adresses/marche-dozule.webp": {
+  "stem": "adresses-marche-dozule",
+  "widths": [],
+  "ratio": 1.5,
+  "width": 427
+ },
+ "/images/adresses/marche-dives.webp": {
+  "stem": "adresses-marche-dives",
+  "widths": [
+   480,
+   960
+  ],
+  "ratio": 1.5,
+  "width": 1200
+ },
+ "/images/adresses/pave-d-auge.webp": {
+  "stem": "adresses-pave-d-auge",
+  "widths": [
+   480
+  ],
+  "ratio": 1.5,
+  "width": 930
+ },
+ "/images/adresses/christian-drouin.webp": {
+  "stem": "adresses-christian-drouin",
+  "widths": [
+   480,
+   960
+  ],
+  "ratio": 1.5,
+  "width": 1200
  }
 };

@@ -205,3 +205,25 @@
 }
 .guide-addresses-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; color: var(--clay); font-size: 15px; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
 .guide-addresses-link:hover { color: var(--ink); }
+/* Photo en tête de fiche (bord à bord, au-dessus du numéro et du nom). */
+.addr-card { overflow: hidden; }
+.addr-photo { margin: -20px -20px 4px; }
+/* Fiches plus compactes : photo basse, textes et boutons resserrés, 3 colonnes sur grand écran. */
+.addr-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.addr-card { gap: 8px; padding: 14px 16px 16px; }
+.addr-photo { margin: -14px -16px 4px; aspect-ratio: auto; height: 150px; }
+.addr-photo figcaption { font-size: 9px; padding: 2px 6px; }
+.addr-card-head { gap: 10px; }
+.addr-card-head .map-item-no { width: 22px; height: 22px; font-size: 10px; }
+.addr-card h3 { font-size: 17px; }
+.addr-card-title p { font-size: 12px; }
+.addr-card .guide-time { padding: 3px 8px; font-size: 11px; }
+.addr-tip { font-size: 14px; line-height: 1.5; }
+.addr-info { font-size: 12px; }
+.addr-actions { padding-top: 2px; }
+.addr-btn { min-height: 38px; padding: 0 10px; font-size: 12px; }
+@media (max-width: 1080px) { .addr-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 720px) {
+  .addr-list { grid-template-columns: 1fr; }
+  .addr-photo { height: 116px; }
+}
