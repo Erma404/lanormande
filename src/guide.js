@@ -28,6 +28,7 @@ export const guide = {
         lead: 'La côte Fleurie, entre Cabourg et Honfleur, aligne les plages de sable fin et les stations Belle Époque. Les plus proches de la maison sont Cabourg et Houlgate, à moins de 20 minutes.',
         places: [
           ['Cabourg', '18 min', 'Longue plage de sable fin, promenade Marcel-Proust et Grand Hôtel : la station Belle Époque par excellence, parfaite avec des enfants.'],
+          ['Hippodrome de Cabourg', '18 min', 'Courses de trotteurs une bonne partie de l’année et, l’été, les Estivales : courses en soirée, musique, jeux, poneys et mini-ferme pour les enfants. Un bon programme après la plage.'],
           ['Houlgate', '20 min', 'Villas Belle Époque, plage familiale et falaises des Vaches Noires, connues pour leurs fossiles.'],
           ['Deauville et Trouville', '25 min', 'Les planches et les parasols colorés de Deauville, puis le marché aux poissons et les ruelles de Trouville, de l’autre côté de la Touques.'],
           ['Honfleur', '40 min', 'Le Vieux Bassin, l’église Sainte-Catherine tout en bois et les galeries d’un port qui a inspiré les peintres impressionnistes.']
@@ -117,6 +118,7 @@ export const guide = {
         lead: 'The Côte Fleurie, between Cabourg and Honfleur, is a string of sandy beaches and Belle Époque resorts. The closest to the house are Cabourg and Houlgate, under 20 minutes away.',
         places: [
           ['Cabourg', '18 min', 'A long sandy beach, the Marcel Proust promenade and the Grand Hôtel: the classic Belle Époque resort, perfect with children.'],
+          ['Cabourg Racecourse', '18 min', 'Trotting races for much of the year and, in summer, the Estivales: evening races, music, games, pony rides and a mini farm for children. A great plan after the beach.'],
           ['Houlgate', '20 min', 'Belle Époque villas, a family beach and the Vaches Noires cliffs, known for their fossils.'],
           ['Deauville and Trouville', '25 min', 'Deauville’s boardwalk and colourful parasols, then Trouville’s fish market and lanes across the Touques river.'],
           ['Honfleur', '40 min', 'The Vieux Bassin harbour, the wooden Sainte-Catherine church and the galleries of a port that inspired the Impressionists.']
@@ -194,6 +196,7 @@ const PHOTOS = {
   deauville: { src: '/images/deauville.webp' },
   'route-du-cidre': { src: '/images/route-du-cidre.jpg' },
   balades: { src: '/images/randonnee-pays-dauge.webp' },
+  'hippodrome-cabourg': { src: '/images/guide/hippodrome-cabourg.webp', credit: "Focalize You", license: "Ville de Cabourg", url: "https://www.cabourg.fr/fiche/equipements-de-loisirs/hippodrome-de-cabourg/" },
   'houlgate': { src: '/images/guide/houlgate.webp', credit: "DimiTalen", license: "CC0", url: "https://commons.wikimedia.org/wiki/File:Promenade_Roland_Garros,_Houlgate,_2024.jpg" },
   'honfleur': { src: '/images/guide/honfleur.webp', credit: "Rebexho", license: "CC BY-SA 3.0", url: "https://commons.wikimedia.org/wiki/File:Vieux_bassin_Honfleur.JPG" },
   'beuvron': { src: '/images/guide/beuvron.webp', credit: "Nono vlf", license: "CC BY-SA 3.0", url: "https://commons.wikimedia.org/wiki/File:Manoir_-_Beuvron_en_Auge.JPG" },
@@ -211,7 +214,7 @@ const PHOTOS = {
 };
 // Même ordre que les lieux de chaque section, en français comme en anglais.
 const SECTION_PHOTOS = {
-  'cote-fleurie': ['cabourg', 'houlgate', 'deauville', 'honfleur'],
+  'cote-fleurie': ['cabourg', 'hippodrome-cabourg', 'houlgate', 'deauville', 'honfleur'],
   'pays-d-auge': ['route-du-cidre', 'beuvron', 'pont-l-eveque', 'lisieux', 'balades'],
   debarquement: ['pegasus-bridge', 'memorial-caen', 'juno-beach', 'arromanches', 'bayeux', 'cimetiere-americain', 'pointe-du-hoc'],
   'plus-loin': ['etretat', 'mont-saint-michel']
@@ -223,6 +226,7 @@ const photoOf = (sectionId, index) => PHOTOS[SECTION_PHOTOS[sectionId]?.[index]]
 export const HOUSE_COORDS = [49.2503, 0.0198];
 const COORDS = {
   'cabourg': [49.2879, -0.1294],
+  'hippodrome-cabourg': [49.2795, -0.1198],
   'houlgate': [49.3009, -0.0752],
   'deauville': [49.3607, 0.0665],
   'honfleur': [49.4202, 0.2332],
@@ -241,11 +245,11 @@ const COORDS = {
   'mont-saint-michel': [48.636, -1.5115]
 };
 const BEST_FOR = {
-  fr: { cabourg: 'Plage en famille', houlgate: 'Plage, villas, fossiles', deauville: 'Plage, balade, restaurants', honfleur: 'Port, peintres, galeries',
+  fr: { cabourg: 'Plage en famille', 'hippodrome-cabourg': 'Courses en soirée l’été', houlgate: 'Plage, villas, fossiles', deauville: 'Plage, balade, restaurants', honfleur: 'Port, peintres, galeries',
     'route-du-cidre': 'Dégustations, vergers', beuvron: 'Village de caractère', 'pont-l-eveque': 'Marché, fromages', lisieux: 'Basilique',
     'pegasus-bridge': 'Histoire du Débarquement', 'memorial-caen': 'Comprendre 1944', 'juno-beach': 'Plages du Débarquement', arromanches: 'Port artificiel',
     bayeux: 'Tapisserie, vieille ville', 'cimetiere-americain': 'Mémoire, Omaha Beach', 'pointe-du-hoc': 'Falaises des Rangers', etretat: 'Falaises', 'mont-saint-michel': 'Excursion à la journée' },
-  en: { cabourg: 'Family beach', houlgate: 'Beach, villas, fossils', deauville: 'Beach, strolls, restaurants', honfleur: 'Harbour, painters, galleries',
+  en: { cabourg: 'Family beach', 'hippodrome-cabourg': 'Summer evening races', houlgate: 'Beach, villas, fossils', deauville: 'Beach, strolls, restaurants', honfleur: 'Harbour, painters, galleries',
     'route-du-cidre': 'Tastings, orchards', beuvron: 'Historic village', 'pont-l-eveque': 'Market, cheese', lisieux: 'Basilica',
     'pegasus-bridge': 'D-Day history', 'memorial-caen': 'Understanding 1944', 'juno-beach': 'D-Day beaches', arromanches: 'Artificial harbour',
     bayeux: 'Tapestry, old town', 'cimetiere-americain': 'Remembrance, Omaha Beach', 'pointe-du-hoc': 'Rangers’ cliffs', etretat: 'Cliffs', 'mont-saint-michel': 'Day trip' }
@@ -254,12 +258,16 @@ const BEST_FOR = {
 // Itinéraire depuis Danestal : le nom du lieu est un lien qui ouvre l'application de cartes
 // du téléphone (Google Maps sur Android et iPhone, le site sur ordinateur).
 const DESTINATIONS = {
-  cabourg: 'Plage de Cabourg, Cabourg', houlgate: 'Plage de Houlgate, Houlgate', deauville: 'Promenade des Planches, Deauville', honfleur: 'Vieux Bassin, Honfleur',
+  cabourg: 'Plage de Cabourg, Cabourg', 'hippodrome-cabourg': 'Hippodrome de Cabourg, Avenue Michel d’Ornano, Cabourg', houlgate: 'Plage de Houlgate, Houlgate', deauville: 'Promenade des Planches, Deauville', honfleur: 'Vieux Bassin, Honfleur',
   'route-du-cidre': 'Cambremer, Calvados', beuvron: 'Beuvron-en-Auge', 'pont-l-eveque': 'Pont-l’Évêque, Calvados', lisieux: 'Basilique Sainte-Thérèse, Lisieux',
   'pegasus-bridge': 'Pegasus Bridge, Bénouville', 'memorial-caen': 'Mémorial de Caen, Caen', 'juno-beach': 'Centre Juno Beach, Courseulles-sur-Mer',
   arromanches: 'Arromanches-les-Bains', bayeux: 'Cathédrale Notre-Dame de Bayeux, Bayeux', 'cimetiere-americain': 'Cimetière américain de Normandie, Colleville-sur-Mer',
   'pointe-du-hoc': 'Pointe du Hoc, Cricqueville-en-Bessin', etretat: 'Falaise d’Aval, Étretat', 'mont-saint-michel': 'Le Mont-Saint-Michel'
 };
+// Site officiel, quand le programme change d'une saison à l'autre (dates de courses…).
+const WEBSITES = { 'hippodrome-cabourg': 'https://www.hippodrome-cabourg.com/' };
+const websiteLabel = { fr: 'Programme et dates des courses', en: 'Race programme and dates' };
+
 const directionsUrl = (key) => DESTINATIONS[key]
   ? `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent('Danestal, 14430, France')}&destination=${encodeURIComponent(DESTINATIONS[key])}&travelmode=driving`
   : '';
@@ -332,7 +340,7 @@ export function renderGuide(lang) {
   const figure = (photo, name) => photo ? `<figure class="guide-photo"><img ${imgAttrs(photo.src, '(max-width: 860px) 92vw, 440px')} alt="${esc(name)}, ${lang === 'fr' ? 'Normandie' : 'Normandy'}" width="1200" height="800" loading="lazy" decoding="async" />${photo.credit
       ? `<figcaption><a href="${photo.url}" target="_blank" rel="noopener license">${creditLabel} : ${esc(photo.credit)}, ${esc(photo.license)}</a></figcaption>` : ''}</figure>` : '';
   const placeCards = (section) => section.places.map(([name, time, text], index) => `
-          <article class="guide-place">${figure(photoOf(section.id, index), name)}<div class="guide-place-body"><div class="guide-place-head"><h3>${(() => { const url = directionsUrl(SECTION_PHOTOS[section.id]?.[index]); return url ? `<a class="guide-place-link" href="${url}" target="_blank" rel="noopener">${esc(name)}</a>` : esc(name); })()}</h3><span class="guide-time">${esc(time)}</span></div><p>${esc(text)}</p></div></article>`).join('');
+          <article class="guide-place">${figure(photoOf(section.id, index), name)}<div class="guide-place-body"><div class="guide-place-head"><h3>${(() => { const url = directionsUrl(SECTION_PHOTOS[section.id]?.[index]); return url ? `<a class="guide-place-link" href="${url}" target="_blank" rel="noopener">${esc(name)}</a>` : esc(name); })()}</h3><span class="guide-time">${esc(time)}</span></div><p>${esc(text)}</p>${(() => { const site = WEBSITES[SECTION_PHOTOS[section.id]?.[index]]; return site ? `<a class="guide-place-site" href="${site}" target="_blank" rel="noopener">${websiteLabel[lang]} ${arrow}</a>` : ''; })()}</div></article>`).join('');
   return `
   <header class="site-header guide-header">
     <a class="brand" href="${home}" aria-label="Villa Normande"><span class="brand-mark"><i></i><i></i></span><span>Villa<br><em>Normande</em></span></a>

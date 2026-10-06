@@ -257,6 +257,15 @@ export const IMAGE_SIZES = {
   "ratio": 1.5,
   "width": 1200
  },
+ "/images/guide/hippodrome-cabourg.webp": {
+  "stem": "guide-hippodrome-cabourg",
+  "widths": [
+   480,
+   960
+  ],
+  "ratio": 1.5,
+  "width": 1200
+ },
  "/images/guide/houlgate.webp": {
   "stem": "guide-houlgate",
   "widths": [

@@ -156,3 +156,8 @@
 /* Nom du lieu = lien d'itinéraire (ouvre l'application de cartes), souligné discrètement. */
 .guide-place-link { color: inherit; text-decoration: underline; text-decoration-color: color-mix(in oklch, var(--clay) 55%, transparent); text-decoration-thickness: 1.5px; text-underline-offset: 4px; transition: color .2s, text-decoration-color .2s; }
 .guide-place-link:hover { color: var(--clay); text-decoration-color: currentColor; }
+/* Lien vers le site officiel d'un lieu (programme qui change chaque saison). */
+.guide-place-site { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; font-size: 14px; font-weight: 600; color: var(--clay); text-decoration: none; }
+.guide-place-site:hover { text-decoration: underline; text-underline-offset: 4px; }
+.guide-place-site svg { transition: transform .2s; }
+.guide-place-site:hover svg { transform: translateX(3px); }
