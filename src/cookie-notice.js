@@ -10,14 +10,23 @@ function seen() { try { return localStorage.getItem(KEY) === '1'; } catch { retu
 
 export function showCookieNotice() {
   if (seen() || document.getElementById('cookie-notice')) return;
-  const t = TEXT[document.documentElement.lang === 'en' ? 'en' : 'fr'];
   const notice = document.createElement('div');
   notice.id = 'cookie-notice';
   notice.className = 'cookie-notice';
   notice.setAttribute('role', 'region');
   notice.setAttribute('aria-label', 'Cookies');
-  notice.innerHTML = `<p>${t.text} <a href="/politique-de-confidentialite#cookies">${t.more}</a></p><button type="button">${t.ok}</button>`;
+  // Textes selon la langue de la page ; mis à jour quand on bascule FR / EN sans recharger.
+  const render = () => {
+    const t = TEXT[document.documentElement.lang === 'en' ? 'en' : 'fr'];
+    notice.querySelector('p').innerHTML = `${t.text} <a href="/politique-de-confidentialite#cookies">${t.more}</a>`;
+    notice.querySelector('button').textContent = t.ok;
+  };
+  notice.innerHTML = '<p></p><button type="button"></button>';
+  render();
+  const observer = new MutationObserver(render);
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
   notice.querySelector('button').addEventListener('click', () => {
+    observer.disconnect();
     try { localStorage.setItem(KEY, '1'); } catch { /* navigation privée : réapparaîtra */ }
     notice.classList.remove('show');
     document.body.classList.remove('cookie-notice-open');
