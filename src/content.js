@@ -134,15 +134,10 @@ export const content = {
     faq: [
       ['Quels sont les horaires d’arrivée et de départ ?', 'Les arrivées se font à partir de 16h et les départs avant 11h. Une arrivée autonome peut être organisée sur demande.'],
       ['Combien de voyageurs la maison peut-elle accueillir ?', 'La maison accueille confortablement jusqu’à 8 voyageurs, avec quatre chambres, sept lits et trois salles de bain.'],
-      ['Le ménage est-il inclus dans le séjour ?', 'Le ménage de fin de séjour est inclus. Un passage supplémentaire peut être réservé pendant votre séjour.'],
-      ['Les animaux sont-ils acceptés ?', 'Vos compagnons sont les bienvenus sur demande préalable, afin de préparer au mieux leur arrivée.'],
-      ['Le linge de maison est-il fourni ?', 'Oui : draps, serviettes et savon sont fournis. Un lave-linge et un sèche-linge sont à votre disposition gratuitement.'],
+      ['Le linge et le ménage sont-ils inclus ?', 'Oui : draps, serviettes et savon sont fournis, et le ménage de fin de séjour est inclus. Un lave-linge et un sèche-linge sont à votre disposition, et un passage de ménage supplémentaire peut être réservé.'],
       ['La maison est-elle adaptée aux enfants et aux bébés ?', 'Oui : lit bébé, chaise haute, jeux de société et table de ping-pong vous attendent, dans un terrain clos et arboré de 8 000 m².'],
-      ['La maison a-t-elle un jacuzzi et une cheminée ?', 'Oui : un jacuzzi privé accessible toute l’année et une cheminée à bois dans la pièce de vie.'],
-      ['Peut-on télétravailler depuis la maison ?', 'Oui, la maison dispose d’un wifi haut débit.'],
-      ['À quelle distance se trouvent les plages ?', 'Les plages de Cabourg sont à environ 18 minutes en voiture, Deauville à environ 25 minutes.'],
-      ['Comment venir depuis Paris ?', 'Comptez environ 2 h 15 en voiture par l’autoroute A13. En train, Paris-Saint-Lazare dessert Lisieux et Deauville-Trouville en 2 h environ, puis 30 minutes de voiture. Le parking est gratuit sur place.'],
-      ['Que faire autour de la maison ?', 'Le pays d’Auge offre balades entre vergers, route du cidre, plages de la côte Fleurie, Deauville, Honfleur et les plages du Débarquement. Notre guide du pays d’Auge détaille chaque idée de sortie.']
+      ['Les animaux sont-ils acceptés ?', 'Vos compagnons sont les bienvenus sur demande préalable, afin de préparer au mieux leur arrivée.'],
+      ['Où se trouve la maison et comment y venir ?', 'À Danestal, au cœur du pays d’Auge : les plages de Cabourg sont à 18 minutes, Deauville à 25 minutes et Paris à environ 2 h 15 par l’A13. Le parking est gratuit sur place. Notre guide du pays d’Auge détaille toutes les sorties.']
     ],
     finalCta: {
       eyebrow: 'Danestal, Pays d’Auge', h2: 'Et si votre prochain<br>souvenir commençait <em>ici ?</em>',
@@ -302,15 +297,10 @@ export const content = {
     faq: [
       ['What are the check-in and check-out times?', 'Check-in is from 4pm and check-out before 11am. Self check-in can be arranged on request.'],
       ['How many guests can the house accommodate?', 'The house comfortably sleeps up to 8 guests, with four bedrooms, seven beds and three bathrooms.'],
-      ['Is housekeeping included in the stay?', 'End-of-stay cleaning is included. An extra cleaning visit can be booked during your stay.'],
-      ['Are pets allowed?', 'Your pets are welcome with advance notice, so we can prepare properly for their arrival.'],
-      ['Are bed linen and towels provided?', 'Yes: sheets, towels and soap are provided. A washing machine and a tumble dryer are free to use.'],
+      ['Are linen and cleaning included?', 'Yes: sheets, towels and soap are provided, and end-of-stay cleaning is included. A washing machine and tumble dryer are available, and an extra cleaning visit can be booked.'],
       ['Is the house suitable for children and babies?', 'Yes: a cot, a high chair, board games and a ping-pong table await you, in an enclosed, tree-lined 8,000 m² garden.'],
-      ['Does the house have a hot tub and a fireplace?', 'Yes: a private hot tub open all year round and a wood-burning fireplace in the living room.'],
-      ['Can I work remotely from the house?', 'Yes, the house has high-speed wifi.'],
-      ['How far are the beaches?', 'The beaches of Cabourg are about 18 minutes away by car, Deauville about 25 minutes.'],
-      ['How do I get there from Paris?', 'Allow about 2 h 15 by car on the A13 motorway. By train, Paris-Saint-Lazare serves Lisieux and Deauville-Trouville in about 2 hours, then a 30-minute drive. Parking is free on site.'],
-      ['What is there to do nearby?', 'The Pays d’Auge offers orchard walks, the Cider Route, the beaches of the Côte Fleurie, Deauville, Honfleur and the D-Day beaches. Our Pays d’Auge guide covers every outing idea.']
+      ['Are pets allowed?', 'Your pets are welcome with advance notice, so we can prepare properly for their arrival.'],
+      ['Where is the house and how do I get there?', 'In Danestal, in the heart of the Pays d’Auge: the beaches of Cabourg are 18 minutes away, Deauville 25 minutes and Paris about 2 h 15 via the A13. Free parking on site. Our Pays d’Auge guide covers every outing.']
     ],
     finalCta: {
       eyebrow: 'Danestal, Normandy', h2: 'What if your next<br>memory started <em>here?</em>',
