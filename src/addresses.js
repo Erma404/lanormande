@@ -259,7 +259,7 @@ export function renderAddresses(lang) {
       <a href="${home}">${esc(t.nav.home)}</a>
       <a class="addr-nav-guide" href="${GUIDE_PATHS[lang]}">${esc(t.nav.guide)}</a>
       <a class="guide-lang" href="${ADDRESSES_PATHS[other]}" hreflang="${other}" aria-label="${esc(t.nav.langAria)}">${t.nav.lang}</a>
-      <a class="header-cta" href="${home}#reserver" data-reserve>${esc(t.nav.book)} ${arrow}</a>
+      <a class="header-cta" href="${home}#reserver" data-reserve data-cta="addresses-header">${esc(t.nav.book)} ${arrow}</a>
     </nav>
   </header>
   <main class="guide addr">

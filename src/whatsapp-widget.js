@@ -12,6 +12,7 @@ const link = document.createElement('a');
 link.className = 'wa-bubble';
 link.target = '_blank';
 link.rel = 'noopener';
+link.dataset.cta = 'whatsapp-bubble';
 // Textes selon la langue de la page ; mis à jour quand on bascule FR / EN sans recharger.
 const render = () => {
   const t = TEXT[document.documentElement.lang === 'en' ? 'en' : 'fr'];

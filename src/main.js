@@ -6,6 +6,7 @@ import { availability, isNightBlocked, onAvailability, rangeCrossesBookedDate } 
 import { setupReserveModal } from './reserve-modal.js';
 import { SITE_URL } from './site.js';
 import './cookie-notice.js';
+import './track.js';
 
 // Floor-plan room data: language-independent (image, class, grid size, area,
 // capacity number). Only the room name and "N guests" wording are translated,
@@ -401,7 +402,7 @@ function renderPromo() {
   banner.setAttribute('aria-label', lang === 'en' ? 'Special offer' : 'Offre du moment');
   banner.innerHTML = `<div class="promo-inner">
       <p class="promo-text"><span class="promo-spark" aria-hidden="true"></span>${escapeHtml(t.text)}</p>
-      ${promo.showButton ? `<button type="button" class="promo-cta">${escapeHtml(t.cta)} ${icon('arrow', 14)}</button>` : ''}
+      ${promo.showButton ? `<button type="button" class="promo-cta" data-cta="promo">${escapeHtml(t.cta)} ${icon('arrow', 14)}</button>` : ''}
     </div>
     <button type="button" class="promo-close" aria-label="${lang === 'en' ? 'Close' : 'Fermer'}">${icon('close', 14)}</button>`;
   banner.querySelector('.promo-cta')?.addEventListener('click', () => document.querySelector('#reserve')?.click());

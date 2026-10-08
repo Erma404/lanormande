@@ -1,4 +1,5 @@
 import './cookie-notice.js';
+import './track.js';
 import './whatsapp-widget.js';
 
 // ---- « Réserver » : la fenêtre de réservation s'ouvre sur le guide, sans quitter la page.

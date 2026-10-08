@@ -3,6 +3,7 @@
 import { availability, isoOf, isNightBlocked, onAvailability, rangeCrossesBookedDate } from './availability.js';
 import { estimateStay } from './pricing.js';
 import { WHATSAPP_NUMBER } from './whatsapp-widget.js';
+import { lastCtaId, track } from './track.js';
 
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
@@ -127,6 +128,7 @@ export function setupReserveModal({ t, lang, getInitial = () => ({ dates: null, 
     if (apply && pick.length === 2) {
       setDates(pick[0], pick[1]);
       onPick([...pick]);
+      trackDates();
     }
     picker.hidden = true;
     picker.closest('.reserve-card').classList.remove('picking');
@@ -138,12 +140,21 @@ export function setupReserveModal({ t, lang, getInitial = () => ({ dates: null, 
   $('#rf-picker-next').addEventListener('click', () => { pickMonth++; if (pickMonth > 11) { pickMonth = 0; pickYear++; } renderPicker(); });
 
   const setReserveError = (message) => { $('#rf-error').textContent = message; $('#rf-error').hidden = !message; };
+  // Tableau de bord : une fenêtre ouverte, puis des dates choisies (au plus une fois par ouverture).
+  let datesTracked = false;
+  function trackDates() {
+    if (datesTracked) return;
+    datesTracked = true;
+    track({ type: 'step', step: 'dates' });
+  }
   // Le focus revient sur le bouton qui a ouvert la fenêtre.
   let opener = null;
   const open = () => {
     opener = document.activeElement;
+    datesTracked = false;
+    track({ type: 'step', step: 'open' });
     const { dates, guests } = getInitial();
-    if (dates?.length === 2) setDates(dates[0], dates[1]); else setDates('', '');
+    if (dates?.length === 2) { setDates(dates[0], dates[1]); trackDates(); } else setDates('', '');
     picker.hidden = true;
     picker.closest('.reserve-card').classList.remove('picking');
     $('#rf-guests').value = guests;
@@ -179,6 +190,7 @@ export function setupReserveModal({ t, lang, getInitial = () => ({ dates: null, 
     guests: Number($('#rf-guests').value),
     message: $('#rf-message').value.trim(),
     website: $('#rf-website').value,
+    cta: lastCtaId(),
     lang
   });
   // Contrôles faits avant l'envoi ; le serveur refait les mêmes.

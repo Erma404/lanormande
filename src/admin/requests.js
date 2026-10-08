@@ -18,7 +18,8 @@ const statusLabels = { new: 'À traiter', accepted: 'Acceptée', declined: 'Refu
 const errors = {
   unavailable: 'Impossible d’accepter : ces dates sont déjà prises (Airbnb ou blocage). Refusez la demande ou proposez d’autres dates au voyageur.',
   not_found: 'Cette demande n’existe plus. La liste a été rechargée.',
-  unauthenticated: 'Votre session a expiré. Rechargez la page pour vous reconnecter.'
+  unauthenticated: 'Votre session a expiré. Rechargez la page pour vous reconnecter.',
+  invalid_amount: 'Montant invalide : saisissez un nombre d’euros, sans centimes.'
 };
 
 // Numéro au format international pour WhatsApp ; un 0 initial est considéré comme français.
@@ -106,6 +107,13 @@ export function renderRequests(container, { escape, onCount }) {
         ${request.conflict ? '<p class="status error">Ces dates sont déjà prises (autre demande acceptée, Airbnb ou blocage manuel).</p>' : ''}
         ${past && request.status === 'new' ? '<p class="status warn">Ce séjour est déjà passé.</p>' : ''}
         ${request.status === 'accepted' ? '<p class="status ok">Dates bloquées sur le site et dans le calendrier exporté vers Airbnb.</p>' : ''}
+        ${request.status === 'accepted' ? `
+        <form class="request-amount" data-amount novalidate>
+          <label for="amount-${escape(request.id)}">Montant encaissé</label>
+          <span class="amount-field"><input id="amount-${escape(request.id)}" type="number" inputmode="numeric" min="0" step="1" value="${request.amount ?? request.estimate?.total ?? ''}" /><span>€</span></span>
+          <button type="submit" class="secondary small">Enregistrer</button>
+          <small>${request.amount == null ? 'Montant estimé d’après la grille : corrigez-le si le prix final est différent (remise, ménage…).' : 'Montant réel, utilisé dans le tableau de bord.'}</small>
+        </form>` : ''}
         <p class="request-contact">${contact}</p>
         ${request.message ? `<blockquote class="request-message">${escape(request.message)}</blockquote>` : ''}
         <div class="request-actions">
@@ -150,6 +158,11 @@ export function renderRequests(container, { escape, onCount }) {
         if (button.dataset.confirm && !window.confirm(button.dataset.confirm)) return;
         run(button, { action: 'setStatus', id, status: button.dataset.status });
       }));
+      article.querySelector('[data-amount]')?.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const value = event.currentTarget.querySelector('input').value.trim();
+        run(event.submitter || event.currentTarget.querySelector('button'), { action: 'setAmount', id, amount: value === '' ? null : Number(value) });
+      });
       article.querySelector('[data-delete]').addEventListener('click', (event) => {
         const request = requests.find((item) => item.id === id);
         const note = request?.status === 'accepted' ? ' Les dates resteront bloquées : débloquez-les dans l’onglet Disponibilités si besoin.' : '';

@@ -345,7 +345,7 @@ export function renderGuide(lang) {
     <nav class="guide-nav" aria-label="${esc(g.nav.breadcrumb)}">
       <a href="${home}">${esc(g.nav.home)}</a>
       <a class="guide-lang" href="${GUIDE_PATHS[other]}" hreflang="${other}" aria-label="${esc(g.nav.langAria)}">${g.nav.lang}</a>
-      <a class="header-cta" href="${home}#reserver" data-reserve>${esc(g.nav.book)} ${arrow}</a>
+      <a class="header-cta" href="${home}#reserver" data-reserve data-cta="guide-header">${esc(g.nav.book)} ${arrow}</a>
     </nav>
   </header>
   <main class="guide">
@@ -418,7 +418,7 @@ export function renderGuide(lang) {
 
       <section class="guide-cta">
         <div><h2>${esc(g.cta.h2)}</h2><p>${esc(g.cta.text)}</p></div>
-        <div class="guide-cta-actions"><a class="reserve-button guide-cta-button" href="${home}#reserver" data-reserve>${esc(g.cta.button)} ${arrow}</a><a class="guide-cta-secondary" href="${home}">${esc(g.cta.secondary)}</a></div>
+        <div class="guide-cta-actions"><a class="reserve-button guide-cta-button" href="${home}#reserver" data-reserve data-cta="guide-bottom">${esc(g.cta.button)} ${arrow}</a><a class="guide-cta-secondary" href="${home}">${esc(g.cta.secondary)}</a></div>
       </section>
       </div>
     </div>

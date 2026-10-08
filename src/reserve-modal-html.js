@@ -29,7 +29,7 @@ export const reserveModalHtml = (t, guestCount = 2) => `
         </div>
         <p class="reserve-form-error" id="rf-error" role="alert" hidden></p>
         <button type="submit" class="reserve-button">${t.reserveModal.submit} ${icon('arrow', 16)}</button>
-        <button type="button" class="reserve-whatsapp" id="rf-whatsapp">${t.reserveModal.whatsapp}</button>
+        <button type="button" class="reserve-whatsapp" id="rf-whatsapp" data-cta="modal-whatsapp">${t.reserveModal.whatsapp}</button>
       </form>
       <div class="rf-picker" id="rf-picker" role="dialog" aria-modal="true" aria-labelledby="rf-picker-title" hidden>
         <div class="rf-picker-head">

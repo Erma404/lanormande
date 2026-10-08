@@ -14,7 +14,7 @@ export const renderPage = (t, s) => `
     <nav class="nav-links" aria-label="Navigation principale">
       <a href="#cadre">${t.nav.cadre}</a><a href="#equipements">${t.nav.equipements}</a><a href="#plan">${t.nav.plan}</a><a href="#avis">${t.nav.avis}</a><a href="#tarifs">${t.nav.tarifs}</a><a href="#faq">${t.nav.faq}</a><a href="${t.nearbySection.guideUrl.split('#')[0]}">${t.nav.guide}</a><a href="${t.nav.addressesUrl}">${t.nav.addresses}</a>
     </nav>
-    <button class="header-cta booking-trigger">${t.headerCta} <span>${icon('arrow', 15)}</span></button>
+    <button class="header-cta booking-trigger" data-cta="header">${t.headerCta} <span>${icon('arrow', 15)}</span></button>
     <button class="lang-toggle" id="lang-toggle" aria-label="${t.langToggleAria}">${t.langToggleLabel}</button>
     <button class="menu-toggle" aria-label="${t.menuAria}"><i class="menu-toggle-bars"><span></span><span></span><span></span></i><i class="menu-toggle-x">${icon('close', 20)}</i></button>
   </header>
@@ -40,7 +40,7 @@ export const renderPage = (t, s) => `
           <div><span>${t.booking.adults} <small>${t.booking.adultsSub}</small></span><p class="stepper"><button data-type="adults" data-change="-1">−</button><b id="adult-count">${s.adults}</b><button data-type="adults" data-change="1">+</button></p></div>
           <div><span>${t.booking.children} <small>${t.booking.childrenSub}</small></span><p class="stepper"><button data-type="children" data-change="-1">−</button><b id="child-count">${s.children}</b><button data-type="children" data-change="1">+</button></p></div>
         </div>
-        <button class="reserve-button" id="reserve">${t.booking.reserve} <span>${t.booking.fromPrice}</span></button>
+        <button class="reserve-button" id="reserve" data-cta="hero-card">${t.booking.reserve} <span>${t.booking.fromPrice}</span></button>
         <p class="booking-note">${t.booking.note}</p>
       </aside>
       <div class="hero-bottom"><span>${t.hero.travelers}</span><span>${t.hero.specs}</span></div>
@@ -104,7 +104,7 @@ export const renderPage = (t, s) => `
           <div class="host-fact">${icon('badge', 16)}<span>${t.host.years}</span></div>
         </div>
       </div>
-      <div class="host-copy"><p class="eyebrow"><span></span>${t.host.eyebrow}</p><blockquote>${t.host.quote}</blockquote><p>${t.host.bio}</p><a href="#booking" class="text-link booking-trigger">${t.host.cta} ${icon('arrow', 17)}</a></div>
+      <div class="host-copy"><p class="eyebrow"><span></span>${t.host.eyebrow}</p><blockquote>${t.host.quote}</blockquote><p>${t.host.bio}</p><a href="#booking" class="text-link booking-trigger" data-cta="host">${t.host.cta} ${icon('arrow', 17)}</a></div>
     </div></section>
 
     <section class="floor-plan section" id="plan"><div class="shell">
@@ -116,7 +116,7 @@ export const renderPage = (t, s) => `
 
     <section class="nearby section" id="nearby">
       <div class="shell">
-        <div class="section-top"><div><p class="eyebrow"><span></span>${t.nearbySection.eyebrow}</p><h2>${t.nearbySection.h2}</h2></div><a class="text-link nearby-guide-link" href="${t.nearbySection.guideUrl}">${t.nearbySection.cta} ${icon('arrow', 17)}</a></div>
+        <div class="section-top"><div><p class="eyebrow"><span></span>${t.nearbySection.eyebrow}</p><h2>${t.nearbySection.h2}</h2></div><a class="text-link nearby-guide-link" data-cta="home-guide" href="${t.nearbySection.guideUrl}">${t.nearbySection.cta} ${icon('arrow', 17)}</a></div>
         <div class="nearby-pin-body">
           <div class="nearby-pin-image" id="nearby-pin-image">${t.nearbyItems.map(([, , , img], i) => `<div class="nearby-pin-slide ${i === 0 ? 'active' : ''}" data-index="${i}" style="background-image:url('${sized(img, 960)}')"></div>`).join('')}</div>
           <div class="nearby-pin-list" id="nearby-pin-list">${t.nearbyItems.map(([title, time, text], i) => `<article class="${i === 0 ? 'active' : ''}" data-index="${i}" role="button" tabindex="0" aria-label="${title}"><span class="nearby-no">0${i + 1}</span><div><h3>${title}</h3><p>${text}</p></div><span>${time}</span></article>`).join('')}</div>
@@ -154,14 +154,14 @@ export const renderPage = (t, s) => `
         <div class="pricing-side">
           <p class="pricing-intro">${t.pricing.intro}</p>
           <ul class="pricing-included">${t.pricing.included.map((item) => `<li>${icon('check', 15)}<span>${item}</span></li>`).join('')}</ul>
-          <div class="pricing-action"><button class="reserve-button booking-trigger pricing-cta">${t.pricing.cta} ${icon('arrow', 16)}</button><p class="pricing-note">${t.pricing.note}</p></div>
+          <div class="pricing-action"><button class="reserve-button booking-trigger pricing-cta" data-cta="pricing">${t.pricing.cta} ${icon('arrow', 16)}</button><p class="pricing-note">${t.pricing.note}</p></div>
         </div>
       </div>
     </div></section>
 
     <section class="faq section" id="faq"><div class="shell faq-grid"><div><p class="eyebrow"><span></span>${t.faqSection.eyebrow}</p><h2>${t.faqSection.h2}</h2><p class="faq-intro">${t.faqSection.intro}</p><a class="outline-button small" href="mailto:contact@villanormande.com">${t.faqSection.contact} ${icon('arrow', 16)}</a></div><div class="accordion">${t.faq.map(([q, a], i) => `<details ${i === 0 ? 'open' : ''}><summary>${q} <span>${icon('plus',18)}</span></summary><p>${a}</p></details>`).join('')}</div></div></section>
 
-    <section class="final-cta"><div class="final-image image-placeholder"><img ${imgAttrs('/images/les-alentours.jpeg', '100vw')} alt="${t.finalCta.imageAlt}" loading="lazy" /></div><div class="final-wash"></div><div class="shell final-copy"><p class="eyebrow light"><span></span>${t.finalCta.eyebrow}</p><h2>${t.finalCta.h2}</h2><button class="reserve-button booking-trigger">${t.finalCta.button}</button><p class="final-note">${t.finalCta.note}</p></div></section>
+    <section class="final-cta"><div class="final-image image-placeholder"><img ${imgAttrs('/images/les-alentours.jpeg', '100vw')} alt="${t.finalCta.imageAlt}" loading="lazy" /></div><div class="final-wash"></div><div class="shell final-copy"><p class="eyebrow light"><span></span>${t.finalCta.eyebrow}</p><h2>${t.finalCta.h2}</h2><button class="reserve-button booking-trigger" data-cta="final">${t.finalCta.button}</button><p class="final-note">${t.finalCta.note}</p></div></section>
   </main>
   <footer><div class="shell footer-row"><a class="brand footer-brand" href="#top"><span class="brand-mark"><i></i><i></i></span><span>Villa<br><em>Normande</em></span></a><p>${t.footer.tagline}</p><div><a href="#cadre">${t.footer.linkHouse}</a><a href="#faq">${t.footer.linkFaq}</a><a href="${t.nearbySection.guideUrl.split('#')[0]}">${t.footer.linkGuide}</a><a href="mailto:contact@villanormande.com">${t.footer.linkContact}</a></div></div>${footerBottom(t.lang, t.footer.bottomNote)}</footer>
   <div class="toast" role="status" aria-live="polite"></div>

@@ -9,6 +9,7 @@ import * as store from './store.js';
 const AIRBNB_CACHE = 'availability:airbnb';
 const AIRBNB_URL = 'settings:airbnb-ical-url';
 const MANUAL = 'availability:manual';
+const AIRBNB_HISTORY = 'availability:airbnb-history';
 const REFRESH_AFTER = 10 * 60 * 1000;
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -36,7 +37,9 @@ function addDays(iso, days) {
   return date.toISOString().slice(0, 10);
 }
 
-// Ne garde que les dates : les descriptions Airbnb contiennent des données voyageurs.
+// Ne garde que les dates et leur nature : les descriptions Airbnb contiennent des données voyageurs.
+// 3e élément : 'reserved' pour une réservation Airbnb (« Reserved »), 'blocked' pour une date
+// simplement fermée (« Not available », dont les blocages du site importés dans Airbnb).
 export function parseIcal(text) {
   const lines = text.replace(/\r\n[ \t]/g, '').replace(/\n[ \t]/g, '').split(/\r?\n/);
   const ranges = [];
@@ -44,11 +47,12 @@ export function parseIcal(text) {
   for (const line of lines) {
     if (line === 'BEGIN:VEVENT') event = {};
     else if (line === 'END:VEVENT') {
-      if (event?.start) ranges.push([event.start, event.end && event.end > event.start ? event.end : addDays(event.start, 1)]);
+      if (event?.start) ranges.push([event.start, event.end && event.end > event.start ? event.end : addDays(event.start, 1), event.reserved ? 'reserved' : 'blocked']);
       event = null;
     } else if (event) {
       const match = line.match(/^(DTSTART|DTEND)[^:]*:(\d{8})/);
       if (match) event[match[1] === 'DTSTART' ? 'start' : 'end'] = toIso(match[2]);
+      else if (/^SUMMARY[^:]*:\s*Reserved/i.test(line)) event.reserved = true;
     }
   }
   return ranges.sort((a, b) => a[0].localeCompare(b[0]));
@@ -89,12 +93,39 @@ export async function getAirbnb({ force = false } = {}) {
     const ranges = parseIcal(await fetchIcal(source));
     const next = { ranges, syncedAt: Date.now(), checkedAt: Date.now(), error: null };
     await store.set(AIRBNB_CACHE, next);
+    await rememberPastStays(ranges).catch((error) => console.error('[availability] history', error));
     return { ...next, configured: true };
   } catch (error) {
     const next = { ranges: cached?.ranges || [], syncedAt: cached?.syncedAt || null, checkedAt: Date.now(), error: error.message };
     await store.set(AIRBNB_CACHE, next);
     return { ...next, configured: true };
   }
+}
+
+// Airbnb n'exporte que les séjours récents et à venir : on garde les réservations commencées,
+// pour que l'occupation des mois passés reste visible dans le tableau de bord (dates seulement).
+async function rememberPastStays(ranges) {
+  const today = new Date().toISOString().slice(0, 10);
+  const history = (await store.get(AIRBNB_HISTORY)) || [];
+  const known = new Map(history.map((range) => [range[0], range]));
+  let changed = false;
+  for (const [start, end, kind] of ranges) {
+    if (kind !== 'reserved' || start >= today) continue;
+    const previous = known.get(start);
+    if (previous && previous[1] === end) continue;
+    known.set(start, [start, end]);
+    changed = true;
+  }
+  if (changed) await store.set(AIRBNB_HISTORY, [...known.values()].sort((a, b) => a[0].localeCompare(b[0])));
+}
+
+// Réservations Airbnb pour le tableau de bord : historique + calendrier actuel, sans doublon.
+export async function getAirbnbStays() {
+  const [airbnb, history] = await Promise.all([getAirbnb(), store.get(AIRBNB_HISTORY)]);
+  const current = airbnb.ranges.filter(([, , kind]) => kind !== 'blocked');
+  const starts = new Set(current.map(([start]) => start));
+  const past = (history || []).filter(([start]) => !starts.has(start)).map(([start, end]) => [start, end, 'reserved']);
+  return { ...airbnb, ranges: [...past, ...current].sort((a, b) => a[0].localeCompare(b[0])) };
 }
 
 export async function getManual() {

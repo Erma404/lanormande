@@ -2,6 +2,7 @@
 // (blocage manuel, donc aussi exporté vers Airbnb) ; la refuser ou la rouvrir les libère.
 import { randomBytes } from 'node:crypto';
 import { addManual, getBlockedRanges, isValidDate, removeManual } from './availability.js';
+import { CTAS, record } from './journal.js';
 import * as store from './store.js';
 
 const KEY = 'requests:list';
@@ -26,7 +27,9 @@ export function validate(body) {
     departure: String(body.departure || ''),
     guests: Number(body.guests),
     message: clean(body.message, 1000),
-    lang: body.lang === 'en' ? 'en' : 'fr'
+    lang: body.lang === 'en' ? 'en' : 'fr',
+    // Bouton qui a ouvert la fenêtre de réservation, pour le tableau de bord.
+    cta: CTAS.includes(body.cta) ? body.cta : ''
   };
   if (request.name.length < 2) return { error: 'invalid_name' };
   if (!EMAIL.test(request.email)) return { error: 'invalid_email' };
@@ -68,6 +71,7 @@ export async function create(request) {
   const entry = { id: randomBytes(8).toString('hex'), ...request, status: 'new', createdAt: Date.now(), updatedAt: Date.now() };
   requests.unshift(entry);
   await save(requests);
+  await record(['step:sent']).catch((error) => console.error('[requests] journal', error));
   return entry;
 }
 
@@ -87,6 +91,18 @@ export async function setStatus(id, status) {
     delete request.blockId;
   }
   request.status = status;
+  request.updatedAt = Date.now();
+  await save(requests);
+  return { request };
+}
+
+// Montant réellement encaissé (en euros) ; null revient au total estimé par la grille tarifaire.
+export async function setAmount(id, amount) {
+  const requests = await list();
+  const request = requests.find((item) => item.id === id);
+  if (!request) return { error: 'not_found' };
+  if (amount === null) delete request.amount;
+  else request.amount = amount;
   request.updatedAt = Date.now();
   await save(requests);
   return { request };

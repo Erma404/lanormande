@@ -66,3 +66,46 @@ export async function hit(key, windowSeconds) {
   if (count === 1) await redis(['EXPIRE', key, String(windowSeconds)]);
   return count;
 }
+
+// Plusieurs commandes en un seul aller-retour (compteurs de fréquentation, lecture d'une période).
+// En local, seules les commandes de hash utilisées par la mesure d'audience sont simulées.
+export async function pipeline(commands) {
+  if (!commands.length) return [];
+  if (!assertConfigured()) return commands.map(memoryCommand);
+  const response = await fetch(`${url}/pipeline`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(commands)
+  });
+  const data = await response.json();
+  if (!response.ok || !Array.isArray(data)) throw new Error(`Redis: ${data?.error || response.status}`);
+  return data.map((item) => {
+    if (item.error) throw new Error(`Redis: ${item.error}`);
+    return item.result;
+  });
+}
+
+function memoryCommand([name, key, ...args]) {
+  const hash = memoryGet(key) || {};
+  switch (name) {
+    case 'HINCRBY':
+      hash[args[0]] = (hash[args[0]] || 0) + Number(args[1]);
+      memory.set(key, { value: hash, expiresAt: memory.get(key)?.expiresAt || null });
+      return hash[args[0]];
+    case 'HSET':
+      for (let i = 0; i < args.length; i += 2) hash[args[i]] = String(args[i + 1]);
+      memory.set(key, { value: hash, expiresAt: null });
+      return args.length / 2;
+    case 'HDEL':
+      args.forEach((field) => delete hash[field]);
+      memory.set(key, { value: hash, expiresAt: null });
+      return args.length;
+    case 'HGETALL':
+      // Même forme que la réponse REST d'Upstash : [champ, valeur, champ, valeur…]
+      return Object.entries(hash).flatMap(([field, value]) => [field, String(value)]);
+    case 'EXPIRE':
+      return 1;
+    default:
+      throw new Error(`Commande non simulée en local : ${name}`);
+  }
+}

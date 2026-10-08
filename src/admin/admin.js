@@ -1,16 +1,18 @@
 import { renderAvailability } from './availability.js';
 import { renderContentEditor } from './content-editor.js';
+import { renderDashboard as renderDashboardTab } from './dashboard.js';
 import { renderPromo } from './promo.js';
 import { renderRequests } from './requests.js';
 
 const root = document.querySelector('#admin');
 const RESEND_DELAY = 60;
 
-const state = { email: '', expiresAt: 0, resendAt: 0, timer: null, user: null, tab: 'availability', dirty: false, pendingRequests: 0 };
+const state = { email: '', expiresAt: 0, resendAt: 0, timer: null, user: null, tab: 'dashboard', dirty: false, pendingRequests: 0 };
 
 window.addEventListener('beforeunload', (event) => { if (state.dirty) event.preventDefault(); });
 
 const tabs = [
+  ['dashboard', 'Tableau de bord', 'Chiffre d’affaires, occupation, fréquentation du site et performance des boutons.'],
   ['availability', 'Disponibilités', 'Bloquer ou libérer des dates dans le calendrier du site.'],
   ['pricing', 'Tarifs', 'Prix par nuit, saisons et durée minimale de séjour.'],
   ['requests', 'Demandes', 'Demandes de réservation envoyées depuis le site. Accepter une demande bloque ses dates sur le site et dans le calendrier exporté vers Airbnb.'],
@@ -228,6 +230,7 @@ function renderDashboard() {
   setPendingCount(state.pendingRequests);
   if (state.tab === 'requests') renderRequests(root.querySelector('#tab-content'), { escape, onCount: setPendingCount });
   else refreshPendingCount().then(setPendingCount);
+  if (state.tab === 'dashboard') renderDashboardTab(root.querySelector('#tab-content'), { escape });
   if (state.tab === 'availability') renderAvailability(root.querySelector('#tab-content'), { escape });
   if (state.tab === 'promo') renderPromo(root.querySelector('#tab-content'), { escape, onDirtyChange: (dirty) => { state.dirty = dirty; } });
   if (state.tab === 'content') renderContentEditor(root.querySelector('#tab-content'), { escape, onDirtyChange: (dirty) => { state.dirty = dirty; } });

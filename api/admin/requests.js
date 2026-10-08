@@ -1,7 +1,7 @@
 import { readJson, route, send } from '../_lib/http.js';
 import { getSession } from '../_lib/auth.js';
 import { getBlockedRanges } from '../_lib/availability.js';
-import { list, remove, setStatus, STATUSES } from '../_lib/requests.js';
+import { list, remove, setAmount, setStatus, STATUSES } from '../_lib/requests.js';
 import { estimateStay } from '../../src/pricing.js';
 
 // Chaque demande en attente indique si ses dates ont été prises entre-temps, et le total estimé.
@@ -28,6 +28,13 @@ export default route(['GET', 'POST'], async (req, res) => {
       if (!STATUSES.includes(body.status)) return send(res, 400, { error: 'invalid_status' });
       const { error } = await setStatus(id, body.status);
       if (error) return send(res, error === 'not_found' ? 404 : 409, { error });
+      return send(res, 200, await snapshot());
+    }
+    case 'setAmount': {
+      const amount = body.amount === null || body.amount === '' ? null : Math.round(Number(body.amount));
+      if (amount !== null && (!Number.isFinite(amount) || amount < 0 || amount > 100000)) return send(res, 400, { error: 'invalid_amount' });
+      const { error } = await setAmount(id, amount);
+      if (error) return send(res, 404, { error });
       return send(res, 200, await snapshot());
     }
     case 'delete':
