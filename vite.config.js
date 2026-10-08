@@ -9,7 +9,7 @@ import { headTags } from './src/seo.js';
 import { guideHead, renderGuide } from './src/guide.js';
 import { legalHead, renderLegal } from './src/legal.js';
 import { addressesHead, renderAddresses } from './src/addresses.js';
-import { VERCEL_URL } from './src/site.js';
+import { SITE_URL } from './src/site.js';
 
 const root = fileURLToPath(new URL('.', import.meta.url));
 
@@ -49,10 +49,15 @@ function prerender() {
     async buildStart() {
       if (!isBuild) return;
       // Intègre au build les textes modifiés depuis l'admin (site en ligne), si disponibles.
+      // lanormande.vercel.app redirige vers le domaine : on lit directement le site public.
       try {
-        const response = await fetch(`${VERCEL_URL}/api/content`, { signal: AbortSignal.timeout(5000) });
-        if (response.ok) applyOverrides(content, await response.json());
-      } catch { /* build hors ligne : textes par défaut */ }
+        const response = await fetch(`${SITE_URL}/api/content`, { signal: AbortSignal.timeout(8000) });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        applyOverrides(content, await response.json());
+      } catch (error) {
+        // Build hors ligne : textes par défaut. Le site réapplique ceux de l'admin au chargement.
+        this.warn(`Textes de l'admin non lus (${error.message}) : le HTML pré-généré garde les textes par défaut.`);
+      }
     },
     transformIndexHtml: {
       order: 'pre',
