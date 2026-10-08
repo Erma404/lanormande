@@ -212,14 +212,23 @@ export function setupReserveModal({ t, lang, getInitial = () => ({ dates: null, 
     setReserveError('');
     const button = event.submitter || $('#reserve-form .reserve-button');
     const label = button.innerHTML;
+    const form = $('#reserve-form');
+    // Envoi visible (bouton qui tourne) et jamais infini : au-delà de 20 s, on abandonne avec un message.
     button.disabled = true;
-    button.textContent = t.reserveModal.sending;
+    button.classList.add('is-sending');
+    button.innerHTML = `<span class="btn-spinner" aria-hidden="true"></span>${t.reserveModal.sending}`;
+    form.setAttribute('aria-busy', 'true');
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 20000);
     let error = '';
     try {
-      const response = await fetch('/api/requests', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+      const response = await fetch('/api/requests', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data), signal: controller.signal });
       if (!response.ok) error = (await response.json().catch(() => ({}))).error || 'server_error';
     } catch { error = 'network'; }
+    clearTimeout(timeout);
+    form.removeAttribute('aria-busy');
     button.disabled = false;
+    button.classList.remove('is-sending');
     button.innerHTML = label;
     if (error) return setReserveError(t.reserveModal.errors[error] || t.reserveModal.errors.server_error);
     $('#reserve-form').reset();

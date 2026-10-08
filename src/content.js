@@ -150,7 +150,7 @@ export const content = {
       title: 'Je réserve', intro: 'Envoyez votre demande : Christophe vous répond par email ou par téléphone sous 48 h maximum. Rien n’est débité à cette étape.',
       name: 'Votre nom', namePlaceholder: 'Prénom et nom', email: 'Email', emailPlaceholder: 'vous@exemple.fr', phone: 'Téléphone (facultatif)', phonePlaceholder: '06 12 34 56 78',
       arrival: 'Arrivée', departure: 'Départ', guests: 'Voyageurs',
-      message: 'Message (facultatif)', messagePlaceholder: 'Une précision à ajouter ?', submit: 'Envoyer ma demande', sending: 'Envoi…',
+      message: 'Message (facultatif)', messagePlaceholder: 'Une précision à ajouter ?', submit: 'Envoyer ma demande', sending: 'Envoi en cours…',
       whatsapp: 'Vous préférez WhatsApp ? Écrire à Christophe',
       successTitle: 'Demande envoyée', successText: 'Merci ! Christophe a bien reçu votre demande et vous répond sous 48 h maximum. Un email de confirmation vient de vous être envoyé.', successClose: 'Fermer',
       errors: {
@@ -313,7 +313,7 @@ export const content = {
       title: 'Book now', intro: 'Send your request: Christophe will get back to you by email or phone within 48 hours at most. Nothing is charged at this stage.',
       name: 'Your name', namePlaceholder: 'First and last name', email: 'Email', emailPlaceholder: 'you@example.com', phone: 'Phone (optional)', phonePlaceholder: '+44 7700 900123',
       arrival: 'Check-in', departure: 'Check-out', guests: 'Guests',
-      message: 'Message (optional)', messagePlaceholder: 'Anything else to add?', submit: 'Send my request', sending: 'Sending…',
+      message: 'Message (optional)', messagePlaceholder: 'Anything else to add?', submit: 'Send my request', sending: 'Sending your request…',
       whatsapp: 'Prefer WhatsApp? Message Christophe',
       successTitle: 'Request sent', successText: 'Thank you! Christophe has received your request and will reply within 48 hours at most. A confirmation email is on its way to you.', successClose: 'Close',
       errors: {

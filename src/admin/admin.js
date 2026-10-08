@@ -1,3 +1,4 @@
+import './loading.js';
 import { renderAvailability } from './availability.js';
 import { renderContentEditor } from './content-editor.js';
 import { renderDashboard as renderDashboardTab } from './dashboard.js';
@@ -7,7 +8,7 @@ import { renderRequests } from './requests.js';
 const root = document.querySelector('#admin');
 const RESEND_DELAY = 60;
 
-const state = { email: '', expiresAt: 0, resendAt: 0, timer: null, user: null, tab: 'dashboard', dirty: false, pendingRequests: 0 };
+const state = { email: '', expiresAt: 0, resendAt: 0, timer: null, user: null, tab: 'dashboard', dirty: false, pendingRequests: 0, navigated: false };
 
 window.addEventListener('beforeunload', (event) => { if (state.dirty) event.preventDefault(); });
 
@@ -182,11 +183,17 @@ function renderCodeStep(notice = '') {
   root.querySelector('#change-email').addEventListener('click', renderEmailStep);
 }
 
-// À l'ouverture, on arrive directement sur les demandes s'il y en a en attente.
+// À l'ouverture, les onglets s'affichent tout de suite ; on bascule sur les demandes s'il y en a
+// en attente, sauf si un onglet a déjà été choisi entre-temps.
 async function openDashboard() {
-  state.pendingRequests = await refreshPendingCount();
-  if (state.pendingRequests) state.tab = 'requests';
+  state.navigated = false;
   renderDashboard();
+  const count = await refreshPendingCount();
+  if (count && !state.navigated && state.tab !== 'requests' && !state.dirty) {
+    state.pendingRequests = count;
+    state.tab = 'requests';
+    renderDashboard();
+  }
 }
 
 async function refreshPendingCount() {
@@ -237,6 +244,7 @@ function renderDashboard() {
 
   root.querySelectorAll('[data-tab]').forEach((button) => button.addEventListener('click', () => {
     if (state.dirty && !window.confirm('Des modifications ne sont pas enregistrées. Quitter cet onglet quand même ?')) return;
+    state.navigated = true;
     state.tab = button.dataset.tab;
     renderDashboard();
   }));

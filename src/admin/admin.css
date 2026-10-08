@@ -39,7 +39,6 @@ textarea:focus { outline: none; border-color: var(--forest); box-shadow: 0 0 0 3
 .primary { width: 100%; min-height: 50px; margin-top: 18px; border: 0; border-radius: 8px; background: var(--forest); color: var(--paper); font-size: 15px; font-weight: 700; cursor: pointer; transition: background .2s, transform .2s; }
 .primary:hover:not(:disabled) { background: var(--clay); transform: translateY(-1px); }
 .primary:disabled { cursor: progress; opacity: .7; }
-.primary.loading::after { content: '…'; }
 .form-error, .form-notice { margin: 12px 0 0; padding: 10px 12px; border-radius: 6px; font-size: 14px; }
 .form-error { background: #f8e6df; color: var(--danger); }
 .form-notice { background: #e9efe5; color: var(--forest); }
@@ -102,7 +101,21 @@ textarea:focus { outline: none; border-color: var(--forest); box-shadow: 0 0 0 3
 .secondary { border: 1px solid #cdbfab; border-radius: 8px; background: #fff; color: var(--ink); font-weight: 700; cursor: pointer; }
 .secondary:hover:not(:disabled) { border-color: var(--forest); }
 .secondary:disabled { opacity: .5; cursor: default; }
-.secondary.loading::after { content: '…'; }
+
+/* Chargement : bouton qui tourne, barre en haut de l'écran, message en bas (loading.js). */
+.primary.loading, .secondary.loading { position: relative; color: transparent !important; opacity: 1; }
+.primary.loading::after, .secondary.loading::after { content: ''; position: absolute; inset: 0; margin: auto; width: 18px; height: 18px; border: 2px solid currentColor; border-radius: 50%; animation: spin .7s linear infinite; }
+.primary.loading::after { color: var(--paper); border-color: var(--paper) var(--paper) transparent; }
+.secondary.loading::after { color: var(--ink); border-color: var(--ink) var(--ink) transparent; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.load-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 3px; overflow: hidden; pointer-events: none; opacity: 0; transition: opacity .2s; }
+.load-bar.active { opacity: 1; }
+.load-bar::before { content: ''; position: absolute; top: 0; bottom: 0; width: 40%; background: var(--clay); animation: load-bar 1.1s ease-in-out infinite; }
+@keyframes load-bar { from { left: -40%; } to { left: 100%; } }
+.load-toast { position: fixed; left: 50%; bottom: 24px; z-index: 100; display: flex; align-items: center; gap: 10px; margin: 0; padding: 12px 18px; border-radius: 999px; background: var(--ink); color: var(--paper); font-size: 14px; font-weight: 600; box-shadow: 0 10px 30px rgba(32,27,23,.25); transform: translate(-50%, 16px); opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; }
+.load-toast::before { content: ''; width: 14px; height: 14px; border: 2px solid var(--paper); border-right-color: transparent; border-radius: 50%; animation: spin .7s linear infinite; }
+.load-toast.show { opacity: 1; transform: translate(-50%, 0); }
+@media (prefers-reduced-motion: reduce) { .load-bar::before { animation-duration: 2.5s; } }
 .help { margin-top: 16px; font-size: 14px; }
 .help summary { cursor: pointer; font-weight: 600; }
 .help p { color: var(--muted); margin: 8px 0 0; }

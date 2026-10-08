@@ -629,7 +629,12 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 .rf-day.booked { text-decoration: line-through; }
 .rf-day.in-range { border-radius: 0; background: color-mix(in oklch, var(--clay) 12%, transparent); }
 .rf-day.edge { background: var(--dark); color: #fff; }
-.rf-picker-loading { margin: 40px 0; text-align: center; color: var(--muted); font-size: 14px; }
+.rf-picker-loading { margin: 40px 0; display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--muted); font-size: 14px; }
+.rf-picker-loading::before, .btn-spinner { content: ''; flex: none; width: 16px; height: 16px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: lmn-spin .7s linear infinite; }
+.reserve-button.is-sending { cursor: progress; opacity: .9; transform: none; }
+.reserve-button.is-sending:hover { transform: none; }
+@keyframes lmn-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .rf-picker-loading::before, .btn-spinner { animation-duration: 2s; } }
 .rf-picker-foot { display: flex; align-items: center; justify-content: flex-end; gap: 18px; margin-top: auto; }
 .rf-picker-clear { border: 0; background: none; color: var(--ink); font: inherit; font-size: 13px; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .rf-picker-done { padding: 11px 20px; border: 0; border-radius: 8px; background: var(--dark); color: #fff; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; }
