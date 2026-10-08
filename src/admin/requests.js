@@ -103,7 +103,7 @@ export function renderRequests(container, { escape, onCount }) {
           </div>
           <span class="request-status">${statusLabels[request.status]}</span>
         </header>
-        <p class="request-stay"><strong>${formatDate(request.arrival)} → ${formatDate(request.departure)}</strong><span>${plural(count, 'nuit')} · ${plural(request.guests, 'voyageur')}</span>${request.estimate ? `<span class="request-total">Total estimé <b>${request.estimate.total ? euros.format(request.estimate.total) : 'sur demande'}</b></span>` : ''}</p>
+        <p class="request-stay"><strong>${formatDate(request.arrival)} → ${formatDate(request.departure)}</strong><span>${plural(count, 'nuit')} · ${plural(request.guests, 'voyageur')}</span>${request.estimate ? `<span class="request-total">${request.estimate.offer ? `Prix promo <s>${euros.format(request.estimate.regular)}</s>` : 'Total estimé'} <b>${request.estimate.total ? euros.format(request.estimate.total) : 'sur demande'}</b></span>` : ''}</p>
         ${request.conflict ? '<p class="status error">Ces dates sont déjà prises (autre demande acceptée, Airbnb ou blocage manuel).</p>' : ''}
         ${past && request.status === 'new' ? '<p class="status warn">Ce séjour est déjà passé.</p>' : ''}
         ${request.status === 'accepted' ? '<p class="status ok">Dates bloquées sur le site et dans le calendrier exporté vers Airbnb.</p>' : ''}

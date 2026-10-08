@@ -7,7 +7,7 @@ import { getAirbnbStays, getManual, isValidDate } from './_lib/availability.js';
 import { list } from './_lib/requests.js';
 import { hit } from './_lib/store.js';
 import { daysBetween, fieldsFor, getAirbnbRevenue, readRange, record, setAirbnbRevenue } from './_lib/journal.js';
-import { estimateStay } from '../src/pricing.js';
+import { estimateRequest } from '../src/pricing.js';
 
 const MONTH = /^\d{4}-(0[1-9]|1[0-2])$/;
 
@@ -40,7 +40,7 @@ async function dashboard(req) {
       createdAt: request.createdAt,
       updatedAt: request.updatedAt,
       amount: Number.isFinite(request.amount) ? request.amount : null,
-      estimate: estimateStay(request.arrival, request.departure)?.total ?? null,
+      estimate: estimateRequest(request)?.total ?? null,
       blockId: request.blockId || null
     })),
     airbnb: { ranges: airbnb.ranges, syncedAt: airbnb.syncedAt, configured: airbnb.configured },

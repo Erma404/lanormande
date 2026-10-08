@@ -2,7 +2,7 @@ import { readJson, route, send } from '../_lib/http.js';
 import { getSession } from '../_lib/auth.js';
 import { getBlockedRanges } from '../_lib/availability.js';
 import { list, remove, setAmount, setStatus, STATUSES } from '../_lib/requests.js';
-import { estimateStay } from '../../src/pricing.js';
+import { estimateRequest } from '../../src/pricing.js';
 
 // Chaque demande en attente indique si ses dates ont été prises entre-temps, et le total estimé.
 async function snapshot() {
@@ -12,7 +12,7 @@ async function snapshot() {
       ...request,
       conflict: request.status === 'new' && blocked.some(([from, to]) => request.arrival < to && request.departure > from),
       // Même calcul que le récapitulatif vu par le voyageur (grille tarifaire, src/pricing.js).
-      estimate: estimateStay(request.arrival, request.departure)
+      estimate: estimateRequest(request)
     }))
   };
 }

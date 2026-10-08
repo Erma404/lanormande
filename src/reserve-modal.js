@@ -1,7 +1,8 @@
 // Fenêtre de réservation : la demande est enregistrée sur le site, WhatsApp reste une alternative.
 // Partagée par l'accueil et le guide ; le HTML vient de reserve-modal-html.js.
 import { availability, isoOf, isNightBlocked, onAvailability, rangeCrossesBookedDate } from './availability.js';
-import { estimateStay } from './pricing.js';
+import { applyOffer, estimateStay } from './pricing.js';
+import { promoReady } from './promo-data.js';
 import { WHATSAPP_NUMBER } from './whatsapp-widget.js';
 import { lastCtaId, track } from './track.js';
 
@@ -23,17 +24,25 @@ export function setupReserveModal({ t, lang, getInitial = () => ({ dates: null, 
   };
 
   const reserveModal = $('#reserve-modal');
+  const e = t.reserveModal.estimate;
+  const money = (n) => new Intl.NumberFormat(e.locale, { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
+  // Prix promo saisis dans l'admin : le prix de la grille apparaît barré à côté.
+  let offers = [];
+  const estimate = (arrival, departure) => applyOffer(estimateStay(arrival, departure), arrival, departure, offers);
+  const totalHtml = (result) => (result.offer ? `<s>${money(result.regular)}</s> ${money(result.total)}` : money(result.total));
   // Récapitulatif du prix, comme à la fin d'un achat de billet : apparaît dès que les dates sont valides.
   const updateEstimate = () => {
     const box = $('#rf-estimate');
-    const result = estimateStay($('#rf-arrival').value, $('#rf-departure').value);
+    const result = estimate($('#rf-arrival').value, $('#rf-departure').value);
     if (!result) { box.hidden = true; return; }
-    const e = t.reserveModal.estimate;
-    const money = (n) => new Intl.NumberFormat(e.locale, { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
     $('#rf-est-nights').textContent = e.night(result.nights);
+    box.classList.toggle('is-offer', Boolean(result.offer));
     if (result.total === null) {
       $('#rf-est-detail').textContent = e.oneNight;
       $('#rf-est-total').textContent = '—';
+    } else if (result.offer) {
+      $('#rf-est-detail').textContent = e.offer;
+      $('#rf-est-total').innerHTML = totalHtml(result);
     } else {
       const season = result.seasons.length > 1 ? e.seasons.both : e.seasons[result.seasons[0]];
       const exact = result.perNight * result.nights === result.total;
@@ -42,6 +51,7 @@ export function setupReserveModal({ t, lang, getInitial = () => ({ dates: null, 
     }
     box.hidden = false;
   };
+  promoReady.then((promo) => { offers = promo?.offers || []; updateEstimate(); });
   // ---- calendrier de la fenêtre de réservation (comme Airbnb) -------------------
   // Mêmes disponibilités que le calendrier du haut (Airbnb + blocages admin) : les nuits prises
   // sont barrées ; une fois l'arrivée choisie, impossible de choisir un départ qui traverse une
@@ -96,10 +106,9 @@ export function setupReserveModal({ t, lang, getInitial = () => ({ dates: null, 
     $('#rf-pf-departure').classList.toggle('active', pick.length === 1);
     $('#rf-pf-arrival').classList.toggle('filled', Boolean(pick[0]));
     $('#rf-pf-departure').classList.toggle('filled', Boolean(pick[1]));
-    const result = pick.length === 2 ? estimateStay(pick[0], pick[1]) : null;
-    const e = t.reserveModal.estimate;
-    $('#rf-picker-hint').textContent = result
-      ? `${e.night(result.nights)} · ${result.total === null ? e.oneNight : new Intl.NumberFormat(e.locale, { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(result.total)}`
+    const result = pick.length === 2 ? estimate(pick[0], pick[1]) : null;
+    $('#rf-picker-hint').innerHTML = result
+      ? `${e.night(result.nights)} · ${result.total === null ? e.oneNight : `${totalHtml(result)}${result.offer ? ` · ${e.offer}` : ''}`}`
       : pick.length === 1 ? pk.departure : pk.subtitle;
     $$('#rf-picker-months .rf-day:not([disabled])').forEach(button => button.addEventListener('click', () => {
       const iso = button.dataset.date;

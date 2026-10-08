@@ -230,6 +230,15 @@ textarea:focus { outline: none; border-color: var(--forest); box-shadow: 0 0 0 3
 .promo-dates input { min-height: 44px; font-size: 15px; }
 .promo-dates[hidden] { display: none; }
 .promo-field { margin-bottom: 16px; }
+.promo-offers { display: grid; gap: 12px; margin: 14px 0; }
+.promo-offers:empty { margin: 8px 0; }
+.promo-offer { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) auto; align-items: end; gap: 10px 14px; padding: 14px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+.promo-offer label { font-size: 13px; }
+.promo-offer input { min-height: 44px; font-size: 15px; }
+.promo-offer [data-remove-offer] { min-height: 44px; }
+.promo-offer-note { grid-column: 1 / -1; margin: 0; }
+.promo-offer .amount-field { display: flex; align-items: center; gap: 6px; font-weight: 700; }
+@media (max-width: 720px) { .promo-offer { grid-template-columns: 1fr 1fr; } .promo-offer > div:nth-child(3) { grid-column: 1 / -1; } }
 .promo-field input, .promo-field textarea { min-height: 44px; font-size: 15px; line-height: 1.5; }
 .promo-field textarea { resize: vertical; overflow: hidden; }
 .char-count { margin-left: auto; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
@@ -263,6 +272,7 @@ textarea:focus { outline: none; border-color: var(--forest); box-shadow: 0 0 0 3
 
 /* Total estimé d'une demande (même calcul que le récapitulatif vu par le voyageur). */
 .request-total { margin-left: auto; padding: 4px 12px; border-radius: 999px; background: #fbf1e9; color: #7a4a2f !important; font-size: 13px !important; }
+.request-total s { margin-left: 4px; color: var(--muted); }
 .request-promo { display: grid; gap: 2px; margin: 0 0 12px; padding: 10px 14px; border-left: 3px solid var(--clay); border-radius: 0 8px 8px 0; background: #fbf1e9; color: var(--ink); font-size: 14px; font-weight: 600; }
 .request-promo span { font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--clay); }
 .request-promo small { color: var(--muted); font-size: 12px; font-weight: 500; }

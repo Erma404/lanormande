@@ -146,7 +146,7 @@ export const content = {
     footer: { tagline: 'Une maison de famille, à Danestal.', linkHouse: 'La maison', linkFaq: 'Questions fréquentes', linkGuide: 'Guide du pays d’Auge', linkContact: 'Contact', copyright: '© 2026 Villa Normande', bottomNote: 'Réservation directe & sécurisée' },
     reserveModal: {
       picker: { choose: 'Ajouter une date', title: 'Sélectionnez les dates', subtitle: 'Ajoutez vos dates de voyage pour connaître le prix exact', arrival: 'Choisissez votre date d’arrivée', departure: 'Choisissez votre date de départ', clear: 'Effacer les dates', done: 'Fermer', back: 'Retour au formulaire', loading: 'Chargement des disponibilités…', prev: 'Mois précédent', next: 'Mois suivant', booked: 'Déjà réservé' },
-      estimate: { total: 'Total estimé', night: (n) => `${n} nuit${n > 1 ? 's' : ''}`, perNight: 'nuit', approx: '≈ ', seasons: { basse: 'Basse saison', haute: 'Haute saison', both: 'Basse et haute saison' }, oneNight: 'Tarif sur demande pour une nuit', locale: 'fr-FR' },
+      estimate: { total: 'Total estimé', night: (n) => `${n} nuit${n > 1 ? 's' : ''}`, perNight: 'nuit', approx: '≈ ', seasons: { basse: 'Basse saison', haute: 'Haute saison', both: 'Basse et haute saison' }, oneNight: 'Tarif sur demande pour une nuit', offer: 'Prix promo', locale: 'fr-FR' },
       title: 'Je réserve', intro: 'Envoyez votre demande : Christophe vous répond par email ou par téléphone sous 48 h maximum. Rien n’est débité à cette étape.',
       name: 'Votre nom', namePlaceholder: 'Prénom et nom', email: 'Email', emailPlaceholder: 'vous@exemple.fr', phone: 'Téléphone (facultatif)', phonePlaceholder: '06 12 34 56 78',
       arrival: 'Arrivée', departure: 'Départ', guests: 'Voyageurs',
@@ -309,7 +309,7 @@ export const content = {
     footer: { tagline: 'A family home, in Danestal.', linkHouse: 'The house', linkFaq: 'FAQ', linkGuide: 'Pays d’Auge guide', linkContact: 'Contact', copyright: '© 2026 Villa Normande', bottomNote: 'Direct & secure booking' },
     reserveModal: {
       picker: { choose: 'Add date', title: 'Select dates', subtitle: 'Add your travel dates for exact pricing', arrival: 'Choose your arrival date', departure: 'Choose your departure date', clear: 'Clear dates', done: 'Close', back: 'Back to the form', loading: 'Loading availability…', prev: 'Previous month', next: 'Next month', booked: 'Already booked' },
-      estimate: { total: 'Estimated total', night: (n) => `${n} night${n > 1 ? 's' : ''}`, perNight: 'night', approx: '≈ ', seasons: { basse: 'Low season', haute: 'High season', both: 'Low and high season' }, oneNight: 'Price on request for one night', locale: 'en-GB' },
+      estimate: { total: 'Estimated total', night: (n) => `${n} night${n > 1 ? 's' : ''}`, perNight: 'night', approx: '≈ ', seasons: { basse: 'Low season', haute: 'High season', both: 'Low and high season' }, oneNight: 'Price on request for one night', offer: 'Special offer price', locale: 'en-GB' },
       title: 'Book now', intro: 'Send your request: Christophe will get back to you by email or phone within 48 hours at most. Nothing is charged at this stage.',
       name: 'Your name', namePlaceholder: 'First and last name', email: 'Email', emailPlaceholder: 'you@example.com', phone: 'Phone (optional)', phonePlaceholder: '+44 7700 900123',
       arrival: 'Check-in', departure: 'Check-out', guests: 'Guests',

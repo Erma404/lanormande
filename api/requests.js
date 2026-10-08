@@ -3,6 +3,7 @@ import { create, isAvailable, validate } from './_lib/requests.js';
 import { sendRequestConfirmation, sendRequestNotification } from './_lib/mail.js';
 import { hit } from './_lib/store.js';
 import { getPromo, isLive } from './_lib/promo.js';
+import { applyOffer, estimateStay } from '../src/pricing.js';
 
 const HOUR = 60 * 60;
 
@@ -25,7 +26,12 @@ export default route(['POST'], async (req, res) => {
 
   // Promotion en ligne au moment de la demande : Christophe sait à quelle offre le voyageur répond.
   const promo = await getPromo().catch(() => null);
-  if (promo && isLive(promo)) request.promo = { text: promo.fr.text, viaBanner: request.cta === 'promo' };
+  if (promo && isLive(promo)) {
+    request.promo = { text: promo.fr.text, viaBanner: request.cta === 'promo' };
+    // Prix promo de ces dates exactes : c'est le total que le voyageur a vu.
+    const priced = applyOffer(estimateStay(request.arrival, request.departure), request.arrival, request.departure, promo.offers);
+    if (priced?.offer) request.promo.total = priced.total;
+  }
 
   const entry = await create(request);
   // Les emails sont un bonus : la demande est enregistrée même si l'un d'eux échoue.

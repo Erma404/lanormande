@@ -12,8 +12,20 @@ export const EMPTY_PROMO = {
   showButton: true,
   fr: { text: '', cta: 'J’en profite' },
   en: { text: '', cta: 'Book now' },
+  offers: [],
   updatedAt: 0
 };
+const MAX_OFFERS = 6;
+
+// Prix promo pour des dates précises : appliqués quand le voyageur choisit exactement ces dates.
+function cleanOffers(list) {
+  if (!Array.isArray(list)) return [];
+  return list.slice(0, MAX_OFFERS).map((offer) => ({
+    arrival: ISO_DATE.test(offer?.arrival) ? offer.arrival : '',
+    departure: ISO_DATE.test(offer?.departure) ? offer.departure : '',
+    total: Math.round(Number(offer?.total))
+  })).filter((offer) => offer.arrival && offer.departure > offer.arrival && offer.total > 0 && offer.total <= 50000);
+}
 
 const clean = (value, max) => String(value || '').replace(/\s+/g, ' ').trim().slice(0, max);
 
@@ -29,10 +41,12 @@ export async function savePromo(body) {
     showButton: body.showButton !== false,
     fr: { text: clean(body.fr?.text, LIMITS.text), cta: clean(body.fr?.cta, LIMITS.cta) },
     en: { text: clean(body.en?.text, LIMITS.text), cta: clean(body.en?.cta, LIMITS.cta) },
+    offers: cleanOffers(body.offers),
     updatedAt: Date.now()
   };
   if (promo.start && promo.end && promo.end < promo.start) return { error: 'invalid_range' };
   if (promo.enabled && !promo.fr.text) return { error: 'missing_text' };
+  if (Array.isArray(body.offers) && body.offers.length && promo.offers.length !== Math.min(body.offers.length, MAX_OFFERS)) return { error: 'invalid_offer' };
   await set(KEY, promo);
   return { promo };
 }
@@ -54,6 +68,7 @@ export function publicPromo(promo) {
   return {
     id: String(promo.updatedAt),
     showButton: promo.showButton,
+    offers: promo.offers || [],
     fr: { text: promo.fr.text, cta: promo.fr.cta || EMPTY_PROMO.fr.cta },
     en: { text: en.text, cta: en.cta || EMPTY_PROMO.en.cta }
   };

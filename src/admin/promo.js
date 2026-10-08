@@ -1,5 +1,6 @@
 // Onglet Promotion : bannière affichée en haut du site, entre deux dates, en français et en anglais.
 import { autosize } from './autosize.js';
+import { estimateStay } from '../pricing.js';
 
 const dateFormat = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
 const formatDate = (iso) => dateFormat.format(new Date(`${iso}T00:00:00`));
@@ -8,6 +9,7 @@ const todayIso = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Pari
 const errors = {
   invalid_range: 'La date de fin doit être après la date de début.',
   missing_text: 'Écrivez au moins le texte en français pour activer la bannière.',
+  invalid_offer: 'Un prix promo est incomplet : il faut une arrivée, un départ après l’arrivée et un prix.',
   unauthenticated: 'Votre session a expiré. Rechargez la page pour vous reconnecter.'
 };
 
@@ -64,6 +66,13 @@ export function renderPromo(container, { escape, onDirtyChange }) {
         </section>
 
         <section class="panel">
+          <h2>Prix promo</h2>
+          <p class="muted small-text">Facultatif. Quand un voyageur choisit exactement ces dates, il voit ce prix à la place du prix normal, qui apparaît barré. Le même prix figure dans l’email de la demande et dans l’onglet Demandes. Pour d’autres dates, le prix normal s’applique.</p>
+          <div class="promo-offers" id="promo-offers"></div>
+          <button type="button" class="secondary small" id="promo-add-offer">+ Ajouter un prix promo</button>
+        </section>
+
+        <section class="panel">
           <h2>Aperçu</h2>
           <div class="promo-preview-tabs" role="tablist">
             <button type="button" class="active" data-preview="fr">Français</button>
@@ -91,6 +100,37 @@ export function renderPromo(container, { escape, onDirtyChange }) {
 
     const $ = (selector) => container.querySelector(selector);
     autosize(container);
+    const euro = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+    // Une ligne par séjour en promo ; le prix normal est rappelé pour comparer.
+    const offerRow = (offer = {}) => `
+      <div class="promo-offer">
+        <div><label>Arrivée</label><input type="date" data-offer="arrival" value="${escape(offer.arrival || '')}" /></div>
+        <div><label>Départ</label><input type="date" data-offer="departure" value="${escape(offer.departure || '')}" /></div>
+        <div><label>Prix promo du séjour</label><span class="amount-field"><input type="number" inputmode="numeric" min="1" step="1" data-offer="total" value="${offer.total ?? ''}" placeholder="550" /><span>€</span></span></div>
+        <button type="button" class="link-button danger" data-remove-offer>Retirer</button>
+        <p class="promo-offer-note muted small-text"></p>
+      </div>`;
+    const refreshOfferNotes = () => container.querySelectorAll('.promo-offer').forEach((row) => {
+      const arrival = row.querySelector('[data-offer="arrival"]').value;
+      const departure = row.querySelector('[data-offer="departure"]').value;
+      const regular = estimateStay(arrival, departure);
+      row.querySelector('.promo-offer-note').textContent = regular?.total
+        ? `${regular.nights} nuits · prix normal ${euro.format(regular.total)}, affiché barré`
+        : regular ? 'Une seule nuit : choisissez au moins 2 nuits.' : 'Choisissez les dates du séjour.';
+    });
+    $('#promo-offers').innerHTML = (promo.offers || []).map(offerRow).join('');
+    refreshOfferNotes();
+    $('#promo-add-offer').addEventListener('click', () => {
+      $('#promo-offers').insertAdjacentHTML('beforeend', offerRow());
+      refreshOfferNotes();
+      onDirtyChange(true);
+      $('#promo-offers .promo-offer:last-child input').focus();
+    });
+    $('#promo-offers').addEventListener('click', (event) => {
+      if (!event.target.closest('[data-remove-offer]')) return;
+      event.target.closest('.promo-offer').remove();
+      onDirtyChange(true);
+    });
     let previewLang = 'fr';
     const read = () => ({
       enabled: $('#promo-enabled').checked,
@@ -98,7 +138,12 @@ export function renderPromo(container, { escape, onDirtyChange }) {
       end: $('#promo-end').value,
       showButton: $('#promo-button').checked,
       fr: { text: $('#promo-fr-text').value, cta: $('#promo-fr-cta').value },
-      en: { text: $('#promo-en-text').value, cta: $('#promo-en-cta').value }
+      en: { text: $('#promo-en-text').value, cta: $('#promo-en-cta').value },
+      offers: [...container.querySelectorAll('.promo-offer')].map((row) => ({
+        arrival: row.querySelector('[data-offer="arrival"]').value,
+        departure: row.querySelector('[data-offer="departure"]').value,
+        total: row.querySelector('[data-offer="total"]').value
+      })).filter((offer) => offer.arrival || offer.departure || offer.total)
     });
     const renderPreview = () => {
       const values = read();
@@ -123,12 +168,18 @@ export function renderPromo(container, { escape, onDirtyChange }) {
       if (event.target.id === 'promo-enabled') $('.switch b').textContent = event.target.checked ? 'Activée' : 'Désactivée';
       if (event.target.id === 'promo-button') $('#promo-cta-fields').hidden = !event.target.checked;
       if (event.target.id === 'promo-start') $('#promo-end').min = event.target.value;
+      if (event.target.dataset.offer) { refreshOfferNotes(); return; }
       renderPreview();
     });
     $('#promo-form').addEventListener('submit', async (event) => {
       event.preventDefault();
       const values = read();
       if (values.start && values.end && values.end < values.start) return render(errors.invalid_range);
+      if (values.offers.some((offer) => !offer.arrival || !(offer.departure > offer.arrival) || !(Number(offer.total) > 0))) {
+        container.querySelector('.panel-error')?.remove();
+        container.insertAdjacentHTML('afterbegin', `<p class="form-error panel-error" role="alert">${escape(errors.invalid_offer)}</p>`);
+        return container.scrollIntoView({ behavior: 'smooth' });
+      }
       const button = $('#promo-save');
       button.disabled = true;
       button.classList.add('loading');

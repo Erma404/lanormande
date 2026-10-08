@@ -1,4 +1,5 @@
 import { content } from './content.js';
+import { promoReady } from './promo-data.js';
 import { applyOverrides } from './content-overrides.js';
 import { icon, renderPage } from './page.js';
 import { imgAttrs, sized, srcset } from './images.js';
@@ -420,10 +421,7 @@ function renderPromo() {
 }
 const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 
-fetch('/api/promo')
-  .then((response) => (response.ok ? response.json() : null))
-  .then((data) => { promo = data?.promo || null; renderPromo(); })
-  .catch(() => {});
+promoReady.then((data) => { promo = data; renderPromo(); });
 
 // ---- parallaxe de la photo au-dessus du pied de page ----------------------
 // La photo est plus haute que son cadre (style.css) et glisse plus lentement que la page.

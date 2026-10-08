@@ -34,3 +34,17 @@ export function estimateStay(arrivalIso, departureIso) {
   const total = Math.round(sum);
   return { nights, total, perNight: Math.round(total / nights), seasons: [...seasons] };
 }
+
+// Prix promo (onglet Promotion de l'admin) : remplace le total quand les dates correspondent exactement.
+// regular = prix de la grille, affiché barré.
+export function applyOffer(estimate, arrivalIso, departureIso, offers = []) {
+  const offer = estimate?.total != null && offers.find((item) => item.arrival === arrivalIso && item.departure === departureIso);
+  if (!offer || !(offer.total > 0) || offer.total === estimate.total) return estimate;
+  return { ...estimate, regular: estimate.total, total: offer.total, perNight: Math.round(offer.total / estimate.nights), offer: true };
+}
+
+// Estimation d'une demande enregistrée : grille, ou prix promo figé au moment de la demande.
+export const estimateRequest = (request) => applyOffer(
+  estimateStay(request.arrival, request.departure), request.arrival, request.departure,
+  request.promo?.total ? [{ arrival: request.arrival, departure: request.departure, total: request.promo.total }] : []
+);

@@ -583,6 +583,10 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 .rf-estimate-total { display: grid; justify-items: end; gap: 1px; text-align: right; }
 .rf-estimate-total span { font-size: 11px; font-weight: 600; color: var(--muted); }
 .rf-estimate-total strong { font-size: 20px; font-weight: 800; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.rf-estimate s, #rf-picker-hint s { color: var(--muted); font-weight: 500; text-decoration-thickness: 1.5px; }
+.rf-estimate s { margin-right: 4px; font-size: 14px; }
+.rf-estimate.is-offer .rf-estimate-stay span { color: var(--clay); font-weight: 700; }
+.rf-estimate.is-offer .rf-estimate-total strong { color: var(--clay); }
 @media (max-height: 760px) { .rf-estimate { padding: 8px 12px; } .rf-estimate-total strong { font-size: 18px; } }
 /* Très petits écrans (iPhone SE, barres du navigateur affichées) : la fenêtre doit tenir sans défiler. */
 @media (max-height: 620px) { .reserve-form-intro { display: none; } }

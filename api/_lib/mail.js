@@ -1,6 +1,6 @@
 import { isDeployed } from './http.js';
 import { SITE_URL } from '../../src/site.js';
-import { estimateStay } from '../../src/pricing.js';
+import { estimateRequest } from '../../src/pricing.js';
 
 // Mode local : sans Resend et hors Vercel, le code n'est pas envoyé mais affiché.
 export const isLocalMailMode = () => !process.env.RESEND_API_KEY && !isDeployed();
@@ -144,11 +144,13 @@ export async function sendRequestNotification(request) {
 
   const adminUrl = `${SITE_URL}/admin`;
   // Total estimé selon la grille tarifaire : le montant affiché au voyageur au moment de sa demande.
-  const estimate = estimateStay(request.arrival, request.departure);
+  const estimate = estimateRequest(request);
   const euros = (n) => new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
   const nightsText = estimate ? `${estimate.nights} nuit${estimate.nights > 1 ? 's' : ''}` : '';
   const totalText = estimate?.total ? euros(estimate.total) : estimate ? 'sur demande' : '';
-  const totalDetail = estimate?.total ? `${nightsText} · ${estimate.seasons.length > 1 ? 'basse et haute saison' : `${estimate.seasons[0]} saison`}` : nightsText;
+  const totalDetail = estimate?.offer
+    ? `${nightsText} · prix promo, au lieu de ${euros(estimate.regular)}`
+    : estimate?.total ? `${nightsText} · ${estimate.seasons.length > 1 ? 'basse et haute saison' : `${estimate.seasons[0]} saison`}` : nightsText;
   const promoText = request.promo ? `${request.promo.text}${request.promo.viaBanner ? ' (demande envoyée depuis le bouton de la bannière)' : ''}` : '';
   const rows = [...(promoText ? [['Promotion en cours', promoText]] : []), ['Email', request.email], ['Téléphone', request.phone || '—'], ['Langue', request.lang === 'en' ? 'Anglais' : 'Français'], ['Message', request.message || '—']];
   await deliver({
