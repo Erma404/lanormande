@@ -3,14 +3,14 @@
   "trailingSlash": false,
   "redirects": [
     {
-      "source": "/:path*",
+      "source": "/(.*)",
       "has": [
         {
           "type": "host",
           "value": "lanormande.vercel.app"
         }
       ],
-      "destination": "https://villanormande.com/:path*",
+      "destination": "https://villanormande.com/$1",
       "permanent": true
     }
   ],
