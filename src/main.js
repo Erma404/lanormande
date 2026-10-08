@@ -398,7 +398,8 @@ function renderPromo() {
   const t = promo[lang];
   const banner = existing || document.createElement('aside');
   banner.id = 'promo-banner';
-  banner.className = 'promo-banner';
+  // Reconstruite à chaque mount (textes de l'admin, langue) : elle doit rester ouverte.
+  banner.className = existing ? 'promo-banner show' : 'promo-banner';
   banner.setAttribute('aria-label', lang === 'en' ? 'Special offer' : 'Offre du moment');
   banner.innerHTML = `<div class="promo-inner">
       <p class="promo-text"><span class="promo-spark" aria-hidden="true"></span>${escapeHtml(t.text)}</p>
@@ -414,6 +415,7 @@ function renderPromo() {
   if (!existing) {
     document.body.prepend(banner);
     requestAnimationFrame(() => requestAnimationFrame(() => banner.classList.add('show')));
+    setTimeout(() => banner.classList.add('show'), 300); // filet si l'onglet était en arrière-plan
   }
 }
 const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
