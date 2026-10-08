@@ -149,7 +149,8 @@ export async function sendRequestNotification(request) {
   const nightsText = estimate ? `${estimate.nights} nuit${estimate.nights > 1 ? 's' : ''}` : '';
   const totalText = estimate?.total ? euros(estimate.total) : estimate ? 'sur demande' : '';
   const totalDetail = estimate?.total ? `${nightsText} · ${estimate.seasons.length > 1 ? 'basse et haute saison' : `${estimate.seasons[0]} saison`}` : nightsText;
-  const rows = [['Email', request.email], ['Téléphone', request.phone || '—'], ['Langue', request.lang === 'en' ? 'Anglais' : 'Français'], ['Message', request.message || '—']];
+  const promoText = request.promo ? `${request.promo.text}${request.promo.viaBanner ? ' (demande envoyée depuis le bouton de la bannière)' : ''}` : '';
+  const rows = [...(promoText ? [['Promotion en cours', promoText]] : []), ['Email', request.email], ['Téléphone', request.phone || '—'], ['Langue', request.lang === 'en' ? 'Anglais' : 'Français'], ['Message', request.message || '—']];
   await deliver({
     to: recipients,
     ...(copies.length ? { cc: copies } : {}),

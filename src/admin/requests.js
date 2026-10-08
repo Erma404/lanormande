@@ -114,6 +114,7 @@ export function renderRequests(container, { escape, onCount }) {
           <button type="submit" class="secondary small">Enregistrer</button>
           <small>${request.amount == null ? 'Montant estimé d’après la grille : corrigez-le si le prix final est différent (remise, ménage…).' : 'Montant réel, utilisé dans le tableau de bord.'}</small>
         </form>` : ''}
+        ${request.promo ? `<p class="request-promo"><span>Promotion en cours</span>${escape(request.promo.text)}${request.promo.viaBanner ? '<small>Demande envoyée depuis le bouton de la bannière</small>' : ''}</p>` : ''}
         <p class="request-contact">${contact}</p>
         ${request.message ? `<blockquote class="request-message">${escape(request.message)}</blockquote>` : ''}
         <div class="request-actions">

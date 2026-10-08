@@ -263,6 +263,9 @@ textarea:focus { outline: none; border-color: var(--forest); box-shadow: 0 0 0 3
 
 /* Total estimé d'une demande (même calcul que le récapitulatif vu par le voyageur). */
 .request-total { margin-left: auto; padding: 4px 12px; border-radius: 999px; background: #fbf1e9; color: #7a4a2f !important; font-size: 13px !important; }
+.request-promo { display: grid; gap: 2px; margin: 0 0 12px; padding: 10px 14px; border-left: 3px solid var(--clay); border-radius: 0 8px 8px 0; background: #fbf1e9; color: var(--ink); font-size: 14px; font-weight: 600; }
+.request-promo span { font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--clay); }
+.request-promo small { color: var(--muted); font-size: 12px; font-weight: 500; }
 .request-total b { margin-left: 4px; font-size: 16px; font-weight: 800; color: var(--clay); }
 
 /* Tableau de bord */
