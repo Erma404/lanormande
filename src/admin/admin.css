@@ -177,6 +177,7 @@ textarea:focus { outline: none; border-color: var(--forest); box-shadow: 0 0 0 3
 .request-filters { margin-bottom: 20px; flex-wrap: wrap; }
 .request-list { display: grid; gap: 14px; }
 .request-empty { margin: 0; color: var(--muted); font-size: 14px; }
+.request-retention { margin-top: 20px; }
 .request-card { padding: 22px 24px; border: 1px solid var(--line); border-left: 4px solid var(--clay); border-radius: 10px; background: var(--paper); }
 .request-card.status-accepted { border-left-color: var(--forest); }
 .request-card.status-declined { border-left-color: #cdbfab; }

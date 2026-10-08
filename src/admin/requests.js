@@ -130,7 +130,8 @@ export function renderRequests(container, { escape, onCount }) {
       <div class="lang-switch request-filters" role="tablist" aria-label="Filtrer les demandes">
         ${filters.map(([id, label]) => `<button type="button" role="tab" data-filter="${id}" class="${id === filter ? 'active' : ''}" aria-selected="${id === filter}">${label}${counts[id] && id !== 'all' ? ` <small>${counts[id]}</small>` : ''}</button>`).join('')}
       </div>
-      ${visible.length ? `<div class="request-list">${visible.map(card).join('')}</div>` : `<p class="placeholder request-empty">${empty}</p>`}`;
+      ${visible.length ? `<div class="request-list">${visible.map(card).join('')}</div>` : `<p class="placeholder request-empty">${empty}</p>`}
+      <p class="hint request-retention">Chaque demande est supprimée automatiquement 3 ans après le dernier contact (fin du séjour ou dernière action), comme l’annonce la politique de confidentialité.</p>`;
 
     container.querySelectorAll('[data-filter]').forEach((button) => button.addEventListener('click', () => {
       filter = button.dataset.filter;

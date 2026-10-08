@@ -7,6 +7,8 @@ import * as store from './store.js';
 const KEY = 'requests:list';
 const MAX_STORED = 500;
 const MAX_NIGHTS = 60;
+// Politique de confidentialité : au plus 3 ans après le dernier contact (fin du séjour ou dernière action).
+const RETENTION_MS = 3 * 365.25 * 86400000;
 const EMAIL = /^[^\s@]{1,64}@[^\s@]{1,190}\.[^\s@]{2,}$/;
 export const STATUSES = ['new', 'accepted', 'declined'];
 
@@ -36,8 +38,20 @@ export function validate(body) {
   return { request };
 }
 
+const lastContact = (request) => Math.max(request.updatedAt || 0, request.createdAt || 0, new Date(`${request.departure}T00:00:00Z`).getTime() || 0);
+
+// Chaque lecture supprime les demandes arrivées au bout de leur durée de conservation,
+// avec le blocage d'une demande acceptée (son séjour est passé depuis 3 ans, et il porte le nom du voyageur).
 export async function list() {
-  return (await store.get(KEY)) || [];
+  const requests = (await store.get(KEY)) || [];
+  const limit = Date.now() - RETENTION_MS;
+  const expired = requests.filter((request) => lastContact(request) < limit);
+  if (!expired.length) return requests;
+  // Une à la fois : removeManual relit puis réécrit la liste des blocages.
+  for (const request of expired) if (request.blockId) await removeManual(request.blockId);
+  const kept = requests.filter((request) => !expired.includes(request));
+  await save(kept);
+  return kept;
 }
 
 async function save(requests) {
