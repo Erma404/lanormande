@@ -108,6 +108,28 @@ export async function sendLoginCode(email, code) {
   });
 }
 
+// Alerte de sécurité : chaque connexion réussie est signalée à l'admin concerné.
+// S'il n'en est pas à l'origine, il sait que sa boîte mail est compromise et peut agir.
+export async function sendLoginAlert(email, { when, place, device }) {
+  if (!process.env.RESEND_API_KEY) {
+    if (!isDeployed()) console.log(`\n[admin] Alerte de connexion pour ${email} : ${when}, ${place}, ${device}\n`);
+    return;
+  }
+  await deliver({
+    to: [email],
+    subject: 'Nouvelle connexion à l’espace admin',
+    text: `Une connexion à l'espace admin de la Villa Normande vient d'avoir lieu avec votre adresse.\n\nQuand : ${when}\nOù (approximatif) : ${place}\nAppareil : ${device}\n\nSi c'est bien vous, rien à faire. Sinon, changez tout de suite le mot de passe de votre boîte mail et prévenez Ernestine.`,
+    html: layout({
+      preheader: `Connexion le ${when}`,
+      eyebrow: 'Sécurité',
+      body: `${h1('Nouvelle connexion à l’espace admin')}
+        ${p('Une connexion vient d’avoir lieu avec votre adresse email.')}
+        ${p(`<strong>Quand :</strong> ${escapeHtml(when)}<br><strong>Où (approximatif) :</strong> ${escapeHtml(place)}<br><strong>Appareil :</strong> ${escapeHtml(device)}`)}
+        ${small('Si c’est bien vous, rien à faire. Sinon, changez tout de suite le mot de passe de votre boîte mail et prévenez Ernestine : la personne a pu recevoir votre code de connexion.')}`
+    })
+  });
+}
+
 // Prévient Christophe et les admins d'une nouvelle demande ; le détail reste consultable dans l'admin.
 export async function sendRequestNotification(request) {
   // Destinataire : la boîte de la Villa (HOST_EMAIL, contact@) ; les admins (Christophe, Claire…) en copie.

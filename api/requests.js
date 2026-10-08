@@ -18,6 +18,9 @@ export default route(['POST'], async (req, res) => {
   const ip = clientIp(req);
   const [byHour, byDay] = await Promise.all([hit(`rl:request:ip:${ip}`, HOUR), hit(`rl:request:ipday:${ip}`, 24 * HOUR)]);
   if (byHour > 5 || byDay > 15) return send(res, 429, { error: 'too_many_requests' });
+  // Plafond tous visiteurs confondus : une attaque depuis de nombreuses adresses ne peut pas
+  // remplir la liste des demandes (500 au plus) ni inonder les boîtes mail.
+  if ((await hit('rl:request:all:day', 24 * HOUR)) > 40) return send(res, 429, { error: 'too_many_requests' });
 
   const entry = await create(request);
   // Les emails sont un bonus : la demande est enregistrée même si l'un d'eux échoue.

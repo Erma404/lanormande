@@ -1,9 +1,21 @@
 import { clientIp, readJson, route, send } from '../_lib/http.js';
 import { checkCode, createSession, emailKey, isAdminEmail, normalizeEmail } from '../_lib/auth.js';
+import { sendLoginAlert } from '../_lib/mail.js';
 import { del, get, hit } from '../_lib/store.js';
 
 const DAY = 24 * 60 * 60;
 const MAX_FAILURES_PER_DAY = 20; // au-delà, l'adresse est bloquée 24 h (anti force brute)
+
+// Contexte de la connexion pour l'alerte : lieu approximatif (en-têtes Vercel) et appareil.
+function loginContext(req) {
+  const decode = (value) => { try { return decodeURIComponent(String(value || '')); } catch { return ''; } };
+  const place = [decode(req.headers['x-vercel-ip-city']), decode(req.headers['x-vercel-ip-country'])].filter(Boolean).join(', ') || 'inconnu';
+  const ua = String(req.headers['user-agent'] || '');
+  const os = /iPhone|iPad/.test(ua) ? 'iPhone / iPad' : /Android/.test(ua) ? 'Android' : /Mac OS X/.test(ua) ? 'Mac' : /Windows/.test(ua) ? 'Windows' : /Linux/.test(ua) ? 'Linux' : 'appareil inconnu';
+  const browser = /Edg\//.test(ua) ? 'Edge' : /Firefox\//.test(ua) ? 'Firefox' : /Chrome\//.test(ua) ? 'Chrome' : /Safari\//.test(ua) ? 'Safari' : 'navigateur inconnu';
+  const when = new Intl.DateTimeFormat('fr-FR', { timeZone: 'Europe/Paris', dateStyle: 'full', timeStyle: 'short' }).format(new Date());
+  return { when, place: place.slice(0, 80), device: `${browser} sur ${os}` };
+}
 
 export default route(['POST'], async (req, res) => {
   const body = await readJson(req);
@@ -21,6 +33,7 @@ export default route(['POST'], async (req, res) => {
   if (result.status === 'ok' && isAdminEmail(email)) {
     await del(failuresKey);
     const cookie = await createSession(email);
+    await sendLoginAlert(email, loginContext(req)).catch((error) => console.error('[admin verify] alerte', error));
     return send(res, 200, { ok: true, email }, { 'Set-Cookie': cookie });
   }
 
