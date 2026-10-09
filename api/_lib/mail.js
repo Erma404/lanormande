@@ -44,7 +44,7 @@ function layout({ preheader, eyebrow, hero = false, body, footerNote }) {
     <tr><td style="background:${C.dark};border-radius:14px 14px 0 0;padding:20px 28px ${hero ? 28 : 20}px">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
         <td style="font-family:${FONT};color:#ffffff;font-size:15px;line-height:1;font-weight:700;letter-spacing:-.04em">
-          <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${C.clay};margin-right:8px;vertical-align:middle"></span><span style="vertical-align:middle">Villa <span style="font-weight:500;color:#e6e6e7">Normande</span></span>
+          <img src="${SITE_URL}/apple-touch-icon.png" width="22" height="22" alt="" style="display:inline-block;width:22px;height:22px;border:0;border-radius:5px;margin-right:9px;vertical-align:middle"><span style="vertical-align:middle">Villa <span style="font-weight:500;color:#e6e6e7">Normande</span></span>
         </td>
         <td align="right" style="font-family:${FONT};color:#a6a6a6;font-size:11px;letter-spacing:.02em">${escapeHtml(eyebrow)}</td>
       </tr></table>

@@ -699,3 +699,7 @@ body[style*="overflow: hidden"] .wa-bubble { opacity: 0; pointer-events: none; }
 /* « Maison à louer pour 8 · Danestal, pays d’Auge » : retirée de l'affichage du hero (tous écrans),
    mais conservée dans le titre (H1) lu par Google. */
 .hero h1 > .eyebrow { position: absolute; width: 1px; height: 1px; margin: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* Logo = même image que le favicon (public/favicon.svg) : maison verte, porte argile, fond crème. */
+.brand-mark { width: 26px; height: 26px; padding: 0; border-radius: 0; background: url('/favicon.svg') center / contain no-repeat; transform: none; display: block; flex: none; }
+.brand-mark i { display: none; }

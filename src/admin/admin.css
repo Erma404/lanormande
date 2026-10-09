@@ -378,3 +378,7 @@ textarea:focus { outline: none; border-color: var(--forest); box-shadow: 0 0 0 3
   .dash-table th:first-child { padding-left: 16px; }
   .inline-bar { display: none; }
 }
+
+/* Logo = même image que le favicon (public/favicon.svg). */
+.brand-mark { width: 24px; height: 24px; padding: 0; border-radius: 0; background: url('/favicon.svg') center / contain no-repeat; transform: none; display: block; flex: none; }
+.brand-mark i { display: none; }
