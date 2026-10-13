@@ -4,6 +4,7 @@ import { sendRequestConfirmation, sendRequestNotification } from './_lib/mail.js
 import { hit } from './_lib/store.js';
 import { getPromo, isLive } from './_lib/promo.js';
 import { applyOffer, estimateStay } from '../src/pricing.js';
+import { getGrid } from './_lib/pricing.js';
 
 const HOUR = 60 * 60;
 
@@ -24,12 +25,15 @@ export default route(['POST'], async (req, res) => {
   // remplir la liste des demandes (500 au plus) ni inonder les boîtes mail.
   if ((await hit('rl:request:all:day', 24 * HOUR)) > 40) return send(res, 429, { error: 'too_many_requests' });
 
+  // Prix de la grille du moment, figé dans la demande : changer les tarifs ensuite ne la modifie pas.
+  const [promo, grid] = await Promise.all([getPromo().catch(() => null), getGrid()]);
+  const regular = estimateStay(request.arrival, request.departure, grid);
+  if (regular?.total) request.gridTotal = regular.total;
   // Promotion en ligne au moment de la demande : Christophe sait à quelle offre le voyageur répond.
-  const promo = await getPromo().catch(() => null);
   if (promo && isLive(promo)) {
     request.promo = { text: promo.fr.text, viaBanner: request.cta === 'promo' };
     // Prix promo de ces dates exactes : c'est le total que le voyageur a vu.
-    const priced = applyOffer(estimateStay(request.arrival, request.departure), request.arrival, request.departure, promo.offers);
+    const priced = applyOffer(regular, request.arrival, request.departure, promo.offers);
     if (priced?.offer) request.promo.total = priced.total;
   }
 

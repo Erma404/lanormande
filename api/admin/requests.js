@@ -3,16 +3,17 @@ import { getSession } from '../_lib/auth.js';
 import { getBlockedRanges } from '../_lib/availability.js';
 import { list, remove, setAmount, setStatus, STATUSES } from '../_lib/requests.js';
 import { estimateRequest } from '../../src/pricing.js';
+import { getGrid } from '../_lib/pricing.js';
 
 // Chaque demande en attente indique si ses dates ont été prises entre-temps, et le total estimé.
 async function snapshot() {
-  const [requests, blocked] = await Promise.all([list(), getBlockedRanges()]);
+  const [requests, blocked, grid] = await Promise.all([list(), getBlockedRanges(), getGrid()]);
   return {
     requests: requests.map((request) => ({
       ...request,
       conflict: request.status === 'new' && blocked.some(([from, to]) => request.arrival < to && request.departure > from),
-      // Même calcul que le récapitulatif vu par le voyageur (grille tarifaire, src/pricing.js).
-      estimate: estimateRequest(request)
+      // Même calcul que le récapitulatif vu par le voyageur (grille tarifaire figée à la demande, src/pricing.js).
+      estimate: estimateRequest(request, grid)
     }))
   };
 }

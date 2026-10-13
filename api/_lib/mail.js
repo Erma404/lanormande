@@ -1,6 +1,7 @@
 import { isDeployed } from './http.js';
 import { SITE_URL } from '../../src/site.js';
 import { estimateRequest } from '../../src/pricing.js';
+import { getGrid } from './pricing.js';
 
 // Mode local : sans Resend et hors Vercel, le code n'est pas envoyé mais affiché.
 export const isLocalMailMode = () => !process.env.RESEND_API_KEY && !isDeployed();
@@ -144,7 +145,7 @@ export async function sendRequestNotification(request) {
 
   const adminUrl = `${SITE_URL}/admin`;
   // Total estimé selon la grille tarifaire : le montant affiché au voyageur au moment de sa demande.
-  const estimate = estimateRequest(request);
+  const estimate = estimateRequest(request, await getGrid().catch(() => undefined));
   const euros = (n) => new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
   const nightsText = estimate ? `${estimate.nights} nuit${estimate.nights > 1 ? 's' : ''}` : '';
   const totalText = estimate?.total ? euros(estimate.total) : estimate ? 'sur demande' : '';

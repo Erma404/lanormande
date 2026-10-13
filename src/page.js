@@ -145,8 +145,8 @@ export const renderPage = (t, s) => `
           ${t.pricing.seasons.map((season, i) => `
           <article class="pricing-card" id="season-${season.id}" role="tabpanel" aria-labelledby="tab-${season.id}" data-months="${season.monthNumbers.join(',')}" ${i === 0 ? '' : 'hidden'}>
             <header><p class="pricing-now">${t.pricing.current}</p><h3>${season.name}</h3></header>
-            <ul class="pricing-rows">${season.rows.map(([label, total, night], j) => `
-              <li><span class="pricing-label"><strong>${label}</strong>${total ? `<small>${j === 1 ? t.pricing.approx : ''}${night} / ${t.pricing.perNight}</small>` : ''}</span>
+            <ul class="pricing-rows">${season.rows.map(([label, total, night, approx]) => `
+              <li><span class="pricing-label"><strong>${label}</strong>${total ? `<small>${approx ? t.pricing.approx : ''}${night} / ${t.pricing.perNight}</small>` : ''}</span>
                 <span class="pricing-price">${total || `${night}<small> / ${t.pricing.perNight}</small>`}</span></li>`).join('')}
             </ul>
           </article>`).join('')}

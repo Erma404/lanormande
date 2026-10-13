@@ -12,10 +12,11 @@ const loadModal = () => modal ||= Promise.all([
   import('./reserve-modal-html.js'),
   import('./content.js'),
   import('./content-overrides.js'),
-  // Textes modifiés depuis l'admin, comme sur l'accueil.
+  import('./pricing.js'),
+  // Textes et tarifs modifiés depuis l'admin, comme sur l'accueil.
   fetch('/api/content').then((response) => (response.ok ? response.json() : null)).catch(() => null)
-]).then(([{ setupReserveModal }, { reserveModalHtml }, { content }, { applyOverrides }, overrides]) => {
-  if (overrides) applyOverrides(content, overrides);
+]).then(([{ setupReserveModal }, { reserveModalHtml }, { content }, { applyOverrides }, { setGrid }, overrides]) => {
+  if (overrides) { applyOverrides(content, overrides); setGrid(overrides.pricing); }
   const t = content[lang];
   document.body.insertAdjacentHTML('beforeend', reserveModalHtml(t));
   return setupReserveModal({ t, lang });

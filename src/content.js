@@ -1,3 +1,5 @@
+import { applyPricing, DEFAULT_GRID } from './pricing.js';
+
 // ---------------------------------------------------------------------------
 // i18n content. Every visible string lives here, split fr/en. Data that isn't
 // language-dependent (image paths, css classes, grid sizes, icon keys) stays
@@ -332,3 +334,6 @@ export const content = {
     formatFull: (day, month, year) => `${month} ${day}, ${year}`
   }
 };
+
+// Montants de la section Tarifs calculés depuis la grille (remplacée par celle de l'admin au chargement).
+applyPricing(content, DEFAULT_GRID);

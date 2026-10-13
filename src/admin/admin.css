@@ -267,6 +267,32 @@ textarea:focus { outline: none; border-color: var(--forest); box-shadow: 0 0 0 3
 .preview-header i { width: 36px; height: 6px; border-radius: 3px; background: rgba(255,255,255,.18); }
 .preview-header i:first-of-type { margin-left: auto; }
 .promo-save { position: sticky; bottom: 0; display: flex; align-items: center; gap: 14px; padding: 14px 0; background: linear-gradient(transparent, var(--cream) 30%); }
+/* Tarifs */
+.pricing-grid { display: grid; gap: 0; margin-top: 14px; }
+.pricing-grid-row { display: grid; grid-template-columns: minmax(0, 1.2fr) repeat(2, minmax(0, 1fr)); gap: 14px; align-items: start; padding: 12px 0; border-top: 1px solid var(--line); }
+.pricing-grid-head { padding: 0 0 8px; border-top: 0; color: var(--muted); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.pricing-grid-label { display: grid; gap: 2px; padding-top: 10px; }
+.pricing-grid-label strong { font-size: 15px; }
+.pricing-grid-label small { color: var(--muted); font-size: 12px; }
+.pricing-grid-cell { display: grid; gap: 4px; }
+.pricing-grid-cell .amount-field { display: flex; align-items: center; gap: 6px; font-weight: 700; }
+.pricing-grid-cell input { min-height: 44px; font-size: 16px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.pricing-grid-hint { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.pricing-grid-hint.error { color: var(--danger); font-weight: 600; }
+.season-months { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; margin-top: 14px; }
+.season-month { display: grid; gap: 2px; justify-items: center; min-height: 58px; padding: 8px 4px; border: 1px solid #d9b9a3; border-radius: 8px; background: #fbf1e9; color: #7a4a2f; font-size: 14px; font-weight: 700; cursor: pointer; transition: background .15s, border-color .15s, color .15s; }
+.season-month small { font-size: 11px; font-weight: 600; opacity: .8; }
+.season-month.low { border-color: #b9c8b4; background: #e9efe5; color: var(--forest); }
+.season-month:hover { border-color: var(--ink); }
+.pricing-sim { margin: 14px 0 0; font-size: 15px; }
+.pricing-sim strong { font-size: 18px; }
+.pricing-sim .muted { margin: 0; font-size: 13px; }
+@media (max-width: 720px) {
+  .pricing-grid-row { grid-template-columns: 1fr 1fr; }
+  .pricing-grid-label { grid-column: 1 / -1; padding-top: 0; }
+  .pricing-grid-head span:first-child { display: none; }
+  .season-months { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
 .saved-note { color: var(--forest); font-size: 14px; font-weight: 600; }
 @media (max-width: 860px) { .promo-dates { grid-template-columns: 1fr; } .promo-switch-row { flex-direction: column; } }
 

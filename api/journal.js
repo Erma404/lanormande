@@ -8,6 +8,7 @@ import { list } from './_lib/requests.js';
 import { hit } from './_lib/store.js';
 import { daysBetween, fieldsFor, getAirbnbRevenue, readRange, record, setAirbnbRevenue } from './_lib/journal.js';
 import { estimateRequest } from '../src/pricing.js';
+import { getGrid } from './_lib/pricing.js';
 
 const MONTH = /^\d{4}-(0[1-9]|1[0-2])$/;
 
@@ -25,7 +26,7 @@ async function dashboard(req) {
   const to = url.searchParams.get('to');
   if (!isValidDate(from) || !isValidDate(to) || to < from || daysBetween(from, to) > 400) throw new HttpError(400, 'invalid_range');
 
-  const [traffic, requests, airbnb, manual, airbnbRevenue] = await Promise.all([readRange(from, to), list(), getAirbnbStays(), getManual(), getAirbnbRevenue()]);
+  const [traffic, requests, airbnb, manual, airbnbRevenue, grid] = await Promise.all([readRange(from, to), list(), getAirbnbStays(), getManual(), getAirbnbRevenue(), getGrid()]);
   return {
     traffic,
     // Sans nom, email, téléphone ni message : le tableau de bord n'en a pas besoin.
@@ -40,7 +41,7 @@ async function dashboard(req) {
       createdAt: request.createdAt,
       updatedAt: request.updatedAt,
       amount: Number.isFinite(request.amount) ? request.amount : null,
-      estimate: estimateRequest(request)?.total ?? null,
+      estimate: estimateRequest(request, grid)?.total ?? null,
       blockId: request.blockId || null
     })),
     airbnb: { ranges: airbnb.ranges, syncedAt: airbnb.syncedAt, configured: airbnb.configured },

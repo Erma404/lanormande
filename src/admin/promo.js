@@ -1,6 +1,6 @@
 // Onglet Promotion : bannière affichée en haut du site, entre deux dates, en français et en anglais.
 import { autosize } from './autosize.js';
-import { estimateStay } from '../pricing.js';
+import { estimateStay, setGrid } from '../pricing.js';
 
 const dateFormat = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
 const formatDate = (iso) => dateFormat.format(new Date(`${iso}T00:00:00`));
@@ -190,7 +190,10 @@ export function renderPromo(container, { escape, onDirtyChange }) {
   }
 
   container.innerHTML = `<div class="panels" aria-busy="true" aria-label="Chargement de la promotion">${'<div class="panel"><span class="skel skel-h"></span><span class="skel skel-line"></span><span class="skel skel-input"></span></div>'.repeat(2)}</div>`;
-  call().then((result) => {
+  // Grille de l'onglet Tarifs : le prix normal rappelé à côté des prix promo.
+  const gridReady = fetch('/api/admin/content', { credentials: 'same-origin' })
+    .then((response) => (response.ok ? response.json() : null)).then((data) => setGrid(data?.pricing)).catch(() => {});
+  Promise.all([call(), gridReady]).then(([result]) => {
     if (result.error) container.innerHTML = `<p class="form-error">${escape(result.error)}</p>`;
     else render();
   });

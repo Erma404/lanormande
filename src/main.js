@@ -1,6 +1,7 @@
 import { content } from './content.js';
 import { promoReady } from './promo-data.js';
 import { applyOverrides } from './content-overrides.js';
+import { applyPricing, getGrid, setGrid } from './pricing.js';
 import { icon, renderPage } from './page.js';
 import { imgAttrs, sized, srcset } from './images.js';
 import { availability, isNightBlocked, onAvailability, rangeCrossesBookedDate } from './availability.js';
@@ -446,13 +447,17 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 }
 
 // La page arrive déjà rendue (HTML généré au build) : on la rend interactive tout de suite,
-// puis on applique les textes modifiés depuis l'admin s'il y en a de plus récents.
+// puis on applique les textes et les tarifs modifiés depuis l'admin s'il y en a de plus récents.
 mount();
 fetch('/api/content')
   .then((response) => (response.ok ? response.json() : null))
   .then((overrides) => {
-    if (!overrides || !Object.keys({ ...overrides.fr, ...overrides.en }).length) return;
+    if (!overrides) return;
+    const before = JSON.stringify(getGrid());
+    const pricingChanged = JSON.stringify(setGrid(overrides.pricing)) !== before;
+    if (!pricingChanged && !Object.keys({ ...overrides.fr, ...overrides.en }).length) return;
     applyOverrides(content, overrides);
+    applyPricing(content);
     mount();
   })
   .catch(() => {});

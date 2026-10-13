@@ -10,7 +10,7 @@ const items = (base, parts, name) => (defaults.fr[base] || []).flatMap((item, i)
 const sections = [
   { title: 'Haut de page', fields: [
     ...fields('hero', [['eyebrow', 'Petit titre'], ['titleLine1', 'Titre — ligne 1'], ['titleEm', 'Titre — ligne 2 (en couleur)'], ['intro', 'Texte d’introduction'], ['travelers', 'Capacité'], ['specs', 'Chambres, lits, salles de bain']]),
-    { path: 'booking.fromPrice', label: 'Prix affiché sur le bouton Réserver' },
+    { path: 'booking.fromPrice', label: 'Prix affiché sur le bouton Réserver (le montant suit l’onglet Tarifs)' },
     { path: 'headerCta', label: 'Bouton du menu' }
   ] },
   { title: 'La maison', fields: fields('cadre', [['eyebrow', 'Petit titre'], ['h2', 'Titre'], ['p1', 'Paragraphe 1'], ['p2', 'Paragraphe 2'], ['photoOneCaption', 'Légende photo 1'], ['photoTwoCaption', 'Légende photo 2']]) },

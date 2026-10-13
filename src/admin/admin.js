@@ -2,6 +2,7 @@ import './loading.js';
 import { renderAvailability } from './availability.js';
 import { renderContentEditor } from './content-editor.js';
 import { renderDashboard as renderDashboardTab } from './dashboard.js';
+import { renderPricing } from './pricing.js';
 import { renderPromo } from './promo.js';
 import { renderRequests } from './requests.js';
 
@@ -15,7 +16,7 @@ window.addEventListener('beforeunload', (event) => { if (state.dirty) event.prev
 const tabs = [
   ['dashboard', 'Tableau de bord', 'Chiffre d’affaires, occupation, fréquentation du site et performance des boutons.'],
   ['availability', 'Disponibilités', 'Bloquer ou libérer des dates dans le calendrier du site.'],
-  ['pricing', 'Tarifs', 'Prix par nuit, saisons et durée minimale de séjour.'],
+  ['pricing', 'Tarifs', 'Les prix affichés sur le site et utilisés pour le total estimé de la fenêtre de réservation. Les changements sont visibles sur le site en moins d’une minute.'],
   ['requests', 'Demandes', 'Demandes de réservation envoyées depuis le site. Accepter une demande bloque ses dates sur le site et dans le calendrier exporté vers Airbnb.'],
   ['content', 'Contenus', 'Les textes de la page d’accueil, en français et en anglais.'],
   ['promo', 'Promotion', 'Une bannière en haut du site, affichée seulement pendant les dates choisies. Les changements sont visibles sur le site en moins d’une minute.']
@@ -240,6 +241,7 @@ function renderDashboard() {
   if (state.tab === 'dashboard') renderDashboardTab(root.querySelector('#tab-content'), { escape });
   if (state.tab === 'availability') renderAvailability(root.querySelector('#tab-content'), { escape });
   if (state.tab === 'promo') renderPromo(root.querySelector('#tab-content'), { escape, onDirtyChange: (dirty) => { state.dirty = dirty; } });
+  if (state.tab === 'pricing') renderPricing(root.querySelector('#tab-content'), { escape, onDirtyChange: (dirty) => { state.dirty = dirty; } });
   if (state.tab === 'content') renderContentEditor(root.querySelector('#tab-content'), { escape, onDirtyChange: (dirty) => { state.dirty = dirty; } });
 
   root.querySelectorAll('[data-tab]').forEach((button) => button.addEventListener('click', () => {
